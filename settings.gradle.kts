@@ -1,4 +1,4 @@
-pluginManagement {
+﻿pluginManagement {
     repositories {
         google {
             content {
@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Saegil-Android"
 include(":app")
+include(":presentation")
+include(":data")
+include(":domain")
