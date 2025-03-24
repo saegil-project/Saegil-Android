@@ -1,9 +1,7 @@
 # Saegil-Android
 새길 안드로이드
 
-- Library
-
-
+## Library
 | 이름|용도|
 |:---|:---|
 |Hilt |서버에서 데이터 받고 하면 DI 필요|
