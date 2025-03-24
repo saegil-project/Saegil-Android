@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.saegil.android"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.saegil.android"
