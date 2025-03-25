@@ -14,24 +14,16 @@ import com.seagil.mypage.mypage.MypageScreen
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
     NavHost(navController = navController, startDestination = Screen.Map.route) {
         composable(Screen.Map.route) {
-            MapScreen(
-
-            )
+            MapScreen()
         }
         composable(Screen.Announcement.route) {
-            AnnouncementScreen(
-
-            )
+            AnnouncementScreen()
         }
         composable(Screen.MyPage.route) {
-            MypageScreen(
-
-            )
+            MypageScreen()
         }
         composable(Screen.Learning.route) {
-            LearningScreen(
-
-            )
+            LearningScreen()
         }
     }
 }

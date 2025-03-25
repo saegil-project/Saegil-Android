@@ -11,8 +11,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun AnnouncementScreen(
-//    state: AnnouncementState,
-//    actions: AnnouncementActions
 ) {
     // TODO UI Rendering
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -25,8 +23,6 @@ fun AnnouncementScreen(
 @Preview(name = "Announcement")
 private fun AnnouncementScreenPreview() {
     AnnouncementScreen(
-//        state = AnnouncementState(),
-//        actions = AnnouncementActions()
     )
 }
 

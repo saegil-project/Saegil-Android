@@ -20,3 +20,5 @@ class AnnouncementViewModel @Inject constructor(
 
 
 }
+
+class AnnouncementState

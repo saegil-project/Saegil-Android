@@ -19,3 +19,5 @@ class MapViewModel @Inject constructor(
 
 
 }
+
+class MapState

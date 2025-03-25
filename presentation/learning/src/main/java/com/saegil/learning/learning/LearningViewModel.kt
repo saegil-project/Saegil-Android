@@ -19,3 +19,5 @@ class LearningViewModel @Inject constructor(
 
 
 }
+
+class LearningState

@@ -19,3 +19,5 @@ class MypageViewModel @Inject constructor(
 
 
 }
+
+class MypageState
