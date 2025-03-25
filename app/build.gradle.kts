@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -65,6 +66,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
+
     //Room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.room.compiler)
@@ -86,4 +88,9 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":presentation"))
     implementation(project(":data"))
+
+    implementation(project(":presentation:map"))
+    implementation(project(":presentation:announcement"))
+    implementation(project(":presentation:learning"))
+    implementation(project(":presentation:mypage"))
 }
