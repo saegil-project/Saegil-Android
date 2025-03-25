@@ -14,5 +14,3 @@
 **✅ 선택 이유**  
 - **Coil vs. Glide** → Coil이 Kotlin 기반이라 더 가볍고, Compose와의 궁합이 좋음. Glide보다 메모리 사용량이 적음.  
 - **Ktor vs. Retrofit2** → Ktor가 코루틴과의 연동이 자연스럽고, REST API뿐만 아니라 WebSocket 및 커스텀 네트워크 설정에도 유연함.  
-
-이제 선택한 이유도 명확해서, 왜 이 라이브러리를 사용했는지 쉽게 설명할 수 있을 거야! 😊
