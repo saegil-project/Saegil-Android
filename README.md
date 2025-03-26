@@ -1,6 +1,31 @@
 # Saegil-Android
-새길 안드로이드
+## ↔️ 모듈 구조
+```mermaid
+graph TD
+  subgraph App
+    AppModule[app]
+  end
 
+  subgraph Presentation
+    Learning[presentation:learning]
+    Announcement[presentation:announcement]
+    Map[presentation:map]
+    MyPage[presentation:mypage]
+  end
+
+  subgraph Domain
+    DomainModule[domain]
+  end
+
+  subgraph Data
+    DataModule[data]
+  end
+
+  AppModule -->|의존성 포함| Learning & Announcement & Map & MyPage
+  Learning & Announcement & Map & MyPage -->|UseCase 호출| DomainModule
+  DataModule -->|Repository 구현| DomainModule
+
+```
 ## 📌 라이브러리 정리  
 
 | 라이브러리  | 용도 | 설명 |
