@@ -1,4 +1,4 @@
-package com.seagil.announcement
+package com.saegil.mypage
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

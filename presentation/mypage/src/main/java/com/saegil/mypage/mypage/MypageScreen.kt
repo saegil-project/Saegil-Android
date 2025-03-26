@@ -1,4 +1,4 @@
-package com.seagil.announcement.announcement
+package com.saegil.mypage.mypage
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,19 +10,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AnnouncementScreen(
+fun MypageScreen(
+//    state: MypageState,
+//    actions: MypageActions
 ) {
     // TODO UI Rendering
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "공지 화면", fontSize = 24.sp)
+        Text(text = "마이페이지 화면", fontSize = 24.sp)
     }
 }
 
-
 @Composable
-@Preview(name = "Announcement")
-private fun AnnouncementScreenPreview() {
-    AnnouncementScreen(
+@Preview(name = "Mypage")
+private fun MypageScreenPreview() {
+    MypageScreen(
+//        state = MypageState(),
+//        actions = MypageActions()
     )
 }
 

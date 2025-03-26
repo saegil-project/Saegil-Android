@@ -1,4 +1,4 @@
-package com.seagil.announcement.announcement
+package com.saegil.announcement.announcement
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

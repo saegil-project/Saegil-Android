@@ -5,10 +5,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.saegil.announcement.announcement.AnnouncementScreen
 import com.saegil.learning.learning.LearningScreen
 import com.saegil.map.map.MapScreen
-import com.seagil.announcement.announcement.AnnouncementScreen
-import com.seagil.mypage.mypage.MypageScreen
+import com.saegil.mypage.mypage.MypageScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {

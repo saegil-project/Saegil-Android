@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.seagil.announcement"
+    namespace = "com.saegil.announcement"
     compileSdk = 35
 
     defaultConfig {
