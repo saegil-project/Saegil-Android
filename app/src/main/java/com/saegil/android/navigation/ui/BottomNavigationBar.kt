@@ -1,4 +1,4 @@
-package com.saegil.android
+package com.saegil.android.navigation.ui
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
