@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.devtools.ksp) apply false
+    alias(libs.plugins.secrets.gradle.plugin) apply false
 }   
