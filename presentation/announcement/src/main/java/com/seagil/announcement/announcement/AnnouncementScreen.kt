@@ -14,7 +14,7 @@ fun AnnouncementScreen(
 ) {
     // TODO UI Rendering
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "공지 화면", fontSize = 24.sp)
+        Text(text = "공지 화면", fontSize = 24.sp, style =)
     }
 }
 

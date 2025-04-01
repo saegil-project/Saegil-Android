@@ -12,62 +12,44 @@ val NanumGothic = FontFamily(
     Font(resId = R.font.nanumgothic, weight = FontWeight.Normal)
 )
 
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = NanumGothic,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 20.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = NanumGothic,
-        fontWeight = FontWeight.Light,
-        fontSize = 14.sp,
-        lineHeight = 14.sp
-    ),
-    headlineLarge = TextStyle(
+val Typography = Typography()
+
+val Typography.h1: TextStyle
+    get() = TextStyle(
         fontFamily = NanumGothic,
         fontWeight = FontWeight.SemiBold,
         fontSize = 24.sp,
         lineHeight = 24.sp
-    ),
-    headlineMedium = TextStyle(
+    )
+
+val Typography.h2: TextStyle
+    get() = TextStyle(
         fontFamily = NanumGothic,
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
         lineHeight = 18.sp
-    ),
-    headlineSmall = TextStyle(
+    )
+
+val Typography.h3: TextStyle
+    get() = TextStyle(
         fontFamily = NanumGothic,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 16.sp
     )
-)
 
-//// Set of Material typography styles to start with
-//val Typography = Typography(
-//    bodyLarge = TextStyle(
-//        fontFamily = FontFamily.Default,
-//        fontWeight = FontWeight.Normal,
-//        fontSize = 16.sp,
-//        lineHeight = 24.sp,
-//        letterSpacing = 0.5.sp
-//    )
-//    /* Other default text styles to override
-//    titleLarge = TextStyle(
-//        fontFamily = FontFamily.Default,
-//        fontWeight = FontWeight.Normal,
-//        fontSize = 22.sp,
-//        lineHeight = 28.sp,
-//        letterSpacing = 0.sp
-//    ),
-//    labelSmall = TextStyle(
-//        fontFamily = FontFamily.Default,
-//        fontWeight = FontWeight.Medium,
-//        fontSize = 11.sp,
-//        lineHeight = 16.sp,
-//        letterSpacing = 0.5.sp
-//    )
-//    */
-//)
+val Typography.body: TextStyle
+    get() = TextStyle(
+        fontFamily = NanumGothic,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 20.sp
+    )
+
+val Typography.caption: TextStyle
+    get() = TextStyle(
+        fontFamily = NanumGothic,
+        fontWeight = FontWeight.Light,
+        fontSize = 14.sp,
+        lineHeight = 14.sp
+    )
