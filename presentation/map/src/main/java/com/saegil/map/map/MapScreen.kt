@@ -1,25 +1,20 @@
 package com.saegil.map.map
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.NaverMap
 
+
+@OptIn(ExperimentalNaverMapApi::class)
 @Composable
-fun MapScreen(
-//    state: MapState,
-//    actions: MapActions
-) {
-    // TODO UI Rendering
+fun MapScreen() {
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "지도 화면", fontSize = 24.sp)
-    }
-
+    NaverMap(
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 
