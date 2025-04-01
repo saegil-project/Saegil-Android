@@ -54,4 +54,5 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(project(":core:designsystem"))
+    implementation(project(":data"))
 }
