@@ -12,7 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.saegil.android.navigation.NavGraph
 import com.saegil.android.navigation.ui.BottomNavigationBar
-import com.saegil.android.ui.theme.SaegilAndroidTheme
+import com.saegil.designsystem.theme.SaegilAndroidTheme
+
 
 class MainActivity : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
