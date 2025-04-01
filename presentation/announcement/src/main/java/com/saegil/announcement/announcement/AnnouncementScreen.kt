@@ -1,4 +1,4 @@
-package com.seagil.announcement.announcement
+package com.saegil.announcement.announcement
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

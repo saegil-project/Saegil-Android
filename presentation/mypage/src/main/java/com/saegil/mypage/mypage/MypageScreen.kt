@@ -1,4 +1,4 @@
-package com.seagil.mypage.mypage
+package com.saegil.mypage.mypage
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

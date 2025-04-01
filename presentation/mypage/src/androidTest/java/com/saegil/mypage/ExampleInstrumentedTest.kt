@@ -1,4 +1,4 @@
-package com.seagil.announcement
+package com.saegil.mypage
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.seagil.announcement.test", appContext.packageName)
+        assertEquals("com.seagil.mypage.test", appContext.packageName)
     }
 }
