@@ -13,8 +13,9 @@ import androidx.navigation.compose.rememberNavController
 import com.saegil.android.navigation.NavGraph
 import com.saegil.android.navigation.ui.BottomNavigationBar
 import com.saegil.designsystem.theme.SaegilAndroidTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

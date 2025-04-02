@@ -1,24 +1,30 @@
 package com.saegil.announcement.announcement
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.saegil.data.model.NewsResource
+import com.saegil.data.repository.FeedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class AnnouncementViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    feedRepository: FeedRepository
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<AnnouncementState> =
-        MutableStateFlow(AnnouncementState())
-
-    val stateFlow: StateFlow<AnnouncementState> = _stateFlow.asStateFlow()
-
+    val feedUiState: StateFlow<AnnouncementUiState> =
+        feedRepository.getFeeds()
+            .map<List<NewsResource>, AnnouncementUiState>(AnnouncementUiState::Success)
+            .onStart { emit(AnnouncementUiState.Loading) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = AnnouncementUiState.Loading,
+            )
 
 }
-
-class AnnouncementState
