@@ -2,11 +2,10 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.devtools.ksp)
 }
 
 android {
-    namespace = "com.saegil.data"
+    namespace = "com.saegil.network"
     compileSdk = 34
 
     defaultConfig {
@@ -39,26 +38,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    //Ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio) // 기본 클라이언트 엔진
-    implementation(libs.ktor.client.android) // Android 전용 엔진
-    implementation(libs.ktor.client.logging) // 로깅
-    implementation(libs.ktor.client.content.negotiation) // JSON 파싱
-    implementation(libs.ktor.serialization.kotlinx.json) // kotlinx.serialization 사용
-    implementation(libs.ktor.client.serialization)
-    implementation(libs.kotlinx.serialization.json)
-
-    //Hilt
-    implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.hilt.android.compiler)
-
-    implementation(project(":domain"))//클린아키텍처 도메인 의존
-    implementation(project(":core:network"))
 }
