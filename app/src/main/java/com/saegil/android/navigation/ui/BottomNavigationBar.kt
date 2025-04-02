@@ -18,7 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import com.saegil.android.navigation.Screen
 import com.saegil.designsystem.theme.BackgroundGray
 import com.saegil.designsystem.theme.MainYellow
-import com.saegil.designsystem.theme.TextGray
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -27,7 +26,6 @@ fun BottomNavigationBar(navController: NavHostController) {
 
     Surface(
         shadowElevation = 8.dp,
-        color = TextGray,
     ) {
         NavigationBar(
             tonalElevation = 0.dp,
