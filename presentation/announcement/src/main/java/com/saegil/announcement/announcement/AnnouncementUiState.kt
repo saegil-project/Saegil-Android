@@ -1,6 +1,6 @@
 package com.saegil.announcement.announcement
 
-import com.saegil.data.NewsResource
+import com.saegil.data.model.NewsResource
 
 sealed interface AnnouncementUiState {
 
@@ -9,4 +9,5 @@ sealed interface AnnouncementUiState {
     data class Success(
         val feed: List<NewsResource>
     ) : AnnouncementUiState
+
 }

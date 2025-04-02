@@ -1,4 +1,4 @@
-package com.saegil.data
+package com.saegil.data.model
 
 data class NewsResource(
     val title: String,
