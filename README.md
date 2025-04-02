@@ -48,3 +48,4 @@ graph TD
 
 - **Coil vs. Glide** → Coil이 Kotlin 기반이라 더 가볍고, Compose와의 궁합이 좋음. Glide보다 메모리 사용량이 적음.
 - **Ktor vs. Retrofit2** → Ktor가 코루틴과의 연동이 자연스럽고, REST API뿐만 아니라 WebSocket 및 커스텀 네트워크 설정에도 유연함.  
+- **Naver Maps** vs **Kakao Maps** -> 네이버 지도는 Compose 전용 라이브러리를 제공하는 반면, 카카오맵은 Compose 전용 라이브러리가 없어 View 기반으로 작업해야 함.
