@@ -16,8 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.saegil.android.navigation.Screen
-import com.saegil.designsystem.theme.BackgroundGray
-import com.saegil.designsystem.theme.MainYellow
+import com.saegil.designsystem.theme.SaegilAndroidTheme
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -29,7 +28,7 @@ fun BottomNavigationBar(navController: NavHostController) {
     ) {
         NavigationBar(
             tonalElevation = 0.dp,
-            containerColor = BackgroundGray
+            containerColor = MaterialTheme.colorScheme.background
         ) {
             Screen.items.forEach { screen ->
                 NavigationBarItem(
@@ -53,9 +52,13 @@ fun BottomNavigationBar(navController: NavHostController) {
                         }
                     },
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = MainYellow,
-                        selectedTextColor = MainYellow,
-                        indicatorColor = BackgroundGray
+                        selectedIconColor = MaterialTheme.colorScheme.secondary,
+                        selectedTextColor = MaterialTheme.colorScheme.secondary,
+                        indicatorColor = MaterialTheme.colorScheme.background,
+                        unselectedIconColor = MaterialTheme.colorScheme.scrim,
+                        unselectedTextColor = MaterialTheme.colorScheme.scrim,
+                        disabledIconColor = MaterialTheme.colorScheme.scrim,
+                        disabledTextColor = MaterialTheme.colorScheme.scrim
                     )
                 )
             }
@@ -70,7 +73,7 @@ fun PreviewBottomNavigationBar() {
     val navController = rememberNavController()
 
     // 테마 적용을 위해 MaterialTheme으로 감싸기
-    MaterialTheme {
+    SaegilAndroidTheme {
         BottomNavigationBar(navController = navController)
     }
 }
