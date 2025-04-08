@@ -18,7 +18,7 @@ class FeedServiceImpl @Inject constructor(
         query: String?,
         sourceId: String?,
         size: Int?,
-        lastId: Long?
+        lastId: Int?
     ): NoticeListDto? {
         val urlBuilder = URLBuilder(HttpRoutes.NOTICES).apply {
             query?.let { parameters.append("query", it) }

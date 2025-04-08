@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
@@ -31,9 +30,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.saegil.designsystem.theme.body
 import com.saegil.designsystem.theme.caption
 import com.saegil.designsystem.theme.h1
+import com.saegil.domain.model.Notice
 
 @Composable
 fun AnnouncementScreen(
@@ -42,9 +44,11 @@ fun AnnouncementScreen(
 ) {
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
+    val feedResource = viewModel.feedPagingResource.collectAsLazyPagingItems()
 
     AnnouncementScreen(
         feedState = feedState,
+        feedResource = feedResource,
         modifier = modifier
     )
 
@@ -53,16 +57,15 @@ fun AnnouncementScreen(
 @Composable
 internal fun AnnouncementScreen(
     feedState: AnnouncementUiState,
+    feedResource: LazyPagingItems<Notice>,
     modifier: Modifier = Modifier,
 ) {
     when (feedState) {
         Loading -> LoadingState(modifier)
-        is Success -> if (feedState.feed.isNotEmpty()) {
-            AnnouncementsList(
-                feedState = feedState,
-                modifier = modifier
-            )
-        }
+        is Success -> AnnouncementsList(
+            feedResource = feedResource,
+            modifier = modifier
+        )
     }
 }
 
@@ -90,7 +93,7 @@ fun SaegilLoadingWheel(
 
 @Composable
 private fun AnnouncementsList(
-    feedState: AnnouncementUiState,
+    feedResource: LazyPagingItems<Notice>,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -101,66 +104,63 @@ private fun AnnouncementsList(
             modifier = Modifier
                 .padding(horizontal = 25.dp)
         ) {
-            newsFeed(feedState)
+            newsFeed(feedResource)
         }
     }
 }
 
 fun LazyListScope.newsFeed(//최종적으로 core의 ui모듈로 보내버릴예정
-    feedState: AnnouncementUiState
+    feedResource: LazyPagingItems<Notice>
 ) {
-    when (feedState) {
-        Loading -> Unit
-        is Success -> {
-            items(feedState.feed) {
-                val context = LocalContext.current
-
-                Column {
-                    ListItem(
-                        headlineContent = {
+    items(feedResource.itemCount) { index ->
+        val feed = feedResource[index]
+        val context = LocalContext.current
+        feed?.let {
+            Column {
+                ListItem(
+                    headlineContent = {
+                        Box(
+                            modifier = Modifier.padding(vertical = 14.dp)
+                        ) {
+                            Text(
+                                text = it.content,
+                                style = MaterialTheme.typography.body,
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .clickable { openCustomTab(context, it.webLink) },
+                    overlineContent = {
+                        Text(
+                            text = it.title,
+                            style = MaterialTheme.typography.h1,
+                        )
+                    },
+                    supportingContent = {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
                             Box(
-                                modifier = Modifier.padding(vertical = 14.dp)
+                                modifier = Modifier
                             ) {
                                 Text(
-                                    text = it.content,
-                                    style = MaterialTheme.typography.body,
+                                    text = it.date,
+                                    style = MaterialTheme.typography.caption,
                                 )
                             }
-                        },
-                        modifier = Modifier
-                            .clickable { openCustomTab(context, it.webLink) },
-                        overlineContent = {
-                            Text(
-                                text = it.title,
-                                style = MaterialTheme.typography.h1,
-                            )
-                        },
-                        supportingContent = {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
+                            Box(
+                                modifier = Modifier
                             ) {
-                                Box(
-                                    modifier = Modifier
-                                ) {
-                                    Text(
-                                        text = it.date,
-                                        style = MaterialTheme.typography.caption,
-                                    )
-                                }
-                                Box(
-                                    modifier = Modifier
-                                ) {
-                                    Text(
-                                        text = it.source,
-                                        style = MaterialTheme.typography.caption,
-                                    )
-                                }
+                                Text(
+                                    text = it.source,
+                                    style = MaterialTheme.typography.caption,
+                                )
                             }
-                        },
-                    )
-                    HorizontalDivider()
-                }
+                        }
+                    },
+                )
+                HorizontalDivider()
             }
         }
     }
@@ -176,8 +176,6 @@ private fun AnnouncementScreenPreview() {
     AnnouncementScreen(
     )
 }
-
-val a = ArrayList<Pair<Int, Int>>()
 
 //@Composable
 //@Preview
