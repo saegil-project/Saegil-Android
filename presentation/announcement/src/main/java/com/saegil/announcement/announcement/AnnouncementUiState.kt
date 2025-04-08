@@ -1,13 +1,14 @@
 package com.saegil.announcement.announcement
 
-import com.saegil.data.model.NewsResource
+import com.saegil.domain.model.Notice
+
 
 sealed interface AnnouncementUiState {
 
     data object Loading : AnnouncementUiState
 
     data class Success(
-        val feed: List<NewsResource>
+        val feed: List<Notice>
     ) : AnnouncementUiState
 
 }

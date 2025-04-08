@@ -60,5 +60,4 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     implementation(project(":domain"))//클린아키텍처 도메인 의존
-    implementation(project(":core:network"))
 }

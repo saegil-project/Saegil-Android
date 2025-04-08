@@ -1,4 +1,4 @@
-package com.saegil.network
+package com.saegil.domain
 
 import org.junit.Test
 

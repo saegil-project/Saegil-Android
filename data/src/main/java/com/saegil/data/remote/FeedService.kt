@@ -1,9 +1,14 @@
 package com.saegil.data.remote
 
-import com.saegil.data.model.NewsResource
+import com.saegil.data.model.NoticeResponse
 
 interface FeedService {
 
-    suspend fun getFeeds() : List<NewsResource>
+    suspend fun getFeeds(
+        query: String? = null,
+        sourceId: String? = null,
+        size: Int? = null,
+        lastId: Long? = null
+    ) : NoticeResponse?
 
 }

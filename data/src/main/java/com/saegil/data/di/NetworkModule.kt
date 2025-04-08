@@ -2,7 +2,6 @@ package com.saegil.data.di
 
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
-import com.saegil.data.repository.FeedRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,10 +38,5 @@ object NetworkModule {
         return FeedServiceImpl(client)
     }
 
-    @Provides
-    @Singleton
-    fun provideFeedRepository(feedService: FeedService): FeedRepository {
-        return FeedRepository(feedService)
-    }
 
 }
