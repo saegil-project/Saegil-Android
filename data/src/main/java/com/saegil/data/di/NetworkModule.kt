@@ -38,5 +38,4 @@ object NetworkModule {
         return FeedServiceImpl(client)
     }
 
-
 }

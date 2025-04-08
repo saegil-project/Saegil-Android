@@ -1,6 +1,6 @@
 package com.saegil.data.remote
 
-import com.saegil.data.model.NoticeResponse
+import com.saegil.data.model.NoticeListDto
 
 interface FeedService {
 
@@ -9,6 +9,6 @@ interface FeedService {
         sourceId: String? = null,
         size: Int? = null,
         lastId: Long? = null
-    ) : NoticeResponse?
+    ) : NoticeListDto?
 
 }

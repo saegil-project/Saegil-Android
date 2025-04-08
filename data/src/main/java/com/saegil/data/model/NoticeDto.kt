@@ -25,7 +25,7 @@ data class NoticeDto(
 }
 
 @Serializable
-data class NoticeResponse(
+data class NoticeListDto(
     val notices: List<NoticeDto>,
     val hasNext: Boolean
 )

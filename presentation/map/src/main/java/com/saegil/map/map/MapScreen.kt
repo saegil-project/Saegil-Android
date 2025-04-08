@@ -10,7 +10,9 @@ import com.naver.maps.map.compose.NaverMap
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
-fun MapScreen() {
+fun MapScreen(
+    modifier: Modifier = Modifier
+) {
 
     NaverMap(
         modifier = Modifier.fillMaxSize()

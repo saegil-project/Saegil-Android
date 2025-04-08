@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MypageScreen(
+    modifier: Modifier = Modifier,
 //    state: MypageState,
 //    actions: MypageActions
 ) {

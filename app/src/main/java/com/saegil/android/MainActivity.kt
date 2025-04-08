@@ -12,7 +12,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.saegil.android.navigation.NavGraph
 import com.saegil.android.navigation.ui.BottomNavigationBar
+import com.saegil.android.navigation.ui.SaegilTopBar
 import com.saegil.designsystem.theme.SaegilAndroidTheme
+import com.saegil.map.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +36,8 @@ fun MainScreen() {
     val navController = rememberNavController()
 
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
+        topBar = { SaegilTopBar() },
+        bottomBar = { BottomNavigationBar(navController) },
     ) { paddingValues ->
         NavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
     }

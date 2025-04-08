@@ -83,7 +83,7 @@ dependencies {
     implementation(libs.coil.network.okhttp)
 
     //모듈 의존
-    //implementation(project(":domain"))
+    implementation(project(":domain"))
     implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(project(":core:designsystem"))
