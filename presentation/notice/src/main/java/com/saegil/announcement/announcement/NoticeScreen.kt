@@ -21,7 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import com.saegil.announcement.announcement.AnnouncementUiState.*
+import com.saegil.announcement.announcement.NoticeUiState.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -38,15 +38,15 @@ import com.saegil.designsystem.theme.h1
 import com.saegil.domain.model.Notice
 
 @Composable
-fun AnnouncementScreen(
-    viewModel: AnnouncementViewModel = hiltViewModel(),
+fun NoticeScreen(
+    viewModel: NoticeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
     val feedResource = viewModel.feedPagingResource.collectAsLazyPagingItems()
 
-    AnnouncementScreen(
+    NoticeScreen(
         feedState = feedState,
         feedResource = feedResource,
         modifier = modifier
@@ -55,8 +55,8 @@ fun AnnouncementScreen(
 }
 
 @Composable
-internal fun AnnouncementScreen(
-    feedState: AnnouncementUiState,
+internal fun NoticeScreen(
+    feedState: NoticeUiState,
     feedResource: LazyPagingItems<Notice>,
     modifier: Modifier = Modifier,
 ) {
@@ -75,7 +75,6 @@ private fun LoadingState(
 ) {
     SaegilLoadingWheel(
         modifier = modifier
-            .fillMaxWidth()
             .wrapContentSize()
     )
 }
@@ -173,7 +172,7 @@ fun openCustomTab(context: Context, url: String) =
 @Composable
 @Preview(name = "Announcement")
 private fun AnnouncementScreenPreview() {
-    AnnouncementScreen(
+    NoticeScreen(
     )
 }
 

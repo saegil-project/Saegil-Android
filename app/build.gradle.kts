@@ -89,7 +89,7 @@ dependencies {
     implementation(project(":core:designsystem"))
 
     implementation(project(":presentation:map"))
-    implementation(project(":presentation:announcement"))
+    implementation(project(":presentation:notice"))
     implementation(project(":presentation:learning"))
     implementation(project(":presentation:mypage"))
 }
