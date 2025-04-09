@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun LearningScreen(
+    modifier : Modifier = Modifier
 //    state: LearningState,
 //    actions: LearningActions
 ) {

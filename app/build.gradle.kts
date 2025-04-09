@@ -82,14 +82,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
-    //Ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.cio) // 기본 클라이언트 엔진
-    implementation(libs.ktor.client.android) // Android 전용 엔진
-    implementation(libs.ktor.client.logging) // 로깅
-    implementation(libs.ktor.client.content.negotiation) // JSON 파싱
-    implementation(libs.ktor.serialization.kotlinx.json) // kotlinx.serialization 사용
-
     //모듈 의존
     implementation(project(":domain"))
     implementation(project(":presentation"))

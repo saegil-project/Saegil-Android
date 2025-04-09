@@ -14,16 +14,24 @@ import com.saegil.mypage.mypage.MypageScreen
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
     NavHost(navController = navController, startDestination = Screen.Learning.route) {
         composable(Screen.Learning.route) {
-            LearningScreen()
+            LearningScreen(
+                modifier = modifier
+            )
         }
         composable(Screen.Announcement.route) {
-            AnnouncementScreen()
+            AnnouncementScreen(
+                modifier = modifier
+            )
         }
         composable(Screen.Map.route) {
-            MapScreen()
+            MapScreen(
+                modifier = modifier
+            )
         }
         composable(Screen.MyPage.route) {
-            MypageScreen()
+            MypageScreen(
+                modifier = modifier
+            )
         }
     }
 }

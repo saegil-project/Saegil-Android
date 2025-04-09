@@ -41,5 +41,4 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":domain"))//클린아키텍처 도메인 의존
 }
