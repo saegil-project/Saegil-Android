@@ -8,7 +8,7 @@ interface FeedService {
         query: String? = null,
         sourceId: String? = null,
         size: Int? = null,
-        lastId: Int? = null
+        lastId: Long? = null
     ) : NoticeListDto?
 
 }

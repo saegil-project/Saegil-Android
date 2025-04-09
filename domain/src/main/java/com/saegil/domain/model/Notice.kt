@@ -1,7 +1,7 @@
 package com.saegil.domain.model
 
 data class Notice(
-    val id: Int,
+    val id: Long,
     val title: String,
     val content: String,
     val source: String,

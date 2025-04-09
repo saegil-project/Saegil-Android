@@ -10,9 +10,9 @@ class FeedPagingSource(
     private val query: String? = null,
     private val sourceId: String? = null,
     private val pageSize: Int = 10
-) : PagingSource<Int, Notice>() {
+) : PagingSource<Long, Notice>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Notice> {
+    override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Notice> {
         val lastId = params.key
         return try {
             val response = feedService.getFeeds(
@@ -42,7 +42,7 @@ class FeedPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Notice>): Int? {
+    override fun getRefreshKey(state: PagingState<Long, Notice>): Long? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey
         }
