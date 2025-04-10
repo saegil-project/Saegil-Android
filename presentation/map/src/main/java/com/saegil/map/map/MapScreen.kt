@@ -17,7 +17,7 @@ fun MapScreen(
     viewModel: MapViewModel = hiltViewModel(),
 ) {
 
-    val mapState by viewModel.mapUiState.collectAsStateWithLifecycle()
+    val mapState by viewModel.uiState.collectAsStateWithLifecycle()
 
     MapScreen(
         mapState,
@@ -44,8 +44,40 @@ internal fun MapScreen(
     modifier: Modifier = Modifier,
 ) {
     NaverMap(
-        modifier = Modifier.fillMaxSize()
-    )
+        modifier = modifier.fillMaxSize(),
+        cameraPositionState = cameraPositionState,
+//        locationTrackingMode = LocationTrackingMode.Follow,  // 현재 위치 추적 모드
+        properties = MapProperties(
+//            locationButtonEnabled = true  // 현재 위치 버튼 활성화
+        )
+    ) {
+        when (state) {
+            is UiState.Success -> {
+                when (val mapState = state.data) {
+                    is MapState.MapList -> {
+                        mapState.organizations.forEach { organization ->
+                            Marker(
+                                state = MarkerState(
+                                    position = LatLng(
+                                        organization.latitude,
+                                        organization.longitude
+                                    )
+                                ),
+                                captionText = organization.name,
+                                onClick = {
+                                    true
+                                }
+                            )
+                        }
+                    }
+
+                    else -> {}
+                }
+            }
+
+            else -> {}
+        }
+    }
 }
 
 
