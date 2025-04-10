@@ -7,7 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.MapProperties
+import com.naver.maps.map.compose.Marker
+import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 
 
@@ -24,28 +28,17 @@ fun MapScreen(
         modifier
     )
 
-    when (mapState) {
-        MapUiState.Loading -> {}
-        is MapUiState.Success -> {
-
-        }
-    }
-
-
-//    viewModel.getNearByOriganizations( 37.5326, 126.8469,1000)
-
 }
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
 internal fun MapScreen(
-    state: MapUiState,
-//    actions: MapActions,
+    state: UiState<MapState>,
     modifier: Modifier = Modifier,
 ) {
     NaverMap(
         modifier = modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState,
+//        cameraPositionState = cameraPositionState,
 //        locationTrackingMode = LocationTrackingMode.Follow,  // 현재 위치 추적 모드
         properties = MapProperties(
 //            locationButtonEnabled = true  // 현재 위치 버튼 활성화
