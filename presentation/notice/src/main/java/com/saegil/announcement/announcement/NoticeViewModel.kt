@@ -13,23 +13,17 @@ import javax.inject.Inject
 import com.saegil.announcement.announcement.NoticeUiState.*
 import com.saegil.domain.model.Notice
 import com.saegil.domain.usecase.GetFeedUseCase
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     getFeedUseCase: GetFeedUseCase
 ) : ViewModel() {
 
-    val feedPagingResource: StateFlow<PagingData<Notice>> =
-        getFeedUseCase()
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = PagingData.empty()
-            )
-
     val feedUiState: StateFlow<NoticeUiState> =
-        getFeedUseCase()
-            .map<PagingData<Notice>, NoticeUiState> { Success }
+        flowOf(getFeedUseCase())
+            .map<Flow<PagingData<Notice>>, NoticeUiState>(NoticeUiState::Success)
             .onStart { emit(Loading) }
             .stateIn(
                 scope = viewModelScope,

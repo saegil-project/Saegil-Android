@@ -44,7 +44,7 @@ fun NoticeScreen(
 ) {
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
-    val feedResource = viewModel.feedPagingResource.collectAsLazyPagingItems()
+    val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
 
     NoticeScreen(
         feedState = feedState,
@@ -57,7 +57,7 @@ fun NoticeScreen(
 @Composable
 internal fun NoticeScreen(
     feedState: NoticeUiState,
-    feedResource: LazyPagingItems<Notice>,
+    feedResource: LazyPagingItems<Notice>?,
     modifier: Modifier = Modifier,
 ) {
     when (feedState) {
@@ -92,7 +92,7 @@ fun SaegilLoadingWheel(
 
 @Composable
 private fun AnnouncementsList(
-    feedResource: LazyPagingItems<Notice>,
+    feedResource: LazyPagingItems<Notice>?,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -109,57 +109,59 @@ private fun AnnouncementsList(
 }
 
 fun LazyListScope.newsFeed(//최종적으로 core의 ui모듈로 보내버릴예정
-    feedResource: LazyPagingItems<Notice>
+    feedResource: LazyPagingItems<Notice>?
 ) {
-    items(feedResource.itemCount) { index ->
-        val feed = feedResource[index]
-        val context = LocalContext.current
-        feed?.let {
-            Column {
-                ListItem(
-                    headlineContent = {
-                        Box(
-                            modifier = Modifier.padding(vertical = 14.dp)
-                        ) {
+    feedResource?.let {
+        items(feedResource.itemCount) { index ->
+            val feed = feedResource[index]
+            val context = LocalContext.current
+            feed?.let {
+                Column {
+                    ListItem(
+                        headlineContent = {
+                            Box(
+                                modifier = Modifier.padding(vertical = 14.dp)
+                            ) {
+                                Text(
+                                    text = it.content,
+                                    style = MaterialTheme.typography.body,
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .clickable { openCustomTab(context, it.webLink) },
+                        overlineContent = {
                             Text(
-                                text = it.content,
-                                style = MaterialTheme.typography.body,
+                                text = it.title,
+                                style = MaterialTheme.typography.h1,
                             )
-                        }
-                    },
-                    modifier = Modifier
-                        .clickable { openCustomTab(context, it.webLink) },
-                    overlineContent = {
-                        Text(
-                            text = it.title,
-                            style = MaterialTheme.typography.h1,
-                        )
-                    },
-                    supportingContent = {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                        ) {
-                            Box(
-                                modifier = Modifier
+                        },
+                        supportingContent = {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
-                                Text(
-                                    text = it.date,
-                                    style = MaterialTheme.typography.caption,
-                                )
+                                Box(
+                                    modifier = Modifier
+                                ) {
+                                    Text(
+                                        text = it.date,
+                                        style = MaterialTheme.typography.caption,
+                                    )
+                                }
+                                Box(
+                                    modifier = Modifier
+                                ) {
+                                    Text(
+                                        text = it.source,
+                                        style = MaterialTheme.typography.caption,
+                                    )
+                                }
                             }
-                            Box(
-                                modifier = Modifier
-                            ) {
-                                Text(
-                                    text = it.source,
-                                    style = MaterialTheme.typography.caption,
-                                )
-                            }
-                        }
-                    },
-                )
-                HorizontalDivider()
+                        },
+                    )
+                    HorizontalDivider()
+                }
             }
         }
     }
