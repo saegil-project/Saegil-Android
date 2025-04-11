@@ -18,13 +18,13 @@ class FeedServiceImpl @Inject constructor(
 
     override suspend fun getFeeds(
         query: String?,
-        sourceId: String?,
+        sourceId: Int?,
         size: Int?,
         lastId: Long?
     ): NoticeListDto? {
         val urlBuilder = URLBuilder(HttpRoutes.NOTICES).apply {
             query?.let { parameters.append("query", it) }
-            sourceId?.let { parameters.append("sourceId", it) }
+            sourceId?.let { parameters.append("sourceId", it.toString()) }
             size?.let { parameters.append("size", it.toString()) }
             lastId?.let { parameters.append("lastId", it.toString()) }
         }

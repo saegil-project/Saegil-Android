@@ -9,6 +9,9 @@ import javax.inject.Inject
 class GetFeedUseCase @Inject constructor(
     private val feedRepository: FeedRepository
 ) {
-    operator fun invoke() : Flow<PagingData<Notice>> =
-        feedRepository.getFeeds()
+    operator fun invoke(
+        query: String?,
+        organization: Int?,
+    ) : Flow<PagingData<Notice>> =
+        feedRepository.getFeeds(query, organization)
 }
