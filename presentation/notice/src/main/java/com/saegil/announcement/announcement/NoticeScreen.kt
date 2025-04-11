@@ -12,15 +12,23 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import com.saegil.announcement.announcement.NoticeUiState.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,13 +36,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.announcement.R
 import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body
@@ -51,11 +69,13 @@ fun NoticeScreen(
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
     val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
     val selectedIndex by viewModel.organization.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.query.collectAsStateWithLifecycle()
 
     NoticeScreen(
         feedState = feedState,
         feedResource = feedResource,
         onChipSelect = viewModel::setSourceFilter,
+        searchQuery = searchQuery,
         onSearchTriggered = viewModel::onSearchTriggered,
         selectedIndex = selectedIndex,
         modifier = modifier
@@ -68,6 +88,7 @@ internal fun NoticeScreen(
     feedState: NoticeUiState,
     feedResource: LazyPagingItems<Notice>?,
     onChipSelect: (Int?) -> Unit,
+    searchQuery: String,
     onSearchTriggered: (String) -> Unit,
     selectedIndex: Int?,
     modifier: Modifier = Modifier,
@@ -77,6 +98,7 @@ internal fun NoticeScreen(
             .padding(horizontal = 25.dp)
     ) {
         SearchToolBar(
+            searchQuery = searchQuery,
             onSearchTriggered = onSearchTriggered,
         )
         SourceFilterChips(
@@ -95,9 +117,67 @@ internal fun NoticeScreen(
 
 @Composable
 fun SearchToolBar(
+    searchQuery: String,
     onSearchTriggered: (String) -> Unit,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
+    val onSearchExplicitlyTriggered = {
+        keyboardController?.hide()
+        onSearchTriggered(searchQuery)
+    }
+
+    TextField(
+        value = searchQuery,
+        onValueChange = { onSearchTriggered(it) },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+        ),
+        trailingIcon = {
+            IconButton(
+                onClick = {
+                    onSearchTriggered(searchQuery)
+                },
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_search),
+                    contentDescription = "Search",
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .focusRequester(focusRequester)
+            .onKeyEvent {
+            if (it.key == Key.Enter) {
+                if (searchQuery.isBlank()) return@onKeyEvent false
+                onSearchExplicitlyTriggered()
+                true
+            } else {
+                false
+            }
+        },
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                if (searchQuery.isBlank()) return@KeyboardActions
+                onSearchExplicitlyTriggered()
+            },
+        ),
+        shape = RoundedCornerShape(8.dp),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Search,
+        ),
+        placeholder = {
+            Text("검색어를 입력하세요")
+        }
+    )
 }
 
 @Composable

@@ -27,13 +27,13 @@ class NoticeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val organization = MutableStateFlow<Int?>(null)
-    val query = MutableStateFlow<String?>(null)
+    val query = MutableStateFlow("")
 
     val feedUiState: StateFlow<NoticeUiState> =
         combine(organization, query) { organization, query ->
             getFeedUseCase(
                 organization = organization,
-                query = query
+                query = query.ifBlank { null }
             )
         }.map<Flow<PagingData<Notice>>, NoticeUiState>(NoticeUiState::Success)
             .onStart { emit(Loading) }
@@ -47,7 +47,7 @@ class NoticeViewModel @Inject constructor(
         organization.value = filteredOrganization
     }
 
-    fun onSearchTriggered(searchValue: String?) {
+    fun onSearchTriggered(searchValue: String) {
         query.value = searchValue
     }
 }
