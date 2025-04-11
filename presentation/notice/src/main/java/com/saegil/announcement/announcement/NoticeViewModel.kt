@@ -14,16 +14,28 @@ import com.saegil.announcement.announcement.NoticeUiState.*
 import com.saegil.domain.model.Notice
 import com.saegil.domain.usecase.GetFeedUseCase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     getFeedUseCase: GetFeedUseCase
 ) : ViewModel() {
 
+    private val organization = MutableStateFlow<Int?>(null)
+    private val query = MutableStateFlow<String?>(null)
+
     val feedUiState: StateFlow<NoticeUiState> =
-        flowOf(getFeedUseCase())
-            .map<Flow<PagingData<Notice>>, NoticeUiState>(NoticeUiState::Success)
+        combine(organization, query) { organization, query ->
+            getFeedUseCase(
+                organization = organization,
+                query = query
+            )
+        }.map<Flow<PagingData<Notice>>, NoticeUiState>(NoticeUiState::Success)
             .onStart { emit(Loading) }
             .stateIn(
                 scope = viewModelScope,
@@ -31,4 +43,11 @@ class NoticeViewModel @Inject constructor(
                 initialValue = Loading,
             )
 
+    fun setSourceFilter(filteredOrganization: Int?) {
+        organization.value = filteredOrganization
+    }
+
+    fun onSearchTriggered(searchValue: String?) {
+        query.value = searchValue
+    }
 }

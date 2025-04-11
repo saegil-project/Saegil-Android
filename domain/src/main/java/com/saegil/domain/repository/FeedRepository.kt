@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface FeedRepository {
 
-    fun getFeeds(): Flow<PagingData<Notice>>
+    fun getFeeds(
+        query: String?,
+        organization: Int?,
+    ): Flow<PagingData<Notice>>
 
 }

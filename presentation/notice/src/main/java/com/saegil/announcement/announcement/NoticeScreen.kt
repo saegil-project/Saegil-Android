@@ -24,6 +24,9 @@ import androidx.compose.material3.Text
 import com.saegil.announcement.announcement.NoticeUiState.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +35,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.designsystem.component.SourceChip
+import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body
 import com.saegil.designsystem.theme.caption
 import com.saegil.designsystem.theme.h1
@@ -49,6 +54,7 @@ fun NoticeScreen(
     NoticeScreen(
         feedState = feedState,
         feedResource = feedResource,
+        onChipSelect = viewModel::setSourceFilter,
         modifier = modifier
     )
 
@@ -58,14 +64,42 @@ fun NoticeScreen(
 internal fun NoticeScreen(
     feedState: NoticeUiState,
     feedResource: LazyPagingItems<Notice>?,
+    onChipSelect: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    when (feedState) {
-        Loading -> LoadingState(modifier)
-        is Success -> AnnouncementsList(
-            feedResource = feedResource,
-            modifier = modifier
-        )
+    Column(
+        modifier = modifier
+            .padding(horizontal = 25.dp)
+    ) {
+        SourceFilterChips(onChipSelect)
+        when (feedState) {
+            Loading -> LoadingState()
+            is Success -> AnnouncementsList(
+                feedResource = feedResource,
+            )
+        }
+    }
+}
+
+@Composable
+fun SourceFilterChips(
+    onChipSelect: (Int?) -> Unit
+) {
+    val sources = listOf("남북하나재단", "통일부")
+    var selectedIdx by remember { mutableStateOf<Int?>(null) }
+    Row {
+        sources.forEachIndexed { idx, source ->
+            val isSelected = selectedIdx == idx
+            SourceChip(
+                title = source,
+                selected = selectedIdx == idx,
+                onFilterChipClick = {
+                    selectedIdx = if (isSelected) null else idx
+                    onChipSelect(selectedIdx?.plus(1))
+                },
+                modifier = Modifier.padding(end = 8.dp)
+            )
+        }
     }
 }
 
@@ -99,16 +133,13 @@ private fun AnnouncementsList(
         modifier = modifier
             .fillMaxSize()
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(horizontal = 25.dp)
-        ) {
+        LazyColumn {
             newsFeed(feedResource)
         }
     }
 }
 
-fun LazyListScope.newsFeed(//최종적으로 core의 ui모듈로 보내버릴예정
+fun LazyListScope.newsFeed(
     feedResource: LazyPagingItems<Notice>?
 ) {
     feedResource?.let {
@@ -172,34 +203,14 @@ fun openCustomTab(context: Context, url: String) =
 
 
 @Composable
-@Preview(name = "Announcement")
+@Preview(apiLevel = 33)
 private fun AnnouncementScreenPreview() {
-    NoticeScreen(
-    )
-}
+    SaegilAndroidTheme {
+        LazyColumn(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+        ) {
 
-//@Composable
-//@Preview
-//private fun FeedPreview() {
-//    SaegilAndroidTheme {
-//        LazyColumn(
-//            modifier = Modifier
-//                .padding(horizontal = 8.dp)
-//        ) {
-//            newsFeed(
-//                Success(
-//                    listOf(
-//                        Notice(
-//                            "이름",
-//                            "내용",
-//                            "날짜",
-//                            "기관",
-//                            "링크"
-//                        )
-//                    )
-//                )
-//            )
-//        }
-//    }
-//}
-//
+        }
+    }
+}
