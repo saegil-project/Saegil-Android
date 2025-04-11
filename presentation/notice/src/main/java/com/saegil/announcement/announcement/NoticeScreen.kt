@@ -95,7 +95,7 @@ fun SourceFilterChips(
     var selectedIdx by remember { mutableStateOf<Int?>(null) }
     Row(
         modifier = modifier.padding(
-            bottom = 8.dp
+            bottom = 12.dp
         )
     ) {
         sources.forEachIndexed { idx, source ->
