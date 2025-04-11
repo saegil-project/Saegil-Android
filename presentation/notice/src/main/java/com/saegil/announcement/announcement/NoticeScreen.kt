@@ -16,13 +16,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import com.saegil.announcement.announcement.AnnouncementUiState.*
+import com.saegil.announcement.announcement.NoticeUiState.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -31,38 +30,42 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.saegil.designsystem.theme.body
 import com.saegil.designsystem.theme.caption
 import com.saegil.designsystem.theme.h1
+import com.saegil.domain.model.Notice
 
 @Composable
-fun AnnouncementScreen(
-    viewModel: AnnouncementViewModel = hiltViewModel(),
+fun NoticeScreen(
+    viewModel: NoticeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
+    val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
 
-    AnnouncementScreen(
+    NoticeScreen(
         feedState = feedState,
+        feedResource = feedResource,
         modifier = modifier
     )
 
 }
 
 @Composable
-internal fun AnnouncementScreen(
-    feedState: AnnouncementUiState,
+internal fun NoticeScreen(
+    feedState: NoticeUiState,
+    feedResource: LazyPagingItems<Notice>?,
     modifier: Modifier = Modifier,
 ) {
     when (feedState) {
         Loading -> LoadingState(modifier)
-        is Success -> if (feedState.feed.isNotEmpty()) {
-            AnnouncementsList(
-                feedState = feedState,
-                modifier = modifier
-            )
-        }
+        is Success -> AnnouncementsList(
+            feedResource = feedResource,
+            modifier = modifier
+        )
     }
 }
 
@@ -72,7 +75,6 @@ private fun LoadingState(
 ) {
     SaegilLoadingWheel(
         modifier = modifier
-            .fillMaxWidth()
             .wrapContentSize()
     )
 }
@@ -90,7 +92,7 @@ fun SaegilLoadingWheel(
 
 @Composable
 private fun AnnouncementsList(
-    feedState: AnnouncementUiState,
+    feedResource: LazyPagingItems<Notice>?,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -101,20 +103,19 @@ private fun AnnouncementsList(
             modifier = Modifier
                 .padding(horizontal = 25.dp)
         ) {
-            newsFeed(feedState)
+            newsFeed(feedResource)
         }
     }
 }
 
 fun LazyListScope.newsFeed(//최종적으로 core의 ui모듈로 보내버릴예정
-    feedState: AnnouncementUiState
+    feedResource: LazyPagingItems<Notice>?
 ) {
-    when (feedState) {
-        Loading -> Unit
-        is Success -> {
-            items(feedState.feed) {
-                val context = LocalContext.current
-
+    feedResource?.let {
+        items(feedResource.itemCount) { index ->
+            val feed = feedResource[index]
+            val context = LocalContext.current
+            feed?.let {
                 Column {
                     ListItem(
                         headlineContent = {
@@ -173,11 +174,9 @@ fun openCustomTab(context: Context, url: String) =
 @Composable
 @Preview(name = "Announcement")
 private fun AnnouncementScreenPreview() {
-    AnnouncementScreen(
+    NoticeScreen(
     )
 }
-
-val a = ArrayList<Pair<Int, Int>>()
 
 //@Composable
 //@Preview
