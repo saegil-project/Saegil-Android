@@ -50,11 +50,14 @@ fun NoticeScreen(
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
     val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
+    val selectedIndex by viewModel.organization.collectAsStateWithLifecycle()
 
     NoticeScreen(
         feedState = feedState,
         feedResource = feedResource,
         onChipSelect = viewModel::setSourceFilter,
+        onSearchTriggered = viewModel::onSearchTriggered,
+        selectedIndex = selectedIndex,
         modifier = modifier
     )
 
@@ -65,14 +68,20 @@ internal fun NoticeScreen(
     feedState: NoticeUiState,
     feedResource: LazyPagingItems<Notice>?,
     onChipSelect: (Int?) -> Unit,
+    onSearchTriggered: (String) -> Unit,
+    selectedIndex: Int?,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
             .padding(horizontal = 25.dp)
     ) {
+        SearchToolBar(
+            onSearchTriggered = onSearchTriggered,
+        )
         SourceFilterChips(
             onChipSelect = onChipSelect,
+            selectedIndex = selectedIndex,
             modifier = Modifier
         )
         when (feedState) {
@@ -84,29 +93,32 @@ internal fun NoticeScreen(
     }
 }
 
+@Composable
+fun SearchToolBar(
+    onSearchTriggered: (String) -> Unit,
+) {
 
+}
 
 @Composable
 fun SourceFilterChips(
     onChipSelect: (Int?) -> Unit,
+    selectedIndex: Int?,
     modifier: Modifier = Modifier
 ) {
     val sources = listOf("남북하나재단", "통일부")
-    var selectedIdx by remember { mutableStateOf<Int?>(null) }
     Row(
         modifier = modifier.padding(
             bottom = 12.dp
         )
     ) {
         sources.forEachIndexed { idx, source ->
-            val isSelected = selectedIdx == idx
+            val isSelected = selectedIndex == idx + 1
             SourceChip(
                 title = source,
-                selected = selectedIdx == idx,
-                onFilterChipClick = {
-                    selectedIdx = if (isSelected) null else idx
-                    onChipSelect(selectedIdx?.plus(1))
-                },
+                index = if (isSelected) null else idx + 1,
+                selected = isSelected,
+                onFilterChipClick = onChipSelect,
                 modifier = Modifier.padding(end = 8.dp)
             )
         }

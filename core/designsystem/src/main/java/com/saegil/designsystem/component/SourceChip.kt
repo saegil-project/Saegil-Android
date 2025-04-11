@@ -10,12 +10,15 @@ import androidx.compose.ui.Modifier
 @Composable
 fun SourceChip(
     title: String,
+    index: Int?,
     selected: Boolean,
-    onFilterChipClick: () -> Unit,
+    onFilterChipClick: (Int?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     FilterChip(
-        onClick = onFilterChipClick,
+        onClick = {
+            onFilterChipClick(index)
+        },
         label = {
             Text(title)
         },

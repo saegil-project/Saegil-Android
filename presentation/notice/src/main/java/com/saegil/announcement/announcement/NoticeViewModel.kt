@@ -26,8 +26,8 @@ class NoticeViewModel @Inject constructor(
     getFeedUseCase: GetFeedUseCase
 ) : ViewModel() {
 
-    private val organization = MutableStateFlow<Int?>(null)
-    private val query = MutableStateFlow<String?>(null)
+    val organization = MutableStateFlow<Int?>(null)
+    val query = MutableStateFlow<String?>(null)
 
     val feedUiState: StateFlow<NoticeUiState> =
         combine(organization, query) { organization, query ->
