@@ -71,23 +71,33 @@ internal fun NoticeScreen(
         modifier = modifier
             .padding(horizontal = 25.dp)
     ) {
-        SourceFilterChips(onChipSelect)
+        SourceFilterChips(
+            onChipSelect = onChipSelect,
+            modifier = Modifier
+        )
         when (feedState) {
             Loading -> LoadingState()
-            is Success -> AnnouncementsList(
+            is Success -> NoticesList(
                 feedResource = feedResource,
             )
         }
     }
 }
 
+
+
 @Composable
 fun SourceFilterChips(
-    onChipSelect: (Int?) -> Unit
+    onChipSelect: (Int?) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val sources = listOf("남북하나재단", "통일부")
     var selectedIdx by remember { mutableStateOf<Int?>(null) }
-    Row {
+    Row(
+        modifier = modifier.padding(
+            bottom = 8.dp
+        )
+    ) {
         sources.forEachIndexed { idx, source ->
             val isSelected = selectedIdx == idx
             SourceChip(
@@ -125,7 +135,7 @@ fun SaegilLoadingWheel(
 }
 
 @Composable
-private fun AnnouncementsList(
+private fun NoticesList(
     feedResource: LazyPagingItems<Notice>?,
     modifier: Modifier = Modifier,
 ) {
