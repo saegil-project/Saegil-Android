@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.saegil.announcement.announcement.AnnouncementScreen
+import com.saegil.notice.notice.NoticeScreen
 import com.saegil.learning.learning.LearningScreen
 import com.saegil.map.map.MapScreen
 import com.saegil.mypage.mypage.MypageScreen
@@ -19,7 +19,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             )
         }
         composable(Screen.Announcement.route) {
-            AnnouncementScreen(
+            NoticeScreen(
                 modifier = modifier
             )
         }

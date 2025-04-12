@@ -1,4 +1,4 @@
-package com.saegil.announcement.announcement
+package com.saegil.notice.notice
 
 
 import android.content.Context
@@ -21,7 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import com.saegil.announcement.announcement.NoticeUiState.*
+import com.saegil.notice.notice.NoticeUiState.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -32,6 +32,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.notice.notice.component.SearchToolBar
+import com.saegil.designsystem.component.SourceChip
+import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body
 import com.saegil.designsystem.theme.caption
 import com.saegil.designsystem.theme.h1
@@ -45,10 +48,16 @@ fun NoticeScreen(
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
     val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
+    val selectedIndex by viewModel.organization.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.query.collectAsStateWithLifecycle()
 
     NoticeScreen(
         feedState = feedState,
         feedResource = feedResource,
+        onChipSelect = viewModel::setSourceFilter,
+        searchQuery = searchQuery,
+        onSearchTriggered = viewModel::onSearchTriggered,
+        selectedIndex = selectedIndex?.toInt(),
         modifier = modifier
     )
 
@@ -58,14 +67,56 @@ fun NoticeScreen(
 internal fun NoticeScreen(
     feedState: NoticeUiState,
     feedResource: LazyPagingItems<Notice>?,
+    onChipSelect: (Int?) -> Unit,
+    searchQuery: String,
+    onSearchTriggered: (String) -> Unit,
+    selectedIndex: Int?,
     modifier: Modifier = Modifier,
 ) {
-    when (feedState) {
-        Loading -> LoadingState(modifier)
-        is Success -> AnnouncementsList(
-            feedResource = feedResource,
-            modifier = modifier
+    Column(
+        modifier = modifier
+            .padding(horizontal = 25.dp)
+    ) {
+        SearchToolBar(
+            searchQuery = searchQuery,
+            onSearchTriggered = onSearchTriggered,
         )
+        SourceFilterChips(
+            onChipSelect = onChipSelect,
+            selectedIndex = selectedIndex,
+            modifier = Modifier
+        )
+        when (feedState) {
+            Loading -> LoadingState()
+            is Success -> NoticesList(
+                feedResource = feedResource,
+            )
+        }
+    }
+}
+
+@Composable
+fun SourceFilterChips(
+    onChipSelect: (Int?) -> Unit,
+    selectedIndex: Int?,
+    modifier: Modifier = Modifier
+) {
+    val sources = listOf("남북하나재단", "통일부")
+    Row(
+        modifier = modifier.padding(
+            bottom = 12.dp
+        )
+    ) {
+        sources.forEachIndexed { idx, source ->
+            val isSelected = selectedIndex == idx + 1
+            SourceChip(
+                title = source,
+                index = if (isSelected) null else idx + 1,
+                selected = isSelected,
+                onFilterChipClick = onChipSelect,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+        }
     }
 }
 
@@ -91,7 +142,7 @@ fun SaegilLoadingWheel(
 }
 
 @Composable
-private fun AnnouncementsList(
+private fun NoticesList(
     feedResource: LazyPagingItems<Notice>?,
     modifier: Modifier = Modifier,
 ) {
@@ -99,16 +150,13 @@ private fun AnnouncementsList(
         modifier = modifier
             .fillMaxSize()
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(horizontal = 25.dp)
-        ) {
+        LazyColumn {
             newsFeed(feedResource)
         }
     }
 }
 
-fun LazyListScope.newsFeed(//최종적으로 core의 ui모듈로 보내버릴예정
+fun LazyListScope.newsFeed(
     feedResource: LazyPagingItems<Notice>?
 ) {
     feedResource?.let {
@@ -172,34 +220,14 @@ fun openCustomTab(context: Context, url: String) =
 
 
 @Composable
-@Preview(name = "Announcement")
+@Preview(apiLevel = 33)
 private fun AnnouncementScreenPreview() {
-    NoticeScreen(
-    )
-}
+    SaegilAndroidTheme {
+        LazyColumn(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+        ) {
 
-//@Composable
-//@Preview
-//private fun FeedPreview() {
-//    SaegilAndroidTheme {
-//        LazyColumn(
-//            modifier = Modifier
-//                .padding(horizontal = 8.dp)
-//        ) {
-//            newsFeed(
-//                Success(
-//                    listOf(
-//                        Notice(
-//                            "이름",
-//                            "내용",
-//                            "날짜",
-//                            "기관",
-//                            "링크"
-//                        )
-//                    )
-//                )
-//            )
-//        }
-//    }
-//}
-//
+        }
+    }
+}

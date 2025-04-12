@@ -6,7 +6,7 @@ interface FeedService {
 
     suspend fun getFeeds(
         query: String? = null,
-        sourceId: String? = null,
+        sourceId: Long? = null,
         size: Int? = null,
         lastId: Long? = null
     ) : NoticeListDto?
