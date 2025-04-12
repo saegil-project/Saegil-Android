@@ -17,7 +17,7 @@ class FeedRepositoryImpl @Inject constructor(
 
     override fun getFeeds(
         query: String?,
-        organization: Int?,
+        organization: Long?,
     ): Flow<PagingData<Notice>> {
         return Pager(
             config = PagingConfig(

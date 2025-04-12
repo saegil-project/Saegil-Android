@@ -11,7 +11,7 @@ class GetFeedUseCase @Inject constructor(
 ) {
     operator fun invoke(
         query: String?,
-        organization: Int?,
+        organization: Long?,
     ) : Flow<PagingData<Notice>> =
         feedRepository.getFeeds(query, organization)
 }

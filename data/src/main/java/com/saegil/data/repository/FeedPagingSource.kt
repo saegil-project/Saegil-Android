@@ -8,7 +8,7 @@ import com.saegil.domain.model.Notice
 class FeedPagingSource(
     private val feedService: FeedService,
     private val query: String? = null,
-    private val sourceId: Int? = null,
+    private val sourceId: Long? = null,
     private val pageSize: Int = 10
 ) : PagingSource<Long, Notice>() {
 

@@ -57,7 +57,7 @@ fun NoticeScreen(
         onChipSelect = viewModel::setSourceFilter,
         searchQuery = searchQuery,
         onSearchTriggered = viewModel::onSearchTriggered,
-        selectedIndex = selectedIndex,
+        selectedIndex = selectedIndex?.toInt(),
         modifier = modifier
     )
 

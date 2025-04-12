@@ -8,7 +8,7 @@ interface FeedRepository {
 
     fun getFeeds(
         query: String?,
-        organization: Int?,
+        organization: Long?,
     ): Flow<PagingData<Notice>>
 
 }

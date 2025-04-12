@@ -18,7 +18,7 @@ class FeedServiceImpl @Inject constructor(
 
     override suspend fun getFeeds(
         query: String?,
-        sourceId: Int?,
+        sourceId: Long?,
         size: Int?,
         lastId: Long?
     ): NoticeListDto? {

@@ -16,17 +16,13 @@ import com.saegil.domain.usecase.GetFeedUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     getFeedUseCase: GetFeedUseCase
 ) : ViewModel() {
 
-    val organization = MutableStateFlow<Int?>(null)
+    val organization = MutableStateFlow<Long?>(null)
     val query = MutableStateFlow("")
 
     val feedUiState: StateFlow<NoticeUiState> =
@@ -44,7 +40,7 @@ class NoticeViewModel @Inject constructor(
             )
 
     fun setSourceFilter(filteredOrganization: Int?) {
-        organization.value = filteredOrganization
+        organization.value = filteredOrganization?.toLong()
     }
 
     fun onSearchTriggered(searchValue: String) {
