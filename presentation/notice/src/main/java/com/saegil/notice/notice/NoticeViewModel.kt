@@ -1,4 +1,4 @@
-package com.saegil.announcement.announcement
+package com.saegil.notice.notice
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
-import com.saegil.announcement.announcement.NoticeUiState.*
+import com.saegil.notice.notice.NoticeUiState.*
 import com.saegil.domain.model.Notice
 import com.saegil.domain.usecase.GetFeedUseCase
 import kotlinx.coroutines.flow.Flow

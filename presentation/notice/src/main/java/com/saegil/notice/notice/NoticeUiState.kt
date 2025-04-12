@@ -1,4 +1,4 @@
-package com.saegil.announcement.announcement
+package com.saegil.notice.notice
 
 import androidx.paging.PagingData
 import com.saegil.domain.model.Notice

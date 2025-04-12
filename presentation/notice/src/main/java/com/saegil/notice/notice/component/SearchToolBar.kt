@@ -1,4 +1,4 @@
-package com.saegil.announcement.announcement.component
+package com.saegil.notice.notice.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size

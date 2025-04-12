@@ -1,4 +1,4 @@
-package com.saegil.announcement.announcement
+package com.saegil.notice.notice
 
 
 import android.content.Context
@@ -21,7 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import com.saegil.announcement.announcement.NoticeUiState.*
+import com.saegil.notice.notice.NoticeUiState.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -32,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.saegil.announcement.announcement.component.SearchToolBar
+import com.saegil.notice.notice.component.SearchToolBar
 import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body
