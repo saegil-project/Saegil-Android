@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -51,6 +52,7 @@ fun MapScreen(
 internal fun MapScreen(
     state: UiState<MapState>,
     modifier: Modifier = Modifier,
+    viewModel: MapViewModel = viewModel(),
 ) {
     val context = LocalContext.current
     val fusedLocationClient = remember {
@@ -73,6 +75,13 @@ internal fun MapScreen(
                                 LatLng(it.latitude, it.longitude)
                             ).animate(CameraAnimation.Easing)
                             cameraPositionState.move(cameraUpdate)
+
+                            // 위치 정보를 얻으면 ViewModel의 함수 호출
+                            viewModel.getNearByOriganizations(
+                                latitude = it.latitude,
+                                longitude = it.longitude,
+                                radius = 500  // 반경 500m (필요에 따라 조정)
+                            )
                         }
                     }
                     .addOnFailureListener { exception ->
@@ -85,6 +94,8 @@ internal fun MapScreen(
             permissionState.launchPermissionRequest()
         }
     }
+
+
 
     NaverMap(
         modifier = modifier.fillMaxSize(),

@@ -18,11 +18,8 @@ class MapViewModel @Inject constructor(
     private val _uiState: MutableStateFlow<UiState<MapState>> = MutableStateFlow(UiState.Init)
     val uiState: StateFlow<UiState<MapState>> = _uiState.asStateFlow()
 
-    init {
-        getNearByOriganizations(37.5326, 126.8469, 1000)
-    }
 
-    private fun getNearByOriganizations(
+    fun getNearByOriganizations(
         latitude: Double?,
         longitude: Double?,
         radius: Int?,
