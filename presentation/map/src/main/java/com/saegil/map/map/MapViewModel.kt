@@ -19,7 +19,7 @@ class MapViewModel @Inject constructor(
     val uiState: StateFlow<UiState<MapState>> = _uiState.asStateFlow()
 
 
-    fun getNearByOriganizations(
+    fun getNearbyOrganizations(
         latitude: Double?,
         longitude: Double?,
         radius: Int?,

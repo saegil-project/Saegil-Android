@@ -77,7 +77,7 @@ internal fun MapScreen(
                             cameraPositionState.move(cameraUpdate)
 
                             // 위치 정보를 얻으면 ViewModel의 함수 호출
-                            viewModel.getNearByOriganizations(
+                            viewModel.getNearbyOrganizations(
                                 latitude = it.latitude,
                                 longitude = it.longitude,
                                 radius = 500  // 반경 500m (필요에 따라 조정)

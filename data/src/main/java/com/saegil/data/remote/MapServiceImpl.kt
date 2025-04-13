@@ -16,7 +16,7 @@ class MapServiceImpl @Inject constructor(
     private val client: HttpClient
 ) : MapService {
 
-    override suspend fun getNearByOriganizations(
+    override suspend fun getNearbyOrganizations(
         latitude: Double?,
         longitude: Double?,
         radius: Int?,

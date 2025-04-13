@@ -4,7 +4,7 @@ import com.saegil.data.model.OrganizationDto
 
 interface MapService {
 
-    suspend fun getNearByOriganizations(
+    suspend fun getNearbyOrganizations(
         latitude: Double?,
         longitude: Double?,
         radius: Int?,

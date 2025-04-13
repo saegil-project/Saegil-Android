@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MapRepository {
 
-    fun getNearByOriganizations(
+    fun getNearbyOrganizations(
         latitude: Double?,
         longitude: Double?,
         radius: Int?,

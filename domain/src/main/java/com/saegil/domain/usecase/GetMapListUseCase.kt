@@ -13,5 +13,5 @@ class GetMapListUseCase @Inject constructor(
         longitude: Double?,
         radius: Int?,
     ): Flow<List<Organization>> =
-        mapRepository.getNearByOriganizations(latitude, longitude, radius)
+        mapRepository.getNearbyOrganizations(latitude, longitude, radius)
 }

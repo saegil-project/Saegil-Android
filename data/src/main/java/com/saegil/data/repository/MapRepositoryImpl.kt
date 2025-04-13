@@ -14,12 +14,12 @@ class MapRepositoryImpl @Inject constructor(
     private val mapService: MapService
 ) : MapRepository {
 
-    override fun getNearByOriganizations(
+    override fun getNearbyOrganizations(
         latitude: Double?,
         longitude: Double?,
         radius: Int?,
     ): Flow<List<Organization>> = flow {
-        mapService.getNearByOriganizations(
+        mapService.getNearbyOrganizations(
             latitude,
             longitude,
             radius
