@@ -50,14 +50,20 @@ fun LearningListScreen(
             iconImageUrl = "https://avatars.githubusercontent.com/u/171667914?s=48&v=4"
         ),
     )
-    LearningListScreen(items)
+    LearningListScreen(
+        items = items,
+        modifier = modifier
+    )
 }
 
 
 @Composable
-internal fun LearningListScreen(items: List<Simulation>) {
+internal fun LearningListScreen(
+    items: List<Simulation>,
+    modifier: Modifier = Modifier
+) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
 
     ) {
