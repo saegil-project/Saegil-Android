@@ -69,8 +69,8 @@ internal fun LearningListScreen(
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            contentPadding = PaddingValues(36.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
             items(items) { item ->
@@ -87,7 +87,6 @@ fun SimulationItem(item: Simulation) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
             .height(72.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -98,19 +97,16 @@ fun SimulationItem(item: Simulation) {
         )
     ) {
         Row(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(top = 16.dp, start = 20.dp, end = 18.dp, bottom = 16.dp)
         ) {
-            // 텍스트 표시
             Text(
                 text = item.name,
                 style = MaterialTheme.typography.h3,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(8.dp)
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // 이미지 표시
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(item.iconImageUrl)
