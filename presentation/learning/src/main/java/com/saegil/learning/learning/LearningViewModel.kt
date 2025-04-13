@@ -13,11 +13,11 @@ class LearningViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<LearningState> = MutableStateFlow(LearningState())
+    private val _stateFlow: MutableStateFlow<LearingState> = MutableStateFlow(LearingState())
 
-    val stateFlow: StateFlow<LearningState> = _stateFlow.asStateFlow()
+    val stateFlow: StateFlow<LearingState> = _stateFlow.asStateFlow()
 
 
 }
 
-class LearningState
+class LearingState
