@@ -1,4 +1,6 @@
 # Saegil-Android
+- Kotlin
+- Jetpack Compose
 
 ## ↔️ 모듈 구조
 
