@@ -8,8 +8,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -26,6 +28,8 @@ import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
+import com.naver.maps.map.overlay.OverlayImage
+import com.saegil.map.R
 
 @Composable
 fun MapScreen(
@@ -87,7 +91,6 @@ internal fun MapScreen(
         cameraPositionState = cameraPositionState,
         properties = MapProperties(
             locationTrackingMode = LocationTrackingMode.Follow,
-//            isLocationButtonEnabled = true
         )
     ) {
         when (state) {
@@ -95,17 +98,13 @@ internal fun MapScreen(
                 when (val data = state.data) {
                     is MapState.MapList -> {
                         data.organizations.forEach { organization ->
-                            Marker(
-                                state = MarkerState(
-                                    position = LatLng(
-                                        organization.latitude,
-                                        organization.longitude
-                                    )
+                            CustomMarker(
+                                position = LatLng(
+                                    organization.latitude,
+                                    organization.longitude
                                 ),
                                 captionText = organization.name,
-                                onClick = {
-                                    true
-                                }
+                                onClick = { true }
                             )
                         }
                     }
@@ -116,6 +115,26 @@ internal fun MapScreen(
             else -> {}
         }
     }
+}
+
+
+@OptIn(ExperimentalNaverMapApi::class)
+@Composable
+fun CustomMarker(
+    position: LatLng,
+    captionText: String,
+    onClick: () -> Boolean
+) {
+    Marker(
+        state = MarkerState(position = position),
+        icon = OverlayImage.fromResource(R.drawable.ic_map_pin), // 커스텀 마커 이미지
+        width = 30.dp,  // 마커 너비
+        height = 30.dp, // 마커 높이
+        captionText = captionText,
+        captionColor = Color.Black,
+        captionHaloColor = Color.White,
+        onClick = { onClick() }
+    )
 }
 
 @Composable
