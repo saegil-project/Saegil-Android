@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "com.saegil.android"
-        minSdk = 34
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -84,7 +84,7 @@ dependencies {
 
     //모듈 의존
     implementation(project(":domain"))
-    implementation(project(":presentation"))
+//    implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(project(":core:designsystem"))
 

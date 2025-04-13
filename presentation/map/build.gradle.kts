@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.naver.map.compose)
     implementation(libs.naver.map.location)
     implementation(libs.play.services.location)
+    implementation(libs.google.accompanist.permissions)
+
 
     implementation(project(":core:designsystem"))
     implementation(project(":domain"))
