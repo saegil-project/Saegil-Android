@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.devtools.ksp)
 }
 
 val properties = Properties()
@@ -63,4 +64,9 @@ dependencies {
 
     implementation(libs.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
     implementation(libs.v2.user) // 카카오 로그인 API 모듈
+
+    //hilt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.android.compiler)
 }
