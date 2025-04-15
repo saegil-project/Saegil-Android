@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
 
     implementation(libs.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
     implementation(libs.v2.user) // 카카오 로그인 API 모듈

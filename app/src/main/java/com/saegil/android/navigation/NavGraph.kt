@@ -9,6 +9,7 @@ import com.saegil.notice.notice.NoticeScreen
 import com.saegil.learning.learning.LearningScreen
 import com.saegil.map.map.MapScreen
 import com.saegil.mypage.mypage.MypageScreen
+import com.saegil.onboarding.OnBoardingScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
@@ -32,6 +33,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             MypageScreen(
                 modifier = modifier
             )
+        }
+        composable(Screen.OnBoarding.route) {
+            OnBoardingScreen()
         }
     }
 }
