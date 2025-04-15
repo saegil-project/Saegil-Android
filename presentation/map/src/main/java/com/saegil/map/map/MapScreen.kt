@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -22,6 +21,7 @@ import com.google.android.gms.location.LocationServices
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.LocationTrackingMode
 import com.naver.maps.map.compose.MapProperties
@@ -37,29 +37,35 @@ fun MapScreen(
     modifier: Modifier = Modifier,
     viewModel: MapViewModel = hiltViewModel(),
 ) {
+    val mapState by viewModel.mapUiState.collectAsStateWithLifecycle()
+    val cameraPositionState = rememberCameraPositionState()
 
-    val mapState by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(cameraPositionState.position) {
+        viewModel.updateLocation(
+            cameraPositionState.position.target.latitude,
+            cameraPositionState.position.target.longitude
+        )
+        viewModel.updateZoomLevel(cameraPositionState.position.zoom)
+    }
 
     MapScreen(
-        mapState,
-        modifier
+        mapState = mapState,
+        cameraPositionState = cameraPositionState,
+        modifier = modifier
     )
-
 }
 
 @OptIn(ExperimentalNaverMapApi::class, ExperimentalPermissionsApi::class)
 @Composable
 internal fun MapScreen(
-    state: UiState<MapState>,
+    mapState: MapUiState,
+    cameraPositionState: CameraPositionState,
     modifier: Modifier = Modifier,
-    viewModel: MapViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val fusedLocationClient = remember {
+    val fusedLocationClient = remember { 
         LocationServices.getFusedLocationProviderClient(context)
     }
-
-    val cameraPositionState = rememberCameraPositionState()
 
     val permissionState = rememberPermissionState(
         permission = Manifest.permission.ACCESS_FINE_LOCATION
@@ -75,13 +81,6 @@ internal fun MapScreen(
                                 LatLng(it.latitude, it.longitude)
                             ).animate(CameraAnimation.Easing)
                             cameraPositionState.move(cameraUpdate)
-
-                            // 위치 정보를 얻으면 ViewModel의 함수 호출
-                            viewModel.getNearbyOrganizations(
-                                latitude = it.latitude,
-                                longitude = it.longitude,
-                                radius = 500  // 반경 500m (필요에 따라 조정)
-                            )
                         }
                     }
                     .addOnFailureListener { exception ->
@@ -95,8 +94,6 @@ internal fun MapScreen(
         }
     }
 
-
-
     NaverMap(
         modifier = modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
@@ -104,11 +101,9 @@ internal fun MapScreen(
             locationTrackingMode = LocationTrackingMode.Follow,
         )
     ) {
-        when (state) {
-            is UiState.Success -> {
-                when (val data = state.data) {
-                    is MapState.MapList -> {
-                        data.organizations.forEach { organization ->
+        when (mapState) {
+            is MapUiState.Success -> {
+                mapState.organizationList.forEach { organization ->
                             CustomMarker(
                                 position = LatLng(
                                     organization.latitude,
@@ -118,16 +113,12 @@ internal fun MapScreen(
                                 onClick = { true }
                             )
                         }
-                    }
 
-                    null -> {}
-                }
             }
             else -> {}
         }
     }
 }
-
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
