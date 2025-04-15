@@ -25,6 +25,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["NAVER_CLIENT_ID"] = properties.getProperty("naver_client_id")
+        manifestPlaceholders["NATIVE_APP_KEY"] = properties.getProperty("kakao_native_app_key")
+        buildConfigField("String", "NATIVE_APP_KEY", "\"${properties["kakao_native_app_key"]}\"")
     }
 
     buildTypes {
@@ -45,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -92,4 +95,7 @@ dependencies {
     implementation(project(":presentation:notice"))
     implementation(project(":presentation:learning"))
     implementation(project(":presentation:mypage"))
+
+    implementation(libs.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation(libs.v2.user) // 카카오 로그인 API 모듈
 }
