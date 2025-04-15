@@ -1,6 +1,5 @@
 package com.saegil.data.repository
 
-import android.util.Log
 import com.saegil.data.remote.MapService
 import com.saegil.domain.model.Organization
 import com.saegil.domain.repository.MapRepository
@@ -24,7 +23,6 @@ class MapRepositoryImpl @Inject constructor(
             longitude,
             radius
         )?.let {
-            Log.d("잘되나요", "${it.size}")
             emit(it.map { dto -> dto.toDomain() })
         }
     }.flowOn(Dispatchers.IO) //데이터 요청은 IO

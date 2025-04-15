@@ -26,7 +26,6 @@ class MapServiceImpl @Inject constructor(
             longitude?.let { parameters.append("longitude", it.toString()) }
             radius?.let { parameters.append("radius", it.toString()) }
         }
-        Log.d("로그로그", "${urlBuilder.build()}")
         return try {
             client.get(urlBuilder.build()) {
                 headers {
