@@ -13,7 +13,7 @@ properties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace = "com.saegil.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24

@@ -13,7 +13,7 @@ import com.saegil.onboarding.OnBoardingScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
-    NavHost(navController = navController, startDestination = Screen.Learning.route) {
+    NavHost(navController = navController, startDestination = Screen.OnBoarding.route) {
         composable(Screen.Learning.route) {
             LearningScreen(
                 modifier = modifier

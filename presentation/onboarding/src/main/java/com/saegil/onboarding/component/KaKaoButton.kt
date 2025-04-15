@@ -24,7 +24,6 @@ fun KaKaoButton(
     )
 }
 
-
 @Preview
 @Composable
 fun KakaoButtonPreview() {
