@@ -9,7 +9,7 @@ import com.saegil.notice.notice.NoticeScreen
 import com.saegil.learning.learning.LearningScreen
 import com.saegil.map.map.MapScreen
 import com.saegil.mypage.mypage.MypageScreen
-import com.saegil.onboarding.OnBoardingScreen
+import com.saegil.onboarding.OnboardingScreen
 import com.saegil.splash.SplashScreen
 
 @Composable
@@ -35,8 +35,8 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                 modifier = modifier
             )
         }
-        composable(Screen.OnBoarding.route) {
-            OnBoardingScreen(
+        composable(Screen.Onboarding.route) {
+            OnboardingScreen(
                 navigateToMain = {
                     navController.navigate(Screen.Learning.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
@@ -46,8 +46,8 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         }
         composable(Screen.Splash.route) {
             SplashScreen(
-                navigateToOnBoarding = {
-                    navController.navigate(Screen.OnBoarding.route) {
+                navigateToOnboarding = {
+                    navController.navigate(Screen.Onboarding.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
                 },

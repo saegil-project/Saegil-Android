@@ -9,7 +9,7 @@ sealed class Screen(val route: String, @DrawableRes val icon: Int, val label: St
     object Map : Screen("map", R.drawable.ic_location, "지도")
     object MyPage : Screen("mypage", R.drawable.ic_user_circle, "마이페이지")
     data object Splash : Screen("splash", R.drawable.ic_saegil_logo, "스플래시")
-    data object OnBoarding : Screen("onboarding", R.drawable.ic_saegil_logo, "온보딩")
+    data object Onboarding : Screen("onboarding", R.drawable.ic_saegil_logo, "온보딩")
 
     companion object {
         val items = listOf(Learning, Announcement, Map, MyPage)

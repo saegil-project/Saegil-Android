@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.saegil.onboarding.OnBoardingState.*
+import com.saegil.onboarding.OnboardingState.*
 
 @HiltViewModel
-class OnBoardingViewModel @Inject constructor(
+class OnboardingViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase
 ) : ViewModel() {
 
-    private val _loginUiState = MutableStateFlow<OnBoardingState>(Idle)
-    val loginUiState: StateFlow<OnBoardingState> = _loginUiState.asStateFlow()
+    private val _loginUiState = MutableStateFlow<OnboardingState>(Idle)
+    val loginUiState: StateFlow<OnboardingState> = _loginUiState.asStateFlow()
 
     fun kakaoLogin(context: Context) {
         viewModelScope.launch {

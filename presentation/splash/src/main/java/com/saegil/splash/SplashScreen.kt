@@ -19,7 +19,7 @@ import com.saegil.splash.LoginState.*
 
 @Composable
 fun SplashScreen(
-    navigateToOnBoarding: () -> Unit,
+    navigateToOnboarding: () -> Unit,
     navigateToMain : () -> Unit,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
@@ -29,7 +29,7 @@ fun SplashScreen(
     SplashScreen(
         loginState = loginState,
         navigateToMain = navigateToMain,
-        navigateToOnBoarding = navigateToOnBoarding,
+        navigateToOnboarding = navigateToOnboarding,
     )
 }
 
@@ -37,7 +37,7 @@ fun SplashScreen(
 internal fun SplashScreen(
     loginState: LoginState,
     navigateToMain: () -> Unit,
-    navigateToOnBoarding: () -> Unit,
+    navigateToOnboarding: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when(loginState) {
@@ -59,7 +59,7 @@ internal fun SplashScreen(
             navigateToMain()
         }
         NotLoggedIn -> {
-            navigateToOnBoarding()
+            navigateToOnboarding()
         }
     }
 }

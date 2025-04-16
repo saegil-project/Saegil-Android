@@ -20,30 +20,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.theme.body
 import com.saegil.onboarding.component.KaKaoButton
-import com.saegil.onboarding.OnBoardingState.*
+import com.saegil.onboarding.OnboardingState.*
 import com.saegil.designsystem.theme.h1
 import com.saegil.onboarding.component.BirdIcon
-import com.saegil.onboarding.component.OnBoardingBackground
-import com.saegil.onboarding.component.OnBoardingPage
+import com.saegil.onboarding.component.OnboardingBackground
+import com.saegil.onboarding.component.OnboardingPage
 import com.saegil.onboarding.component.ProgressBar
 
 @Composable
-fun OnBoardingScreen(
+fun OnboardingScreen(
     navigateToMain: () -> Unit,
-    viewModel: OnBoardingViewModel = hiltViewModel(),
+    viewModel: OnboardingViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val loginState by viewModel.loginUiState.collectAsStateWithLifecycle()
-    val pagerState = rememberPagerState(pageCount = { OnBoardingPage.pages.size })
+    val pagerState = rememberPagerState(pageCount = { OnboardingPage.pages.size })
 
-    OnBoardingScreen(
+    OnboardingScreen(
         pagerState = pagerState,
         loginState = loginState,
         context = context,
@@ -54,9 +53,9 @@ fun OnBoardingScreen(
 }
 
 @Composable
-internal fun OnBoardingScreen(
+internal fun OnboardingScreen(
     pagerState: PagerState,
-    loginState: OnBoardingState,
+    loginState: OnboardingState,
     context: Context,
     onKaKaoButtonClick: (Context) -> Unit,
     navigateToMain: () -> Unit,
@@ -75,7 +74,7 @@ internal fun OnBoardingScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            OnBoardingBackground(
+            OnboardingBackground(
                 index = page,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -93,13 +92,13 @@ internal fun OnBoardingScreen(
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = OnBoardingPage.pages[page].title,
+                        text = OnboardingPage.pages[page].title,
                         style = MaterialTheme.typography.h1,
                         textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
-                        text = OnBoardingPage.pages[page].description,
+                        text = OnboardingPage.pages[page].description,
                         style = MaterialTheme.typography.body,
                         textAlign = TextAlign.Center
                     )
@@ -109,7 +108,7 @@ internal fun OnBoardingScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                if (OnBoardingPage.pages[page].showButton) {
+                if (OnboardingPage.pages[page].showButton) {
                     KaKaoButton(
                         onClick = { onKaKaoButtonClick(context) },
                         modifier = Modifier
@@ -120,12 +119,4 @@ internal fun OnBoardingScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun OnBoardingPreview() {
-    OnBoardingScreen(
-        {}
-    )
 }

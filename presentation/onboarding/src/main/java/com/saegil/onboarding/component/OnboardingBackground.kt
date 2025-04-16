@@ -8,7 +8,7 @@ import androidx.compose.ui.res.painterResource
 import com.saegil.onboarding.R
 
 @Composable
-fun OnBoardingBackground(
+fun OnboardingBackground(
     index: Int,
     modifier: Modifier
 ) {
