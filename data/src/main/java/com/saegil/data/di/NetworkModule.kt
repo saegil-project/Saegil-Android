@@ -1,7 +1,10 @@
 package com.saegil.data.di
 
+import com.kakao.sdk.user.UserApiClient
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
+import com.saegil.data.repository.AuthRepositoryImpl
+import com.saegil.domain.repository.AuthRepository
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
 import dagger.Module
@@ -42,6 +45,15 @@ object NetworkModule {
     fun provideFeedService(client: HttpClient): FeedService {
         return FeedServiceImpl(client)
     }
+
+    @Provides
+    @Singleton
+    fun provideUserApiClient(): UserApiClient = UserApiClient.instance
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(userApiClient: UserApiClient): AuthRepository =
+        AuthRepositoryImpl(userApiClient)
 
     @Provides
     @Singleton

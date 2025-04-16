@@ -73,5 +73,7 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
 
+    implementation(libs.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
+
     implementation(project(":domain"))//클린아키텍처 도메인 의존
 }
