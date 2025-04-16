@@ -36,7 +36,13 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             )
         }
         composable(Screen.OnBoarding.route) {
-            OnBoardingScreen()
+            OnBoardingScreen(
+                navigateToMain = {
+                    navController.navigate(Screen.Learning.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
+            )
         }
         composable(Screen.Splash.route) {
             SplashScreen(
