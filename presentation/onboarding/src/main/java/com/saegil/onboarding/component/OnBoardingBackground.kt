@@ -15,14 +15,14 @@ fun OnBoardingBackground(
     Image(
         painter = painterResource(
             id = when (index) {
-                1 -> R.drawable.background_1
-                2 -> R.drawable.background_2
-                3 -> R.drawable.background_3
+                0 -> R.drawable.background_1
+                1 -> R.drawable.background_2
+                2 -> R.drawable.background_3
                 else -> R.drawable.background_1
             }
-        ), // 배경 이미지
+        ),
         contentDescription = null,
-        contentScale = ContentScale.FillBounds,
+        contentScale = ContentScale.FillWidth,
         modifier = modifier,
     )
 }

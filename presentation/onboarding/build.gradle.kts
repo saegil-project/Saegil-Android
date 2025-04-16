@@ -72,6 +72,9 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
+    //Pager
+    implementation(libs.androidx.foundation)
+
     implementation(project(":domain"))
     implementation(project(":core:designsystem"))
 }

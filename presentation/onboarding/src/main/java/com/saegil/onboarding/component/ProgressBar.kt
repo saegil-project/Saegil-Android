@@ -22,12 +22,13 @@ fun ProgressBar(
 ) {
     Row(
         modifier = Modifier
+            .padding(top = 80.dp)
             .padding(50.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
     ) {
+        if(index==0) InProgressIcon() else ProgressIcon()
         if(index==1) InProgressIcon() else ProgressIcon()
         if(index==2) InProgressIcon() else ProgressIcon()
-        if(index==3) InProgressIcon() else ProgressIcon()
     }
 }
 

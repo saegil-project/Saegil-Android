@@ -2,6 +2,7 @@
 accompanistPermissionsVersion = "0.37.2"
 agp = "8.7.3"
 compiler = "1.5.15"
+foundation = "1.7.8"
 kotlin = "2.1.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -48,6 +49,7 @@ kakaov2 = "2.21.1"
 [libraries]
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
 google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissionsVersion" }
