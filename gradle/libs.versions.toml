@@ -44,7 +44,7 @@ material3Android = "1.3.1"
 firebaseCrashlyticsBuildtools = "3.0.3"
 kotlinSerialization = "2.0.0"
 browser = "1.8.0"
-kakaov2 = "2.21.1"
+kakao = "2.21.1"
 
 [libraries]
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
@@ -95,8 +95,8 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
-kakao-v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakaov2" }
-kakao-v2-all = { module = "com.kakao.sdk:v2-all", version.ref = "kakaov2" }
+kakao-v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao" }
+kakao-v2-all = { module = "com.kakao.sdk:v2-all", version.ref = "kakao" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
