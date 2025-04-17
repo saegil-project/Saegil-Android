@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.secrets.gradle.plugin)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -48,17 +49,26 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    //hilt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.hilt.android.compiler)
+
+    // map
     implementation(libs.map.sdk)
     implementation(libs.naver.map.compose)
     implementation(libs.naver.map.location)
     implementation(libs.play.services.location)
+    implementation(libs.google.accompanist.permissions)
+
 
     implementation(project(":core:designsystem"))
+    implementation(project(":domain"))
 }
