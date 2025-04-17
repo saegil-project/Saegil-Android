@@ -29,7 +29,8 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.saegil.domain.model.Organization
 import com.saegil.map.map.components.OrganizationBottomSheet
-import com.saegil.map.map.components.UnselectedMaker
+import com.saegil.map.map.components.SelectedMarker
+import com.saegil.map.map.components.UnselectedMarker
 
 @Composable
 fun MapScreen(
@@ -110,17 +111,31 @@ internal fun MapScreen(
         when (mapState) {
             is MapUiState.Success -> {
                 mapState.organizationList.forEach { organization ->
-                    UnselectedMaker(
-                        position = LatLng(
-                            organization.latitude,
-                            organization.longitude
-                        ),
-                        captionText = organization.name,
-                        onClick = {
-                            onOrganizationSelected(organization)
-                            true
-                        }
-                    )
+                    if (organization != selectedOrganization) {
+                        UnselectedMarker(
+                            position = LatLng(
+                                organization.latitude,
+                                organization.longitude
+                            ),
+                            captionText = organization.name,
+                            onClick = {
+                                onOrganizationSelected(organization)
+                                true
+                            }
+                        )
+                    } else {
+                        SelectedMarker(
+                            position = LatLng(
+                                organization.latitude,
+                                organization.longitude
+                            ),
+                            captionText = organization.name,
+                            onClick = {
+                                onOrganizationSelected(organization)
+                                true
+                            }
+                        )
+                    }
                 }
             }
             else -> {}
@@ -134,7 +149,6 @@ internal fun MapScreen(
         )
     }
 }
-
 
 @Composable
 @Preview(name = "Map")
