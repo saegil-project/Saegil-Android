@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.theme.body
-import com.saegil.onboarding.component.KaKaoButton
+import com.saegil.onboarding.component.KakaoLoginButton
 import com.saegil.onboarding.OnboardingState.*
 import com.saegil.designsystem.theme.h1
 import com.saegil.onboarding.component.BirdIcon
@@ -109,7 +109,7 @@ internal fun OnboardingScreen(
                 Spacer(modifier = Modifier.weight(1f))
 
                 if (OnboardingPage.pages[page].showButton) {
-                    KaKaoButton(
+                    KakaoLoginButton(
                         onClick = { onKaKaoButtonClick(context) },
                         modifier = Modifier
                             .fillMaxWidth()
