@@ -95,8 +95,8 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
-v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakaov2" }
-v2-all = { module = "com.kakao.sdk:v2-all", version.ref = "kakaov2" }
+kakao-v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakaov2" }
+kakao-v2-all = { module = "com.kakao.sdk:v2-all", version.ref = "kakaov2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
