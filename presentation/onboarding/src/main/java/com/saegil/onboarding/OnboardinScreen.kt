@@ -30,7 +30,7 @@ import com.saegil.designsystem.theme.h1
 import com.saegil.onboarding.component.BirdIcon
 import com.saegil.onboarding.component.OnboardingBackground
 import com.saegil.onboarding.component.OnboardingPage
-import com.saegil.onboarding.component.ProgressBar
+import com.saegil.onboarding.component.Indicator
 
 @Composable
 fun OnboardingScreen(
@@ -87,7 +87,7 @@ internal fun OnboardingScreen(
                     .padding(horizontal = 24.dp, vertical = 48.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ProgressBar(page)
+                Indicator(page)
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {

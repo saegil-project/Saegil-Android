@@ -1,6 +1,5 @@
 package com.saegil.onboarding.component
 
-import android.widget.ProgressBar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.saegil.onboarding.R
 
 @Composable
-fun ProgressBar(
+fun Indicator(
     index: Int,
 ) {
     Row(
@@ -26,14 +25,14 @@ fun ProgressBar(
             .padding(50.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
     ) {
-        if(index==0) InProgressIcon() else ProgressIcon()
-        if(index==1) InProgressIcon() else ProgressIcon()
-        if(index==2) InProgressIcon() else ProgressIcon()
+        if(index==0) ActiveDot() else InactiveDot()
+        if(index==1) ActiveDot() else InactiveDot()
+        if(index==2) ActiveDot() else InactiveDot()
     }
 }
 
 @Composable
-fun ProgressIcon() {
+fun InactiveDot() {
     Image(
         painter = painterResource(id = R.drawable.ic_progress_stage),
         contentDescription = null,
@@ -44,7 +43,7 @@ fun ProgressIcon() {
 }
 
 @Composable
-fun InProgressIcon() {
+fun ActiveDot() {
     Image(
         painter = painterResource(id = R.drawable.ic_in_progress),
         contentDescription = null,
