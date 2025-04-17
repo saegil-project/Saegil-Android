@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -34,10 +34,14 @@ fun OrganizationBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        contentColor = MaterialTheme.colorScheme.background,
-        dragHandle = { BottomSheetDefaults.DragHandle() }
+        containerColor = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        dragHandle = null
     ) {
-        OrganizationContent(organization)
+        OrganizationContent(
+            organization = organization,
+            modifier = Modifier.navigationBarsPadding()
+        )
     }
 }
 
@@ -97,9 +101,7 @@ private fun OrganizationContent(
 fun OrganizationBottomSheetPreview() {
     SaegilAndroidTheme {
         Surface {
-
             Column {
-
                 OrganizationContent(
                     Organization(
                         id = 1,

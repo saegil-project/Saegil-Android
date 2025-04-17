@@ -31,6 +31,7 @@ import com.saegil.domain.model.Organization
 import com.saegil.map.map.components.OrganizationBottomSheet
 import com.saegil.map.map.components.SelectedMarker
 import com.saegil.map.map.components.UnselectedMarker
+import timber.log.Timber
 
 @Composable
 fun MapScreen(
@@ -131,6 +132,7 @@ internal fun MapScreen(
                             ),
                             captionText = organization.name,
                             onClick = {
+                                Timber.d("Selected marker: ${organization.name} ${organization.address}")
                                 onOrganizationSelected(organization)
                                 true
                             }
@@ -143,6 +145,8 @@ internal fun MapScreen(
     }
 
     selectedOrganization?.let { organization ->
+        Timber.d("selectedOrganization: ${organization.name} ${organization.address}")
+
         OrganizationBottomSheet(
             organization = organization,
             onDismiss = onDismissBottomSheet
