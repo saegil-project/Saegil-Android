@@ -1,30 +1,45 @@
 package com.saegil.onboarding
 
-import android.content.Context
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saegil.domain.usecase.KakaoLoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.saegil.onboarding.OnboardingState.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase
 ) : ViewModel() {
 
-    private val _loginUiState = MutableStateFlow<OnboardingState>(Idle)
-    val loginUiState: StateFlow<OnboardingState> = _loginUiState.asStateFlow()
+    private val kakaoToken = MutableStateFlow<String?>(null)
 
-    fun kakaoLogin(context: Context) {
-        viewModelScope.launch {
-            _loginUiState.value = Loading
-            _loginUiState.value = if (kakaoLoginUseCase(context)) Success else Failure
+    val loginUiState: StateFlow<OnboardingState> = kakaoToken
+        .map { tokenValue ->
+            if (tokenValue == null) return@map Idle
+            kakaoLoginUseCase(tokenValue)
+                .map { success ->
+                    if (success) Success else Failure
+                }
+                .onStart { emit(Loading) }
+                .first()
         }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Idle
+        )
+
+    fun loginWithKakaoToken(kakaoAccessToken: String) {
+        kakaoToken.value = kakaoAccessToken
     }
 
 }

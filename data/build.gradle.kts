@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.room.common.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,6 +75,11 @@ dependencies {
     implementation(libs.androidx.paging.compose)
 
     implementation(libs.kakao.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.room.compiler)
+    implementation(libs.androidx.room.ktx) // Kotlin Extensions and Coroutines support for Room
 
     implementation(project(":domain"))//클린아키텍처 도메인 의존
 }

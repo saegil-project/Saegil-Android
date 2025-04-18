@@ -27,4 +27,5 @@ object DataModule {
     fun provideMapRepository(mapService: MapService): MapRepository {
         return MapRepositoryImpl(mapService)
     }
+
 }

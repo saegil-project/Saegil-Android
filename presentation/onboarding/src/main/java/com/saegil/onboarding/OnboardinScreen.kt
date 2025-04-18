@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kakao.sdk.user.UserApiClient
 import com.saegil.designsystem.theme.body
 import com.saegil.onboarding.component.KakaoLoginButton
 import com.saegil.onboarding.OnboardingState.*
@@ -35,8 +36,8 @@ import com.saegil.onboarding.component.Indicator
 @Composable
 fun OnboardingScreen(
     navigateToMain: () -> Unit,
-    viewModel: OnboardingViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val loginState by viewModel.loginUiState.collectAsStateWithLifecycle()
@@ -46,7 +47,7 @@ fun OnboardingScreen(
         pagerState = pagerState,
         loginState = loginState,
         context = context,
-        onKaKaoButtonClick = viewModel::kakaoLogin,
+        loginWithKakaoToken = viewModel::loginWithKakaoToken,
         navigateToMain = navigateToMain,
         modifier = modifier,
     )
@@ -57,7 +58,7 @@ internal fun OnboardingScreen(
     pagerState: PagerState,
     loginState: OnboardingState,
     context: Context,
-    onKaKaoButtonClick: (Context) -> Unit,
+    loginWithKakaoToken: (String) -> Unit,
     navigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -110,7 +111,17 @@ internal fun OnboardingScreen(
 
                 if (OnboardingPage.pages[page].showButton) {
                     KakaoLoginButton(
-                        onClick = { onKaKaoButtonClick(context) },
+                        onClick = {
+                            if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+                                UserApiClient.instance.loginWithKakaoTalk(context) { token, _ ->
+                                    token?.let { loginWithKakaoToken(token.accessToken) }
+                                }
+                            } else {
+                                UserApiClient.instance.loginWithKakaoAccount(context) { token, _ ->
+                                    token?.let { loginWithKakaoToken(token.accessToken) }
+                                }
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 70.dp)
