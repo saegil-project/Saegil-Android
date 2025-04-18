@@ -34,7 +34,7 @@ fun BottomNavigationBar(navController: NavHostController) {
                 NavigationBarItem(
                     icon = {
                         Icon(
-                            painter = painterResource(id = screen.icon),
+                            painter = painterResource(id = screen.icon!!),
                             contentDescription = screen.label,
                         )
                     },

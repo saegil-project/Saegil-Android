@@ -9,10 +9,12 @@ import com.saegil.notice.notice.NoticeScreen
 import com.saegil.learning.learning.LearningScreen
 import com.saegil.map.map.MapScreen
 import com.saegil.mypage.mypage.MypageScreen
+import com.saegil.onboarding.OnboardingScreen
+import com.saegil.splash.SplashScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
-    NavHost(navController = navController, startDestination = Screen.Learning.route) {
+    NavHost(navController = navController, startDestination = Screen.Splash.route) {
         composable(Screen.Learning.route) {
             LearningScreen(
                 modifier = modifier
@@ -31,6 +33,29 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         composable(Screen.MyPage.route) {
             MypageScreen(
                 modifier = modifier
+            )
+        }
+        composable(Screen.Onboarding.route) {
+            OnboardingScreen(
+                navigateToMain = {
+                    navController.navigate(Screen.Learning.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable(Screen.Splash.route) {
+            SplashScreen(
+                navigateToOnboarding = {
+                    navController.navigate(Screen.Onboarding.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                },
+                navigateToMain = {
+                    navController.navigate(Screen.Learning.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                },
             )
         }
     }
