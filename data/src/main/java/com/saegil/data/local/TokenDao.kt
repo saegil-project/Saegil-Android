@@ -4,17 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.saegil.data.model.TokenEntity
+import com.saegil.data.model.TokenEntityDto
 
 @Dao
 interface TokenDao {
 
+    @Query("SELECT * FROM token WHERE id = 0")
+    suspend fun getToken(): TokenEntityDto?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertToken(token: TokenEntity)
+    suspend fun insertToken(token: TokenEntityDto)
 
-    @Query("SELECT * FROM user_token WHERE id = 1 LIMIT 1")
-    suspend fun getToken(): TokenEntity?
+    @Query("DELETE FROM token")
+    suspend fun clearToken()
 
-    @Query("DELETE FROM user_token WHERE id = 1")
-    suspend fun deleteToken()
 }

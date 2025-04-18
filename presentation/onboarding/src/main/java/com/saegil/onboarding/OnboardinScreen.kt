@@ -23,6 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.saegil.designsystem.theme.body
 import com.saegil.onboarding.component.KakaoLoginButton
@@ -113,7 +115,12 @@ internal fun OnboardingScreen(
                     KakaoLoginButton(
                         onClick = {
                             if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                                UserApiClient.instance.loginWithKakaoTalk(context) { token, _ ->
+                                UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+                                    error?.let {
+                                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                                            return@loginWithKakaoTalk
+                                        }
+                                    }
                                     token?.let { loginWithKakaoToken(token.accessToken) }
                                 }
                             } else {

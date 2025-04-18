@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.saegil.data.local.AppDatabase
 import com.saegil.data.local.TokenDao
-import com.saegil.data.local.TokenDataSource
-import com.saegil.data.local.TokenDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,9 +31,4 @@ object DatabaseModule {
         return appDatabase.tokenDao()
     }
 
-    @Provides
-    @Singleton
-    fun provideTokenDataSource(tokenDao: TokenDao): TokenDataSource {
-        return TokenDataSourceImpl(tokenDao)
-    }
 }
