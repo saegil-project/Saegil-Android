@@ -38,7 +38,15 @@ val Typography.h3: TextStyle
         lineHeight = 16.sp
     )
 
-val Typography.body: TextStyle
+val Typography.body1: TextStyle
+    get() = TextStyle(
+        fontFamily = NanumGothic,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    )
+
+val Typography.body2: TextStyle
     get() = TextStyle(
         fontFamily = NanumGothic,
         fontWeight = FontWeight.Normal,
