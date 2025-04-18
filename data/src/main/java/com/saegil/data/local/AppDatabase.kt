@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.saegil.data.model.TokenEntityDto
 
-@Database(entities = [TokenEntityDto::class], version = 1)
+@Database(entities = [TokenEntityDto::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun tokenDao(): TokenDao
