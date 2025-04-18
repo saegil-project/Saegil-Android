@@ -32,15 +32,19 @@ fun OrganizationBottomSheet(
     val sheetState = rememberModalBottomSheetState()
 
     ModalBottomSheet(
+        modifier = Modifier
+            .padding(bottom = 80.dp)
+            .navigationBarsPadding(),
         onDismissRequest = onDismiss,
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.background,
         contentColor = MaterialTheme.colorScheme.onBackground,
+        tonalElevation = 0.dp,
+        scrimColor = MaterialTheme.colorScheme.background.copy(alpha = 0f),
         dragHandle = null
     ) {
         OrganizationContent(
             organization = organization,
-            modifier = Modifier.navigationBarsPadding()
         )
     }
 }
