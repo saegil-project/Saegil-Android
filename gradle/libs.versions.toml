@@ -97,7 +97,6 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersio
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiToolingVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
