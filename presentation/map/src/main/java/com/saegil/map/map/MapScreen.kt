@@ -1,7 +1,6 @@
 package com.saegil.map.map
 
 import android.Manifest
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -92,10 +91,10 @@ internal fun MapScreen(
                         }
                     }
                     .addOnFailureListener { exception ->
-                        Log.e("MapScreen", "Error getting location", exception)
+                        Timber.e(exception, "Error getting location")
                     }
             } catch (e: Exception) {
-                Log.e("MapScreen", "Error getting location", e)
+                Timber.e(e, "Error getting location")
             }
         } else {
             permissionState.launchPermissionRequest()
