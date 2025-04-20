@@ -82,10 +82,6 @@ dependencies {
     ksp(libs.androidx.room.room.compiler)
     implementation(libs.androidx.room.ktx) // Kotlin Extensions and Coroutines support for Room
 
-    //Coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
-
     // Timber for logging
     implementation(libs.timber)
 
