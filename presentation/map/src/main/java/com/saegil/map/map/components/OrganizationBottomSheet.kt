@@ -65,38 +65,29 @@ private fun OrganizationContent(
             style = MaterialTheme.typography.h2
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Row {
-            Text(
-                text = "운영시간 | ",
-                style = MaterialTheme.typography.body2.copy(fontWeight = Bold)
-            )
-            Text(
-                text = organization.operatingHours,
-                style = MaterialTheme.typography.body2
-            )
-        }
+        InfoText(modifier = Modifier, "운영시간", organization.name)
         Spacer(modifier = Modifier.height(8.dp))
-        Row {
-            Text(
-                text = "전화번호 | ",
-                style = MaterialTheme.typography.body2.copy(fontWeight = Bold)
-            )
-            Text(
-                text = organization.telephoneNumber,
-                style = MaterialTheme.typography.body2
-            )
-        }
+        InfoText(modifier = Modifier, "전화번호", organization.telephoneNumber)
         Spacer(modifier = Modifier.height(8.dp))
-        Row {
-            Text(
-                text = "주소 | ",
-                style = MaterialTheme.typography.body2.copy(fontWeight = Bold)
-            )
-            Text(
-                text = organization.address,
-                style = MaterialTheme.typography.body2
-            )
-        }
+        InfoText(modifier = Modifier, "주소", organization.address)
+    }
+}
+
+@Composable
+fun InfoText(
+    modifier: Modifier = Modifier,
+    title: String,
+    content: String,
+) {
+    Row(modifier = modifier) {
+        Text(
+            text = "$title | ",
+            style = MaterialTheme.typography.body2.copy(fontWeight = Bold)
+        )
+        Text(
+            text = content,
+            style = MaterialTheme.typography.body2
+        )
     }
 }
 
