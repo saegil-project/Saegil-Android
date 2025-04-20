@@ -27,12 +27,13 @@ import com.saegil.domain.model.Organization
 @Composable
 fun OrganizationBottomSheet(
     organization: Organization,
+    modifier: Modifier = Modifier,
     onDismiss: () -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState()
 
     ModalBottomSheet(
-        modifier = Modifier
+        modifier = modifier
             .padding(bottom = 80.dp)
             .navigationBarsPadding(),
         onDismissRequest = onDismiss,
