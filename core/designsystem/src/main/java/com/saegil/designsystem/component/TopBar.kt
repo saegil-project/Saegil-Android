@@ -85,7 +85,7 @@ fun BackTitleTopBar(
 
 @Preview
 @Composable
-fun TopBarPreview() {
+fun LogoTitleTopBarPreview() {
     SaegilAndroidTheme {
         Column {
             LogoTitleTopBar("공지사항")
@@ -95,7 +95,7 @@ fun TopBarPreview() {
 
 @Preview
 @Composable
-fun BackTopBarPreview() {
+fun BackTitleTopBarPreview() {
     SaegilAndroidTheme {
         Column {
             BackTitleTopBar("공지사항", onBackClick = {})
