@@ -84,12 +84,14 @@ fun SaegilCharacter(
 }
 
 @Composable
-@Preview(name = "Learing")
-private fun LearingScreenPreview() {
-    LearningScreen(
-        state = LearingState(),
-//        actions = LearingActions()
+fun RecordButton(modifier: Modifier) {
+    Image(
+        modifier = modifier.size(126.dp),
+        painter = painterResource(id = R.drawable.imb_button_record_start),
+        contentDescription = "레코드 버튼"
     )
+}
+
 @Composable
 @Preview(name = "Learning")
 private fun LearningScreenPreview() {
