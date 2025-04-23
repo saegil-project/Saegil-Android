@@ -20,17 +20,13 @@ import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.h1
 import com.saegil.designsystem.theme.h2
 import com.saegil.learn.R
+import com.saegil.learning.learning.components.CharacterEmotion
 
 @Composable
 fun LearningScreen(
     modifier: Modifier = Modifier,
-//    state: LearingState,
-//    actions: LearingActions
-    scenarioNumber: String,
-    scenarioTitle: String,
-    content: String,
+    scenarioId: Long
 ) {
-
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -41,23 +37,23 @@ fun LearningScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "상황 $scenarioNumber",
+                text = "상황 $scenarioId",
                 style = MaterialTheme.typography.h2,
                 modifier = Modifier.padding(top = 20.dp, bottom = 14.dp)
             )
             Text(
-                text = scenarioTitle,
+                text = "scenarioTitle", //todo 수정
                 style = MaterialTheme.typography.h1,
                 color = MaterialTheme.colorScheme.primary
             )
 
             SaegilCharacter(
                 modifier = Modifier.padding(top = 117.dp),
-                charactorEmotion = SaegilCharactor.NORMAL
+                characterEmotion = CharacterEmotion.NORMAL
             )
 
             Text(
-                text = content,
+                text = "content", //Todo 수정
                 style = MaterialTheme.typography.h2,
                 modifier = Modifier.padding(top = 30.dp),
                 textAlign = TextAlign.Center
@@ -71,11 +67,11 @@ fun LearningScreen(
 @Composable
 fun SaegilCharacter(
     modifier: Modifier,
-    charactorEmotion: SaegilCharactor
+    characterEmotion: CharacterEmotion
 ) {
     Image(
         modifier= modifier.size(134.dp),
-        painter = painterResource(id = charactorEmotion.img),
+        painter = painterResource(id = characterEmotion.img),
         contentDescription = "새길 캐릭터 이미지"
     )
 }
@@ -92,16 +88,9 @@ fun RecordButton(modifier: Modifier) {
 @Composable
 @Preview(name = "Learning")
 private fun LearningScreenPreview() {
-
     SaegilAndroidTheme {
         Surface {
-            LearningScreen(
-                modifier = Modifier,
-                scenarioNumber = "1",
-                scenarioTitle = "새로운 친구를 사귈 때",
-                content = "안녕하세요. 처음 뵙겠습니다.\n" +
-                        "이름이 어떻게 되세요?"
-            )
+            LearningScreen(scenarioId = 1)
         }
     }
 }
