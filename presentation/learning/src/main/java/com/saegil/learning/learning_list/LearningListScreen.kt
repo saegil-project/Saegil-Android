@@ -23,7 +23,7 @@ import com.saegil.learning.learning_list.components.ScenarioItem
 @Composable
 fun LearningListScreen(
     modifier: Modifier = Modifier,
-    onScenarioClick: (Int) -> Unit = {},
+    onScenarioClick: (Long) -> Unit = {},
     viewModel: LearningListViewModel = hiltViewModel(),
 ) {
     val learningListState by viewModel.learningListUiState.collectAsStateWithLifecycle()
@@ -39,7 +39,7 @@ fun LearningListScreen(
 internal fun LearningListScreen(
     learningListState: LearningListUiState,
     modifier: Modifier = Modifier,
-    onScenarioClick: (Int) -> Unit = {}
+    onScenarioClick: (Long) -> Unit = {},
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -53,9 +53,8 @@ internal fun LearningListScreen(
 
         when (learningListState) {
             is LearningListUiState.Loading -> {
-
+                // TODO: Show loading state
             }
-
             is LearningListUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -65,7 +64,7 @@ internal fun LearningListScreen(
                     items(learningListState.organizationList) { item ->
                         ScenarioItem(
                             item = item,
-                            onClick = { onScenarioClick(item.id.toInt()) }
+                            onClick = { onScenarioClick(item.id) }
                         )
                     }
                 }
