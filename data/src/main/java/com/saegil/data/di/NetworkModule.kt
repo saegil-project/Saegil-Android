@@ -4,6 +4,8 @@ import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
+import com.saegil.data.remote.ScenarioService
+import com.saegil.data.remote.ScenarioServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,5 +49,11 @@ object NetworkModule {
     @Singleton
     fun provideMapService(client: HttpClient): MapService {
         return MapServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideScenarioService(client: HttpClient): ScenarioService {
+        return ScenarioServiceImpl(client)
     }
 }
