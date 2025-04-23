@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.domain.model.Scenario
-import com.saegil.learning.learning_list.components.SimulationItem
+import com.saegil.learning.learning_list.components.ScenarioItem
 
 @Composable
 fun LearningListScreen(
@@ -55,7 +55,7 @@ internal fun LearningListScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(items) { item ->
-                SimulationItem(
+                ScenarioItem(
                     item = item,
                     onClick = { onScenarioClick(item.id.toInt()) }
                 )

@@ -25,7 +25,7 @@ import com.saegil.designsystem.theme.h3
 import com.saegil.domain.model.Scenario
 
 @Composable
-fun SimulationItem(item: Scenario, onClick: () -> Unit) {
+fun ScenarioItem(item: Scenario, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
