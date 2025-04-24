@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.h1
 import com.saegil.designsystem.theme.h2
+import com.saegil.designsystem.theme.h3
 import com.saegil.learn.R
 import com.saegil.learning.learning.components.CharacterEmotion
 
@@ -38,7 +39,7 @@ fun LearningScreen(
         ) {
             Text(
                 text = "상황 $scenarioId",
-                style = MaterialTheme.typography.h2,
+                style = MaterialTheme.typography.h3,
                 modifier = Modifier.padding(top = 20.dp, bottom = 14.dp)
             )
             Text(
