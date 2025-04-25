@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.saegil.designsystem.R
 import com.saegil.designsystem.theme.SaegilAndroidTheme
-import com.saegil.designsystem.theme.body
+import com.saegil.designsystem.theme.body1
 import com.saegil.designsystem.theme.h1
 import com.saegil.designsystem.theme.h2
 import com.saegil.designsystem.theme.h3
@@ -89,7 +89,7 @@ fun SaegilDialog(
                 description?.let {
                     Text(
                         text = description,
-                        style = MaterialTheme.typography.body,
+                        style = MaterialTheme.typography.body1,
                         fontSize = 12.sp,
                         modifier = Modifier
                             .padding(
