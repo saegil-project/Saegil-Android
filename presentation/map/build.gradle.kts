@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.foundation.layout.android)
 
     //hilt
     implementation(libs.hilt.android)
@@ -67,6 +69,8 @@ dependencies {
     implementation(libs.naver.map.location)
     implementation(libs.play.services.location)
     implementation(libs.google.accompanist.permissions)
+
+    implementation(libs.timber)
 
 
     implementation(project(":core:designsystem"))
