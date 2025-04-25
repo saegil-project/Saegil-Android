@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.designsystem.component.SaegilDialog
 import com.saegil.notice.notice.component.SearchToolBar
 import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
@@ -231,3 +232,4 @@ private fun AnnouncementScreenPreview() {
         }
     }
 }
+
