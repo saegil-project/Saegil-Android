@@ -12,23 +12,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.saegil.designsystem.theme.SaegilAndroidTheme
-import com.saegil.domain.model.Simulation
-import com.saegil.learning.learning_list.components.SimulationItem
+import com.saegil.domain.model.Scenario
+import com.saegil.learning.learning_list.components.ScenarioItem
 
 @Composable
 fun LearningListScreen(
-    modifier: Modifier = Modifier
-//    state: LearningState,
-//    actions: LearningActions
+    modifier: Modifier = Modifier,
+    onScenarioClick: (Int) -> Unit = {}
 ) {
     val items = listOf(
-        Simulation(
+        Scenario(
             id = 1,
             name = "이름",
             iconImageUrl = "https://avatars.githubusercontent.com/u/171667914?s=48&v=4"
-
         ),
-        Simulation(
+        Scenario(
             id = 2,
             name = "이름2",
             iconImageUrl = "https://avatars.githubusercontent.com/u/171667914?s=48&v=4"
@@ -36,36 +34,35 @@ fun LearningListScreen(
     )
     LearningListScreen(
         items = items,
-        modifier = modifier
+        modifier = modifier,
+        onScenarioClick = onScenarioClick
     )
 }
 
-
 @Composable
 internal fun LearningListScreen(
-    items: List<Simulation>,
-    modifier: Modifier = Modifier
+    items: List<Scenario>,
+    modifier: Modifier = Modifier,
+    onScenarioClick: (Int) -> Unit = {}
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
-
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(36.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-
             items(items) { item ->
-                SimulationItem(item)
+                ScenarioItem(
+                    item = item,
+                    onClick = { onScenarioClick(item.id.toInt()) }
+                )
             }
         }
     }
-
 }
-
-
 
 @Composable
 @Preview(name = "Learning")

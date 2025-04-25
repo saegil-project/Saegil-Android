@@ -1,5 +1,6 @@
 package com.saegil.learning.learning_list.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,14 +22,15 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.saegil.designsystem.theme.h3
-import com.saegil.domain.model.Simulation
+import com.saegil.domain.model.Scenario
 
 @Composable
-fun SimulationItem(item: Simulation) {
+fun ScenarioItem(item: Scenario, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(72.dp),
+            .height(72.dp)
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
 

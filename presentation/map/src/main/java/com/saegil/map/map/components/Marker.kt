@@ -10,7 +10,7 @@ import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.overlay.OverlayImage
-import com.saegil.map.R
+import com.saegil.designsystem.R
 
 
 @OptIn(ExperimentalNaverMapApi::class)
