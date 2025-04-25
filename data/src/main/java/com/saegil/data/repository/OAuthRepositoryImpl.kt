@@ -1,5 +1,6 @@
 package com.saegil.data.repository
 
+import android.util.Log
 import com.saegil.data.local.TokenDao
 import com.saegil.data.model.TokenEntityDto
 import com.saegil.data.remote.OAuthService
@@ -14,15 +15,14 @@ class OAuthRepositoryImpl @Inject constructor(
 
     override suspend fun loginWithKakao(authCode: String): Boolean {
         return try {
+            Log.d("경로", "레포지터리")
             val response = oAuthService.loginWithKakao(authCode)
-            tokenDao.insertToken(
-                TokenEntityDto(
-                    accessToken = response.accessToken,
-                    refreshToken = response.refreshToken
-                )
-            )
+            Log.d("경로", "서비스")
+            tokenDao.insertToken(response)
+            Log.d("테스트토큰", "나오나")
             true
         } catch (e: Exception) {
+            Log.d("테스트토큰", e.toString())
             false
         }
     }

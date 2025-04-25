@@ -13,4 +13,5 @@ object HttpRoutes {
     const val OAUTH_LOGIN = "$BASE_URL/api/v1/oauth2/login/KAKAO"
 
     const val OAUTH_VALIDATE_TOKEN = "$BASE_URL/api/v1/oauth2/validate-token"
+
 }

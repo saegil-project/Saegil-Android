@@ -46,6 +46,7 @@ kotlinSerialization = "2.0.0"
 browser = "1.8.0"
 kakao = "2.21.1"
 roomCommonJvmVersion = "2.7.0"
+media3CommonKtxVersion = "1.6.1"
 
 [libraries]
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
@@ -99,6 +100,7 @@ androidx-browser = { group = "androidx.browser", name = "browser", version.ref =
 kakao-v2-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao" }
 kakao-v2-all = { module = "com.kakao.sdk:v2-all", version.ref = "kakao" }
 androidx-room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvmVersion" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtxVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

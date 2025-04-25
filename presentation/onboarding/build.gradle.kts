@@ -13,14 +13,15 @@ properties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace = "com.saegil.onboarding"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "NATIVE_APP_KEY", "\"${properties.getProperty("kakao_native_app_key")}\"")
+        buildConfigField("String", "BASE_URL", "\"${properties.getProperty("base_url")}\"")
     }
 
     buildTypes {

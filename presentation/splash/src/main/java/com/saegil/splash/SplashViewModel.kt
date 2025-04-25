@@ -1,5 +1,6 @@
 package com.saegil.splash
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saegil.domain.usecase.GetAccessTokenUseCase
@@ -25,6 +26,7 @@ class SplashViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val loginUiState: StateFlow<LoginState> = getAccessTokenUseCase()
         .flatMapLatest { token ->
+            Log.d("토큰", "$token")
             token?.let {
                 isAccessTokenValidUseCase(token)
                     .map { isValid ->

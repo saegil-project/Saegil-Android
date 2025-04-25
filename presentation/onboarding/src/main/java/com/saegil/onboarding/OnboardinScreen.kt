@@ -44,12 +44,11 @@ fun OnboardingScreen(
     val context = LocalContext.current
     val loginState by viewModel.loginUiState.collectAsStateWithLifecycle()
     val pagerState = rememberPagerState(pageCount = { OnboardingPage.pages.size })
-
     OnboardingScreen(
         pagerState = pagerState,
         loginState = loginState,
         context = context,
-        loginWithKakaoToken = viewModel::loginWithKakaoToken,
+        loginWithKakaoAuthorizationCode = viewModel::loginWithKakaoAuthorizationCode,
         navigateToMain = navigateToMain,
         modifier = modifier,
     )
@@ -60,7 +59,7 @@ internal fun OnboardingScreen(
     pagerState: PagerState,
     loginState: OnboardingState,
     context: Context,
-    loginWithKakaoToken: (String) -> Unit,
+    loginWithKakaoAuthorizationCode: (String) -> Unit,
     navigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -121,11 +120,19 @@ internal fun OnboardingScreen(
                                             return@loginWithKakaoTalk
                                         }
                                     }
-                                    token?.let { loginWithKakaoToken(token.accessToken) }
+                                    token?.let {
+                                        loginWithKakaoAuthorizationCode(token.accessToken)
+                                    }
                                 }
                             } else {
-                                UserApiClient.instance.loginWithKakaoAccount(context) { token, _ ->
-                                    token?.let { loginWithKakaoToken(token.accessToken) }
+                                UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+
+                                    error?.let {
+                                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                                            return@loginWithKakaoAccount
+                                        }
+                                    }
+                                    token?.let { loginWithKakaoAuthorizationCode(token.accessToken) }
                                 }
                             }
                         },
