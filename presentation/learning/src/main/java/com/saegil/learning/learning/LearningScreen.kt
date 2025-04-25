@@ -16,11 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.saegil.designsystem.R
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.h1
 import com.saegil.designsystem.theme.h2
 import com.saegil.designsystem.theme.h3
-import com.saegil.learn.R
 import com.saegil.learning.learning.components.CharacterEmotion
 
 @Composable

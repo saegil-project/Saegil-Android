@@ -1,6 +1,6 @@
 package com.saegil.learning.learning.components
 
-import com.saegil.learn.R
+import com.saegil.designsystem.R
 
 enum class CharacterEmotion(val img: Int) {
     NORMAL(R.drawable.img_normal),
