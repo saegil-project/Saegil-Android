@@ -4,7 +4,7 @@ accompanistPermissionsVersion = "0.37.2"
 agp = "8.7.3"
 compiler = "1.5.15"
 kotlin = "2.1.0"
-coreKtx = "1.15.0"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -18,10 +18,11 @@ ktorClientSerialization = "1.6.3"
 ktorSerializationKotlinxJson = "2.3.5"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2025.03.00"
+composeBom = "2025.04.01"
 appcompat = "1.7.0"
 material = "1.12.0"
 jetbrainsKotlinJvm = "2.0.0"
+material3Version = "1.3.2"
 navigationCompose = "2.8.9"
 mapSdk = "3.21.0"
 naverMapCompose = "1.3.0"
@@ -33,7 +34,7 @@ hilt = "2.53.1"
 hiltAndroid = "2.53.1"
 ksp = "2.1.0-1.0.29"
 hiltNavigation = "1.2.0"
-roomRuntime = "2.6.1"
+roomRuntime = "2.7.1"
 coilCompose = "3.1.0"
 coilNetworkOkhttp = "3.1.0"
 runtimeAndroid = "1.7.8"
@@ -41,14 +42,16 @@ timberVersion = "5.0.1"
 ui = "1.7.8"
 uiToolingPreviewAndroid = "1.7.8"
 secretsGradlePlugin = "2.0.1"
-material3Android = "1.3.1"
+material3Android = "1.3.2"
 firebaseCrashlyticsBuildtools = "3.0.3"
 kotlinSerialization = "2.0.0"
 browser = "1.8.0"
+uiToolingVersion = "1.8.0"
 
 [libraries]
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
+androidx-compose-ui-ui = { module = "androidx.compose.ui:ui" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
@@ -88,6 +91,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 map-sdk = { module = "com.naver.maps:map-sdk", version.ref = "mapSdk" }
+material3 = { module = "androidx.compose.material3:material3", version.ref = "material3Version" }
 naver-map-compose = { module = "io.github.fornewid:naver-map-compose", version.ref = "naverMapCompose" }
 naver-map-location = { module = "io.github.fornewid:naver-map-location", version.ref = "naverMapLocation" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
@@ -96,6 +100,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersio
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiToolingVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

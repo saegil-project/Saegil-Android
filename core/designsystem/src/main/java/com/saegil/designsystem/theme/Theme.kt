@@ -22,11 +22,12 @@ private val LightColorScheme = lightColorScheme(
     onBackground = TextBlack,
 
     surface = BackgroundGray,
+    surfaceDim = lightGray,
     onSurface = TextBlack,
     onSurfaceVariant = TextGray,
 
     scrim = DisabledGray,
-    outline = DisabledGray
+    outline = DisabledGray,
 )
 
 @Composable
