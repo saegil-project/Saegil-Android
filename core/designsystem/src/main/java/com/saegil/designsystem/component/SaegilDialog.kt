@@ -166,9 +166,7 @@ fun DialogPreview() {
             positiveButtonText = "취소",
             title = "회원탈퇴",
             subTitle = "정말 탈퇴하시겠습니까?",
-            description = "서비스 탈퇴 시 회원님의 계정 및\n" +
-                    "지금까지 진행한 학습 대화 내역은\n" +
-                    "즉시 삭제되며, 복구되지 않습니다.",
+            description = "서비스 탈퇴 시 회원님의 계정 및 지금까지 진행한 학습 대화 내역은 즉시 삭제되며, 복구되지 않습니다.",
             negativeButtonText = "회원탈퇴"
         )
     }
@@ -183,8 +181,8 @@ fun LogoDialogPreview() {
             onPositiveButtonClicked = {},
             positiveButtonText = "홈으로 돌아가기",
             subTitle = "회원탈퇴가 완료되었습니다.",
-            description = "새길 서비스에서의 경험을 바탕으로\n" +
-                    "한국에서의 멋진 ‘새길’을 걸어가시길\n응원합니다 :)",
+            description = "새길 서비스에서의 경험을 바탕으로" +
+                    "한국에서의 멋진 ‘새길’을 걸어가시길 응원합니다 :)",
         )
     }
 }
@@ -198,8 +196,7 @@ fun LogoutDialogPreview() {
             onPositiveButtonClicked = {},
             positiveButtonText = "취소",
             title = "로그아웃",
-            description = "정말 로그아웃하시겠습니까?\n" +
-                    "기존 학습 대화 내역은 보관됩니다.",
+            description = "정말 로그아웃하시겠습니까? 기존 학습 대화 내역은 보관됩니다.",
             negativeButtonText = "로그아웃"
         )
     }
