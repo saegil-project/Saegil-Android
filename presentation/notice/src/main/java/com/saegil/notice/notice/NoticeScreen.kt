@@ -20,9 +20,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
@@ -43,8 +46,8 @@ import com.saegil.notice.notice.component.SearchToolBar
 
 @Composable
 fun NoticeScreen(
-    viewModel: NoticeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    viewModel: NoticeViewModel = hiltViewModel(),
 ) {
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
@@ -74,24 +77,32 @@ internal fun NoticeScreen(
     selectedIndex: Int?,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .padding(horizontal = 25.dp)
-    ) {
-        SearchToolBar(
-            searchQuery = searchQuery,
-            onSearchTriggered = onSearchTriggered,
-        )
-        SourceFilterChips(
-            onChipSelect = onChipSelect,
-            selectedIndex = selectedIndex,
-            modifier = Modifier
-        )
-        when (feedState) {
-            Loading -> LoadingState()
-            is Success -> NoticesList(
-                feedResource = feedResource,
+    Surface {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 25.dp)
+        ) {
+            SaegilTitleText(
+                "공지사항",
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+
+            SearchToolBar(
+                searchQuery = searchQuery,
+                onSearchTriggered = onSearchTriggered,
+            )
+            SourceFilterChips(
+                onChipSelect = onChipSelect,
+                selectedIndex = selectedIndex,
+                modifier = Modifier
+            )
+            when (feedState) {
+                Loading -> LoadingState()
+                is Success -> NoticesList(
+                    feedResource = feedResource,
+                )
+            }
         }
     }
 }
@@ -224,12 +235,7 @@ fun openCustomTab(context: Context, url: String) =
 @Preview(apiLevel = 33)
 private fun AnnouncementScreenPreview() {
     SaegilAndroidTheme {
-        LazyColumn(
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-        ) {
-
-        }
+        NoticeScreen()
     }
 }
 

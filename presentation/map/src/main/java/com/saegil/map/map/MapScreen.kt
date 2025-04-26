@@ -1,13 +1,16 @@
 package com.saegil.map.map
 
 import android.Manifest
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +29,7 @@ import com.naver.maps.map.compose.LocationTrackingMode
 import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
+import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.domain.model.Organization
 import com.saegil.map.map.components.OrganizationBottomSheet
 import com.saegil.map.map.components.SelectedMarker
@@ -70,7 +74,7 @@ internal fun MapScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val fusedLocationClient = remember { 
+    val fusedLocationClient = remember {
         LocationServices.getFusedLocationProviderClient(context)
     }
 
@@ -101,45 +105,57 @@ internal fun MapScreen(
         }
     }
 
-    NaverMap(
+    Surface(
         modifier = modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState,
-        properties = MapProperties(
-            locationTrackingMode = LocationTrackingMode.Follow,
-        )
     ) {
-        when (mapState) {
-            is MapUiState.Success -> {
-                mapState.organizationList.forEach { organization ->
-                    if (organization != selectedOrganization) {
-                        UnselectedMarker(
-                            position = LatLng(
-                                organization.latitude,
-                                organization.longitude
-                            ),
-                            captionText = organization.name,
-                            onClick = {
-                                onOrganizationSelected(organization)
-                                true
+        Column {
+            SaegilTitleText(
+                "지도",
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+
+            NaverMap(
+                modifier = Modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState,
+                properties = MapProperties(
+                    locationTrackingMode = LocationTrackingMode.Follow,
+                )
+            ) {
+                when (mapState) {
+                    is MapUiState.Success -> {
+                        mapState.organizationList.forEach { organization ->
+                            if (organization != selectedOrganization) {
+                                UnselectedMarker(
+                                    position = LatLng(
+                                        organization.latitude,
+                                        organization.longitude
+                                    ),
+                                    captionText = organization.name,
+                                    onClick = {
+                                        onOrganizationSelected(organization)
+                                        true
+                                    }
+                                )
+                            } else {
+                                SelectedMarker(
+                                    position = LatLng(
+                                        organization.latitude,
+                                        organization.longitude
+                                    ),
+                                    captionText = organization.name,
+                                    onClick = {
+                                        Timber.d("Selected marker: ${organization.name} ${organization.address}")
+                                        onOrganizationSelected(organization)
+                                        true
+                                    }
+                                )
                             }
-                        )
-                    } else {
-                        SelectedMarker(
-                            position = LatLng(
-                                organization.latitude,
-                                organization.longitude
-                            ),
-                            captionText = organization.name,
-                            onClick = {
-                                Timber.d("Selected marker: ${organization.name} ${organization.address}")
-                                onOrganizationSelected(organization)
-                                true
-                            }
-                        )
+                        }
                     }
+
+                    else -> {}
                 }
             }
-            else -> {}
         }
     }
 
