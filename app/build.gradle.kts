@@ -27,6 +27,10 @@ android {
         manifestPlaceholders["NAVER_CLIENT_ID"] = properties.getProperty("naver_client_id")
         manifestPlaceholders["NATIVE_APP_KEY"] = properties.getProperty("kakao_native_app_key")
         buildConfigField("String", "NATIVE_APP_KEY", "\"${properties["kakao_native_app_key"]}\"")
+
+        // JDK 11+에서만 필요
+        multiDexEnabled = true
+        manifestPlaceholders["jvmArgs"] = "-XX:-UseSplitVerifier"
     }
 
     buildTypes {
@@ -81,13 +85,11 @@ dependencies {
     ksp(libs.androidx.room.room.compiler)
     implementation(libs.androidx.room.ktx) // Kotlin Extensions and Coroutines support for Room
 
-    //Coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
+    // Timber for logging
+    implementation(libs.timber)
 
     //모듈 의존
     implementation(project(":domain"))
-//    implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(project(":core:designsystem"))
 

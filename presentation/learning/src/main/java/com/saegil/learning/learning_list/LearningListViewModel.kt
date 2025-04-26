@@ -1,4 +1,4 @@
-package com.saegil.learning.learning
+package com.saegil.learning.learning_list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -13,11 +13,11 @@ class LearningViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<LearingState> = MutableStateFlow(LearingState())
+    private val _stateFlow: MutableStateFlow<LearningState> = MutableStateFlow(LearningState())
 
-    val stateFlow: StateFlow<LearingState> = _stateFlow.asStateFlow()
+    val stateFlow: StateFlow<LearningState> = _stateFlow.asStateFlow()
 
 
 }
 
-class LearingState
+class LearningState

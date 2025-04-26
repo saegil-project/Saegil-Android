@@ -21,7 +21,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import com.saegil.notice.notice.NoticeUiState.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -32,13 +31,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.saegil.notice.notice.component.SearchToolBar
 import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
-import com.saegil.designsystem.theme.body
+import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.caption
 import com.saegil.designsystem.theme.h1
 import com.saegil.domain.model.Notice
+import com.saegil.notice.notice.NoticeUiState.Loading
+import com.saegil.notice.notice.NoticeUiState.Success
+import com.saegil.notice.notice.component.SearchToolBar
 
 @Composable
 fun NoticeScreen(
@@ -180,7 +181,7 @@ fun LazyListScope.newsFeed(
                             ) {
                                 Text(
                                     text = it.content,
-                                    style = MaterialTheme.typography.body,
+                                    style = MaterialTheme.typography.body2,
                                 )
                             }
                         },
@@ -239,3 +240,4 @@ private fun AnnouncementScreenPreview() {
         }
     }
 }
+
