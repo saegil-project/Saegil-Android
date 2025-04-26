@@ -19,21 +19,25 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         composable(Screen.Learning.route) {
             LearningListScreen(
                 modifier = modifier,
-                onScenarioClick = { scenarioId ->
-                    navController.navigate("${Screen.Learning.route}/$scenarioId")
+                onScenarioClick = { scenarioId, scenarioName ->
+                    navController.navigate("${Screen.Learning.route}/$scenarioId/$scenarioName")
                 }
             )
         }
         composable(
-            route = "${Screen.Learning.route}/{scenarioId}",
+            route = "${Screen.Learning.route}/{scenarioId}/{scenarioName}",
             arguments = listOf(
-                navArgument("scenarioId") { type = NavType.LongType }
+                navArgument("scenarioId") { type = NavType.LongType },
+                navArgument("scenarioName") { type = NavType.StringType },
+
             )
         ) { backStackEntry ->
             val scenarioId = backStackEntry.arguments?.getLong("scenarioId") ?: 0
+            val scenarioName = backStackEntry.arguments?.getString("scenarioName") ?: ""
             LearningScreen(
                 modifier = modifier,
-                scenarioId = scenarioId
+                scenarioId = scenarioId,
+                scenarioName = scenarioName
             )
         }
         composable(Screen.Announcement.route) {

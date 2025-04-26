@@ -26,7 +26,8 @@ import com.saegil.learning.learning.components.CharacterEmotion
 @Composable
 fun LearningScreen(
     modifier: Modifier = Modifier,
-    scenarioId: Long
+    scenarioId: Long,
+    scenarioName: String = ""
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -43,7 +44,7 @@ fun LearningScreen(
                 modifier = Modifier.padding(top = 20.dp, bottom = 14.dp)
             )
             Text(
-                text = "scenarioTitle", //todo 수정
+                text = scenarioName,
                 style = MaterialTheme.typography.h1,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -91,7 +92,10 @@ fun RecordButton(modifier: Modifier) {
 private fun LearningScreenPreview() {
     SaegilAndroidTheme {
         Surface {
-            LearningScreen(scenarioId = 1)
+            LearningScreen(
+                scenarioId = 1,
+                scenarioName = "새로운 친구를 사귈 때"
+            )
         }
     }
 }
