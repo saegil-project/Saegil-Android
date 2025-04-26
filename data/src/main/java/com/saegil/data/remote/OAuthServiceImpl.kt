@@ -24,7 +24,7 @@ class OAuthServiceImpl @Inject constructor(
     override suspend fun loginWithKakao(authCode: String): TokenEntityDto {
         val response = client.post(OAUTH_LOGIN) {
             contentType(ContentType.Application.Json)
-            setBody(mapOf("authorizationCode" to authCode))
+            setBody(mapOf("accessToken" to authCode))
         }
         val json = response.body<JsonObject>()
         return TokenEntityDto(
