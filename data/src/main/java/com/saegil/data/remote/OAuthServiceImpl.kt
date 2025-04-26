@@ -35,7 +35,7 @@ class OAuthServiceImpl @Inject constructor(
 
     override suspend fun validateAccessToken(accessToken: String): ValidateTokenResponse {
         return client.get(OAUTH_VALIDATE_TOKEN) {
-            header(HttpHeaders.Authorization, "Bearer $accessToken")
+            header(HttpHeaders.Authorization, accessToken)
         }.body()
     }
 }
