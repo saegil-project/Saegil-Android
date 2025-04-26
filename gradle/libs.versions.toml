@@ -1,4 +1,5 @@
 [versions]
+datastorePreferencesVersion = "1.0.0"
 foundationLayoutAndroid = "1.5.0"
 accompanistPermissionsVersion = "0.37.2"
 agp = "8.7.3"
@@ -53,6 +54,8 @@ roomCommonJvmVersion = "2.7.0"
 media3CommonKtxVersion = "1.6.1"
 
 [libraries]
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastorePreferencesVersion" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesVersion" }
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
 androidx-compose-ui-ui = { module = "androidx.compose.ui:ui" }

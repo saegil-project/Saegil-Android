@@ -1,6 +1,8 @@
 package com.saegil.data.di
 
-import com.saegil.data.local.TokenDao
+import android.content.Context
+import com.saegil.data.local.TokenDataSource
+import com.saegil.data.local.TokenDataSourceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.OAuthService
@@ -13,6 +15,7 @@ import com.saegil.domain.repository.OAuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -34,11 +37,17 @@ object DataModule {
 
     @Provides
     @Singleton
+    fun provideTokenDataSource(@ApplicationContext context: Context): TokenDataSource {
+        return TokenDataSourceImpl(context)
+    }
+
+    @Provides
+    @Singleton
     fun provideOAuthRepository(
         oAuthService: OAuthService,
-        tokenDao: TokenDao
+        tokenDataSource: TokenDataSource
     ): OAuthRepository {
-        return OAuthRepositoryImpl(oAuthService, tokenDao)
+        return OAuthRepositoryImpl(oAuthService, tokenDataSource)
     }
 
 }
