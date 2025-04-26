@@ -6,12 +6,15 @@ import com.saegil.data.local.TokenDataSourceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.OAuthService
+import com.saegil.data.remote.ScenarioService
 import com.saegil.data.repository.FeedRepositoryImpl
 import com.saegil.data.repository.MapRepositoryImpl
 import com.saegil.data.repository.OAuthRepositoryImpl
+import com.saegil.data.repository.ScenarioRepositoryImpl
 import com.saegil.domain.repository.FeedRepository
 import com.saegil.domain.repository.MapRepository
 import com.saegil.domain.repository.OAuthRepository
+import com.saegil.domain.repository.ScenarioRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,4 +53,10 @@ object DataModule {
         return OAuthRepositoryImpl(oAuthService, tokenDataSource)
     }
 
+
+    @Provides
+    @Singleton
+    fun provideScenarioRepository(scenarioService: ScenarioService): ScenarioRepository {
+        return ScenarioRepositoryImpl(scenarioService)
+    }
 }
