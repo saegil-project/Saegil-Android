@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.stateIn
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     getAccessTokenUseCase: GetAccessTokenUseCase,
-    private val isAccessTokenValidUseCase: IsAccessTokenValidUseCase
+    isAccessTokenValidUseCase: IsAccessTokenValidUseCase
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
