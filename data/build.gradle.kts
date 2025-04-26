@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.protobuf)
 }
 
 val properties = Properties()
@@ -13,7 +14,7 @@ properties.load(FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace = "com.saegil.data"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -41,6 +42,29 @@ android {
     }
     buildFeatures {
         buildConfig = true
+    }
+    sourceSets {
+        getByName("main") {
+            java.srcDirs(
+                "build/generated/source/proto/main/java",
+                "build/generated/source/proto/main/kotlin"
+            )
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.29.2"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
     }
 }
 
@@ -72,6 +96,12 @@ dependencies {
     //Paging
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
+
+    implementation(libs.kakao.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
+
+    //Preferences DataStore/Proto
+    implementation(libs.androidx.datastore)
+    implementation(libs.protobuf.javalite)
 
     implementation(project(":domain"))//클린아키텍처 도메인 의존
 }

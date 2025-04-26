@@ -54,6 +54,7 @@ fun NoticeScreen(
     val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
     val selectedIndex by viewModel.organization.collectAsStateWithLifecycle()
     val searchQuery by viewModel.query.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     NoticeScreen(
         feedState = feedState,
@@ -62,6 +63,7 @@ fun NoticeScreen(
         searchQuery = searchQuery,
         onSearchTriggered = viewModel::onSearchTriggered,
         selectedIndex = selectedIndex?.toInt(),
+        context = context,
         modifier = modifier
     )
 
@@ -75,6 +77,7 @@ internal fun NoticeScreen(
     searchQuery: String,
     onSearchTriggered: (String) -> Unit,
     selectedIndex: Int?,
+    context : Context,
     modifier: Modifier = Modifier,
 ) {
     Surface {
@@ -101,6 +104,7 @@ internal fun NoticeScreen(
                 Loading -> LoadingState()
                 is Success -> NoticesList(
                     feedResource = feedResource,
+                    context = context
                 )
             }
         }
@@ -157,24 +161,28 @@ fun SaegilLoadingWheel(
 private fun NoticesList(
     feedResource: LazyPagingItems<Notice>?,
     modifier: Modifier = Modifier,
+    context : Context,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
     ) {
         LazyColumn {
-            newsFeed(feedResource)
+            newsFeed(
+                feedResource = feedResource,
+                context = context
+            )
         }
     }
 }
 
 fun LazyListScope.newsFeed(
-    feedResource: LazyPagingItems<Notice>?
+    feedResource: LazyPagingItems<Notice>?,
+    context : Context,
 ) {
     feedResource?.let {
         items(feedResource.itemCount) { index ->
             val feed = feedResource[index]
-            val context = LocalContext.current
             feed?.let {
                 Column {
                     ListItem(

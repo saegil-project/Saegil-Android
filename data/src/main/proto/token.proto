@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.example.app.data.proto";
+option java_multiple_files = true;
+
+message TokenProto {
+  string access_token = 1;
+  string refresh_token = 2;
+}

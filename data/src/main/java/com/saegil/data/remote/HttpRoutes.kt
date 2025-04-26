@@ -10,6 +10,10 @@ object HttpRoutes {
 
     const val ORGANIZATION = "$BASE_URL/api/v1/organizations/nearby" //근처 기관 조회
 
+    const val OAUTH_LOGIN = "$BASE_URL/api/v1/oauth2/login/KAKAO"
+
+    const val OAUTH_VALIDATE_TOKEN = "$BASE_URL/api/v1/oauth2/validate-token"
+
     const val SCENARIO = "$BASE_URL/api/v1/scenarios" //시뮬레이션 상황 목록 조회
 
 }

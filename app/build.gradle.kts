@@ -25,6 +25,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["NAVER_CLIENT_ID"] = properties.getProperty("naver_client_id")
+        manifestPlaceholders["NATIVE_APP_KEY"] = properties.getProperty("kakao_native_app_key")
+        buildConfigField("String", "NATIVE_APP_KEY", "\"${properties["kakao_native_app_key"]}\"")
 
         // JDK 11+에서만 필요
         multiDexEnabled = true
@@ -49,6 +51,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -77,11 +80,6 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
-    //Room
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.room.compiler)
-    implementation(libs.androidx.room.ktx) // Kotlin Extensions and Coroutines support for Room
-
     // Timber for logging
     implementation(libs.timber)
 
@@ -94,4 +92,9 @@ dependencies {
     implementation(project(":presentation:notice"))
     implementation(project(":presentation:learning"))
     implementation(project(":presentation:mypage"))
+    implementation(project(":presentation:onboarding"))
+    implementation(project(":presentation:splash"))
+
+    implementation(libs.kakao.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation(libs.kakao.v2.user) // 카카오 로그인 API 모듈
 }
