@@ -11,9 +11,9 @@ class OAuthRepositoryImpl @Inject constructor(
     private val tokenDao: TokenDao
 ) : OAuthRepository {
 
-    override suspend fun loginWithKakao(authCode: String): Boolean {
+    override suspend fun loginWithKakao(accessToken: String): Boolean {
         return try {
-            val response = oAuthService.loginWithKakao(authCode)
+            val response = oAuthService.loginWithKakao(accessToken)
             tokenDao.insertToken(response)
             true
         } catch (e: Exception) {

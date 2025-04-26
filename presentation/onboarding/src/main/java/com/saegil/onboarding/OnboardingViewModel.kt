@@ -21,13 +21,13 @@ class OnboardingViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase
 ) : ViewModel() {
 
-    private val kakaoAuthorizationCode = MutableStateFlow<String?>(null)
+    private val kakaoAccessToken = MutableStateFlow<String?>(null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val loginUiState: StateFlow<OnboardingState> = kakaoAuthorizationCode
-        .flatMapLatest { authorizationCode ->
-            authorizationCode?.let {
-                kakaoLoginUseCase(authorizationCode)
+    val loginUiState: StateFlow<OnboardingState> = kakaoAccessToken
+        .flatMapLatest { accessToken ->
+            accessToken?.let {
+                kakaoLoginUseCase(accessToken)
                     .map { success -> if (success) Success else Failure }
                     .onStart { emit(Loading) }
             } ?: flowOf(Idle)
@@ -38,8 +38,8 @@ class OnboardingViewModel @Inject constructor(
             initialValue = Idle
         )
 
-    fun loginWithKakaoAuthorizationCode(authorizationCode: String) {
-        kakaoAuthorizationCode.value = authorizationCode
+    fun loginWithKakaokakaoAccessToken(accessToken: String) {
+        kakaoAccessToken.value = accessToken
     }
 
 }

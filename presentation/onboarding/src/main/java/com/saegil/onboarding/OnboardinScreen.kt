@@ -48,7 +48,7 @@ fun OnboardingScreen(
         pagerState = pagerState,
         loginState = loginState,
         context = context,
-        loginWithKakaoAuthorizationCode = viewModel::loginWithKakaoAuthorizationCode,
+        loginWithKakaokakaoAccessToken = viewModel::loginWithKakaokakaoAccessToken,
         navigateToMain = navigateToMain,
         modifier = modifier,
     )
@@ -59,7 +59,7 @@ internal fun OnboardingScreen(
     pagerState: PagerState,
     loginState: OnboardingState,
     context: Context,
-    loginWithKakaoAuthorizationCode: (String) -> Unit,
+    loginWithKakaokakaoAccessToken: (String) -> Unit,
     navigateToMain: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -121,7 +121,7 @@ internal fun OnboardingScreen(
                                         }
                                     }
                                     token?.let {
-                                        loginWithKakaoAuthorizationCode(token.accessToken)
+                                        loginWithKakaokakaoAccessToken(token.accessToken)
                                     }
                                 }
                             } else {
@@ -132,7 +132,7 @@ internal fun OnboardingScreen(
                                             return@loginWithKakaoAccount
                                         }
                                     }
-                                    token?.let { loginWithKakaoAuthorizationCode(token.accessToken) }
+                                    token?.let { loginWithKakaokakaoAccessToken(token.accessToken) }
                                 }
                             }
                         },

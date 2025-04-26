@@ -8,7 +8,7 @@ import javax.inject.Inject
 class KakaoLoginUseCase @Inject constructor(
     private val oAuthRepository: OAuthRepository
 ) {
-    operator fun invoke(authCode: String): Flow<Boolean> = flow {
-        emit(oAuthRepository.loginWithKakao(authCode))
+    operator fun invoke(accessToken: String): Flow<Boolean> = flow {
+        emit(oAuthRepository.loginWithKakao(accessToken))
     }
 }
