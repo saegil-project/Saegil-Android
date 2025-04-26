@@ -3,10 +3,7 @@ package com.saegil.map.map
 import android.Manifest
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -33,7 +29,7 @@ import com.naver.maps.map.compose.LocationTrackingMode
 import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
-import com.saegil.designsystem.theme.h1
+import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.domain.model.Organization
 import com.saegil.map.map.components.OrganizationBottomSheet
 import com.saegil.map.map.components.SelectedMarker
@@ -113,13 +109,9 @@ internal fun MapScreen(
         modifier = modifier.fillMaxSize(),
     ) {
         Column {
-            Text(
-                text = "지도",
-                style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .align(Alignment.CenterHorizontally),
+            SaegilTitleText(
+                "지도",
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
             NaverMap(

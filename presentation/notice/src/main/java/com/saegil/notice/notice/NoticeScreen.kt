@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
@@ -82,13 +83,9 @@ internal fun NoticeScreen(
                 .fillMaxSize()
                 .padding(horizontal = 25.dp)
         ) {
-            Text(
-                text = "공지사항",
-                style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .align(Alignment.CenterHorizontally),
+            SaegilTitleText(
+                "공지사항",
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
             SearchToolBar(
