@@ -1,5 +1,6 @@
 [versions]
 datastorePreferencesVersion = "1.0.0"
+datastoreVersion = "1.1.5"
 foundationLayoutAndroid = "1.5.0"
 accompanistPermissionsVersion = "0.37.2"
 agp = "8.7.3"
@@ -36,6 +37,7 @@ hilt = "2.53.1"
 hiltAndroid = "2.53.1"
 ksp = "2.1.0-1.0.29"
 hiltNavigation = "1.2.0"
+protobufJavaliteVersion = "4.29.2"
 roomRuntime = "2.7.1"
 coilCompose = "3.1.0"
 coilNetworkOkhttp = "3.1.0"
@@ -52,10 +54,10 @@ uiToolingVersion = "1.8.0"
 kakao = "2.21.1"
 roomCommonJvmVersion = "2.7.0"
 media3CommonKtxVersion = "1.6.1"
+protobuf-plugin = "0.9.4"
 
 [libraries]
-androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastorePreferencesVersion" }
-androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesVersion" }
+androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastoreVersion" }
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
 androidx-compose-ui-ui = { module = "androidx.compose.ui:ui" }
@@ -104,6 +106,7 @@ naver-map-compose = { module = "io.github.fornewid:naver-map-compose", version.r
 naver-map-location = { module = "io.github.fornewid:naver-map-location", version.ref = "naverMapLocation" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavaliteVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
@@ -124,3 +127,4 @@ hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf-plugin" }

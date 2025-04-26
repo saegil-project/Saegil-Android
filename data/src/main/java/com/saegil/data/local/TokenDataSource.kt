@@ -1,9 +1,9 @@
 package com.saegil.data.local
 
-import com.saegil.data.model.TokenDto
+import com.example.app.data.proto.TokenProto
 
 interface TokenDataSource {
-    suspend fun saveToken(tokenDto: TokenDto)
-    suspend fun getToken(): TokenDto
-    suspend fun clearTokens()
+    suspend fun saveToken(tokenProto: TokenProto)
+    suspend fun getToken(): TokenProto
+    suspend fun clearToken()
 }

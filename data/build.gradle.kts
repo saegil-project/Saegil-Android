@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.protobuf)
 }
 
 val properties = Properties()
@@ -42,6 +43,29 @@ android {
     buildFeatures {
         buildConfig = true
     }
+    sourceSets {
+        getByName("main") {
+            java.srcDirs(
+                "build/generated/source/proto/main/java",
+                "build/generated/source/proto/main/kotlin"
+            )
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.29.2"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -76,9 +100,9 @@ dependencies {
 
     implementation(libs.kakao.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
 
-    //Preferences DataStore
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.androidx.datastore.core)
+    //Preferences DataStore/Proto
+    implementation(libs.androidx.datastore)
+    implementation(libs.protobuf.javalite)
 
     implementation(project(":domain"))//클린아키텍처 도메인 의존
 }

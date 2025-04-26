@@ -1,5 +1,6 @@
 package com.saegil.data.repository
 
+import com.example.app.data.proto.TokenProto
 import com.saegil.data.local.TokenDataSource
 import com.saegil.data.remote.OAuthService
 import com.saegil.domain.model.Token
@@ -33,3 +34,9 @@ class OAuthRepositoryImpl @Inject constructor(
         }
     }
 }
+
+
+fun TokenProto.toDomain() = Token(
+    accessToken = this.accessToken,
+    refreshToken = this.refreshToken
+)
