@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.saegil.android.navigation.NavGraph
 import com.saegil.android.navigation.ui.BottomNavigationBar
+import com.saegil.designsystem.component.SaegilTopBar
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +36,7 @@ fun MainScreen() {
 
     Scaffold(
         topBar = {
-            com.saegil.designsystem.component.SaegilTopBar(
+            SaegilTopBar(
                 showLogo = true,
                 showBackButton = false
             )
