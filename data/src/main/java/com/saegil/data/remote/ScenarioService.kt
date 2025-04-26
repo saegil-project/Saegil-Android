@@ -4,6 +4,5 @@ import com.saegil.data.model.ScenarioDto
 
 interface ScenarioService {
 
-    suspend fun getScenarios(
-    ): List<ScenarioDto>?
+    suspend fun getScenarios(): List<ScenarioDto>?
 }

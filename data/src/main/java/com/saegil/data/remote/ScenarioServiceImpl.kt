@@ -27,7 +27,7 @@ class ScenarioServiceImpl @Inject constructor(
                 }
             }.body<List<ScenarioDto>>()
         } catch (e: Exception) {
-            Log.d("FeedService", e.toString())
+            Log.d("ScenarioService", e.toString())
             null
         }
     }
