@@ -29,6 +29,7 @@ import com.saegil.designsystem.R
 @Composable
 fun SearchToolBar(
     searchQuery: String,
+    modifier: Modifier = Modifier,
     onSearchTriggered: (String) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -63,7 +64,7 @@ fun SearchToolBar(
                 )
             }
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .focusRequester(focusRequester)
             .onKeyEvent {

@@ -27,8 +27,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
@@ -94,11 +96,15 @@ internal fun NoticeScreen(
             SearchToolBar(
                 searchQuery = searchQuery,
                 onSearchTriggered = onSearchTriggered,
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
             )
             SourceFilterChips(
                 onChipSelect = onChipSelect,
                 selectedIndex = selectedIndex,
                 modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .padding(bottom = 8.dp)
             )
             when (feedState) {
                 Loading -> LoadingState()
@@ -188,11 +194,16 @@ fun LazyListScope.newsFeed(
                     ListItem(
                         headlineContent = {
                             Box(
-                                modifier = Modifier.padding(vertical = 14.dp)
+                                modifier = Modifier.padding(
+                                    top = 12.dp,
+                                    bottom = 25.dp
+                                )
                             ) {
                                 Text(
                                     text = it.content,
                                     style = MaterialTheme.typography.body2,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                             }
                         },
@@ -202,6 +213,10 @@ fun LazyListScope.newsFeed(
                             Text(
                                 text = it.title,
                                 style = MaterialTheme.typography.h1,
+                                fontSize = 17.sp,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         },
                         supportingContent = {
@@ -228,7 +243,11 @@ fun LazyListScope.newsFeed(
                             }
                         },
                     )
-                    HorizontalDivider()
+                    HorizontalDivider(
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.08f)
+                    )
                 }
             }
         }
@@ -243,7 +262,6 @@ fun openCustomTab(context: Context, url: String) =
 @Preview(apiLevel = 33)
 private fun AnnouncementScreenPreview() {
     SaegilAndroidTheme {
-        NoticeScreen()
     }
 }
 
