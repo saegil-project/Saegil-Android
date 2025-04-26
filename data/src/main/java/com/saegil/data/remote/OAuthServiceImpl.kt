@@ -1,6 +1,6 @@
 package com.saegil.data.remote
 
-import com.saegil.data.model.TokenEntityDto
+import com.saegil.data.model.TokenDto
 import com.saegil.data.model.ValidateTokenResponse
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGIN
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
@@ -21,13 +21,13 @@ class OAuthServiceImpl @Inject constructor(
     private val client: HttpClient
 ) : OAuthService {
 
-    override suspend fun loginWithKakao(accessToken: String): TokenEntityDto {
+    override suspend fun loginWithKakao(accessToken: String): TokenDto {
         val response = client.post(OAUTH_LOGIN) {
             contentType(ContentType.Application.Json)
             setBody(mapOf("accessToken" to accessToken))
         }
         val json = response.body<JsonObject>()
-        return TokenEntityDto(
+        return TokenDto(
             accessToken = json["accessToken"]!!.jsonPrimitive.content,
             refreshToken = json["refreshToken"]!!.jsonPrimitive.content
         )
