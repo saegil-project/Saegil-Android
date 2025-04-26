@@ -4,12 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -24,60 +21,53 @@ import com.saegil.designsystem.R
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.h1
 
-@Composable
-fun LogoTitleTopBar(
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_saegil_logo),
-            contentDescription = "앱 로고",
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .size(54.dp)
-        )
-        Text(
-            title,
-            style = MaterialTheme.typography.h1,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(top = 20.dp, bottom = 8.dp)
-        )
-    }
-}
 
 @Composable
-fun BackTitleTopBar(
+fun SaegilTopBar(
+    showLogo: Boolean,
+    showBackButton: Boolean,
+    modifier: Modifier = Modifier,
     title: String = "",
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit = {},
 ) {
     Box(
-        Modifier
+        modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
             .size(70.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (title.isNotEmpty()) {
+
+        title.let {
             Text(
                 text = title,
                 style = MaterialTheme.typography.h1,
                 color = MaterialTheme.colorScheme.primary,
             )
         }
-        IconButton(
-            onClick = onBackClick,
-            modifier = Modifier.align(Alignment.CenterStart)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "뒤로가기"
+
+        if (showLogo) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_saegil_logo),
+                contentDescription = "앱 로고",
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .size(54.dp)
             )
+        }
+
+        if (showBackButton) {
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .padding(start = 10.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back),
+                    contentDescription = "뒤로가기"
+                )
+            }
         }
     }
 }
@@ -85,10 +75,15 @@ fun BackTitleTopBar(
 
 @Preview
 @Composable
-fun LogoTitleTopBarPreview() {
+fun LogoTopBarPreview() {
     SaegilAndroidTheme {
         Column {
-            LogoTitleTopBar("공지사항")
+            SaegilTopBar(
+                showBackButton = false,
+                onBackClick = { },
+                showLogo = true,
+                modifier = Modifier
+            )
         }
     }
 }
@@ -98,10 +93,31 @@ fun LogoTitleTopBarPreview() {
 fun BackTitleTopBarPreview() {
     SaegilAndroidTheme {
         Column {
-            BackTitleTopBar("공지사항", onBackClick = {})
-            Spacer(modifier = Modifier.padding(10.dp))
-            BackTitleTopBar(onBackClick = {})
+            SaegilTopBar(
+                title = "공지사항",
+                showBackButton = true,
+                showLogo = false,
+                onBackClick = {},
+                modifier = Modifier
+            )
         }
     }
 }
+
+@Preview
+@Composable
+fun BlackBackTitleTopBarPreview() {
+    SaegilAndroidTheme {
+        Column {
+            SaegilTopBar(
+                title = "마트에 갔을 때",
+                showLogo = false,
+                showBackButton = true,
+                onBackClick = {},
+                modifier = Modifier
+            )
+        }
+    }
+}
+
 
