@@ -26,7 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import com.saegil.designsystem.theme.body
+import com.saegil.designsystem.theme.body1
 import com.saegil.onboarding.component.KakaoLoginButton
 import com.saegil.onboarding.OnboardingState.*
 import com.saegil.designsystem.theme.h1
@@ -101,7 +101,7 @@ internal fun OnboardingScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         text = OnboardingPage.pages[page].description,
-                        style = MaterialTheme.typography.body,
+                        style = MaterialTheme.typography.body1,
                         textAlign = TextAlign.Center
                     )
                 }
