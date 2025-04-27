@@ -48,6 +48,19 @@ internal fun MypageScreen(
                 {},
                 isArrow = true
             )
+            SettingMenuItem(
+                "이용약관",
+                {},
+                isArrow = true
+            )
+            SettingMenuItem(
+                "로그아웃",
+                {},
+            )
+            SettingMenuItem(
+                "회원탈퇴",
+                {},
+            )
         }
     }
 }

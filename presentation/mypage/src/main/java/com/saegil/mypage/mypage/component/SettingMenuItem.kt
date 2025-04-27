@@ -14,11 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saegil.designsystem.theme.SaegilAndroidTheme
-import com.saegil.designsystem.theme.h1
+import com.saegil.designsystem.theme.h2
 import com.seagil.mypage.R
 
 @Composable
@@ -31,13 +32,13 @@ fun SettingMenuItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp)
+            .padding(vertical = 15.dp)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.h1,
+            style = MaterialTheme.typography.h2,
             fontSize = 17.sp,
         )
         Spacer(modifier = Modifier.weight(1f))
