@@ -1,10 +1,12 @@
 package com.saegil.mypage.mypage.component
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
@@ -29,28 +31,33 @@ fun SettingMenuItem(
     modifier: Modifier = Modifier,
     isArrow: Boolean = false,
 ) {
-    Row(
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 15.dp)
+            .height(60.dp)
             .clickable(onClick = onClick),
-        verticalAlignment = Alignment.CenterVertically
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.h2,
-            fontSize = 17.sp,
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        if (isArrow) {
-            Icon(
-                painter = painterResource(R.drawable.ic_arrow),
-                contentDescription = "arrow",
-                modifier = Modifier
-                    .padding(end = 4.dp)
-                    .size(24.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.h2,
+                fontSize = 17.sp,
             )
+            Spacer(modifier = Modifier.weight(1f))
+            if (isArrow) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_arrow),
+                    contentDescription = "arrow",
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
     HorizontalDivider(
