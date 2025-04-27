@@ -1,7 +1,11 @@
 package com.saegil.mypage.mypage
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -34,33 +38,41 @@ internal fun MypageScreen(
     Surface(
         modifier = modifier.fillMaxSize(),
     ) {
-        Column(
-            modifier = Modifier.padding(
-                horizontal = 30.dp
-            )
-        ) {
+        Column{
             SaegilTitleText(
                 "마이페이지",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            SettingMenuItem(
-                "개인정보처리방침",
-                {},
-                isArrow = true
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .background(MaterialTheme.colorScheme.surfaceDim)
             )
-            SettingMenuItem(
-                "이용약관",
-                {},
-                isArrow = true
-            )
-            SettingMenuItem(
-                "로그아웃",
-                {},
-            )
-            SettingMenuItem(
-                "회원탈퇴",
-                {},
-            )
+            Column(
+                modifier = Modifier.padding(
+                    horizontal = 30.dp
+                )
+            ) {
+                SettingMenuItem(
+                    "개인정보처리방침",
+                    {},
+                    isArrow = true
+                )
+                SettingMenuItem(
+                    "이용약관",
+                    {},
+                    isArrow = true
+                )
+                SettingMenuItem(
+                    "로그아웃",
+                    {},
+                )
+                SettingMenuItem(
+                    "회원탈퇴",
+                    {},
+                )
+            }
         }
     }
 }
