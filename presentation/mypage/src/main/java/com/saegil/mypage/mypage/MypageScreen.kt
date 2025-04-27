@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.theme.SaegilAndroidTheme
+import com.saegil.mypage.mypage.component.ProfileCard
 import com.saegil.mypage.mypage.component.SettingMenuItem
 
 @Composable
@@ -42,6 +43,10 @@ internal fun MypageScreen(
             SaegilTitleText(
                 "마이페이지",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            ProfileCard(
+                name = "김주민",
+                modifier = Modifier.padding(horizontal = 30.dp)
             )
             Box(
                 modifier = Modifier
