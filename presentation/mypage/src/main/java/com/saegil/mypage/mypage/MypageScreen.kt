@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.theme.SaegilAndroidTheme
+import com.saegil.mypage.mypage.component.LearningLogButton
 import com.saegil.mypage.mypage.component.ProfileCard
 import com.saegil.mypage.mypage.component.SettingMenuItem
 
@@ -27,7 +28,7 @@ fun MypageScreen(
     viewModel: MypageViewModel = hiltViewModel()
 ) {
 
-    MypageScreen(modifier)
+    MypageScreen(2,modifier)
 
 }
 
@@ -44,16 +45,25 @@ internal fun MypageScreen(
                 "마이페이지",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            ProfileCard(
-                name = "김주민",
-                modifier = Modifier.padding(horizontal = 30.dp)
-            )
+
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 30.dp)
+                    .padding(top = 30.dp)
+            ) {
+                ProfileCard(
+                    name = "김주민",
+                )
+                LearningLogButton({})
+            }
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp)
                     .background(MaterialTheme.colorScheme.surfaceDim)
             )
+
             Column(
                 modifier = Modifier.padding(
                     horizontal = 30.dp
