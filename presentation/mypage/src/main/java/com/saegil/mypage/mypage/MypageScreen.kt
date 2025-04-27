@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.theme.SaegilAndroidTheme
+import com.saegil.designsystem.theme.caption
 import com.saegil.mypage.mypage.component.LearningLogButton
 import com.saegil.mypage.mypage.component.ProfileCard
 import com.saegil.mypage.mypage.component.SettingMenuItem
@@ -86,6 +87,12 @@ internal fun MypageScreen(
                 SettingMenuItem(
                     "회원탈퇴",
                     {},
+                )
+                Text(
+                    text = "새길 v1.0",
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier.padding(top = 15.dp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
