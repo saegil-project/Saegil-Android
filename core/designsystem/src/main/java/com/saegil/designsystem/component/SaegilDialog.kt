@@ -181,8 +181,8 @@ fun LogoDialogPreview() {
             onPositiveButtonClicked = {},
             positiveButtonText = "홈으로 돌아가기",
             subTitle = "회원탈퇴가 완료되었습니다.",
-            description = "새길 서비스에서의 경험을 바탕으로" +
-                    "한국에서의 멋진 ‘새길’을 걸어가시길 응원합니다 :)",
+            description = "새길 서비스에서의 경험을 바탕으로\n" +
+                    "한국에서의 멋진 ‘새길’을 걸어가시길\n응원합니다 :)",
         )
     }
 }

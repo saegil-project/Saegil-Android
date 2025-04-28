@@ -7,4 +7,6 @@
     <string name="withdraw">회원탈퇴</string>
     <string name="withdraw_question">정말 탈퇴하시겠습니까?</string>
     <string name="withdraw_description">서비스 탈퇴 시 회원님의 계정 및\n지금까지 진행한 학습 대화 내역은\n즉시 삭제되며, 복구되지 않습니다.</string>
+    <string name="logout_message">로그아웃 되었습니다.</string>
+    <string name="logout_failed_message">로그아웃을 다시 시도해주세요.</string>
 </resources>

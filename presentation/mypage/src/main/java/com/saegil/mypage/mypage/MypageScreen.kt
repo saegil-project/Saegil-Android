@@ -1,5 +1,6 @@
 package com.saegil.mypage.mypage
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,12 +12,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,12 +35,29 @@ import com.seagil.mypage.R
 
 @Composable
 fun MypageScreen(
+    navigateToWebView: (String) -> Unit,
+    navigateToOnboarding: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MypageViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
 
     var showLogoutDialog by rememberSaveable { mutableStateOf(false) }
     var showWithdrawDialog by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is MypageUiEvent.SuccessLogout -> {
+                    Toast.makeText(context, R.string.logout_message, Toast.LENGTH_SHORT).show()
+                    navigateToOnboarding()
+                }
+
+                is MypageUiEvent.FailureLogout ->
+                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     MypageScreen(
         showLogoutDialog = showLogoutDialog,
@@ -46,6 +66,9 @@ fun MypageScreen(
         onWithdrawDialogDismissed = { showWithdrawDialog = false },
         onLogoutClick = { showLogoutDialog = true },
         onWithdrawClick = { showWithdrawDialog = true },
+        onLogoutPositiveButtonClick = viewModel::logout,
+        onClickTermsOfPrivacy = { navigateToWebView("") },
+        onClickTermsOfService = { navigateToWebView("") },
         modifier = modifier
     )
 
@@ -59,13 +82,16 @@ internal fun MypageScreen(
     onWithdrawDialogDismissed: () -> Unit,
     onLogoutClick: () -> Unit,
     onWithdrawClick: () -> Unit,
+    onLogoutPositiveButtonClick: () -> Unit,
+    onClickTermsOfPrivacy: () -> Unit,
+    onClickTermsOfService: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
     if(showLogoutDialog) {
         SaegilDialog(
             onNegativeButtonClicked = onLogoutDialogDismissed,
-            onPositiveButtonClicked = {},
+            onPositiveButtonClicked = onLogoutPositiveButtonClick,
             positiveButtonText = stringResource(id = R.string.cancel),
             title = stringResource(id = R.string.logout_dialog_title),
             description = stringResource(id = R.string.logout_dialog_description),
@@ -119,12 +145,12 @@ internal fun MypageScreen(
             ) {
                 SettingMenuItem(
                     "개인정보처리방침",
-                    {},
+                    onClickTermsOfPrivacy,
                     isArrow = true
                 )
                 SettingMenuItem(
                     title = "이용약관",
-                    onClick = {},
+                    onClick = onClickTermsOfService,
                     isArrow = true
                 )
                 SettingMenuItem(
@@ -153,6 +179,9 @@ private fun MypageScreenPreview() {
         MypageScreen(
             false,
             false,
+            {},
+            {},
+            {},
             {},
             {},
             {},

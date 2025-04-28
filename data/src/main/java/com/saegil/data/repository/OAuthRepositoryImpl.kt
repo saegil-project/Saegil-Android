@@ -33,6 +33,19 @@ class OAuthRepositoryImpl @Inject constructor(
             false
         }
     }
+
+    override suspend fun requestLogout(): Boolean {
+        return try {
+            if (oAuthService.requestLogout(tokenDataSource.getToken().refreshToken)) {
+                tokenDataSource.clearToken()
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
 
 
