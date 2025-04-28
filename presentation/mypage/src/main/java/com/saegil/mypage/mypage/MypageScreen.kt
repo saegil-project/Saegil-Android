@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ import com.saegil.designsystem.theme.caption
 import com.saegil.mypage.mypage.component.LearningLogButton
 import com.saegil.mypage.mypage.component.ProfileCard
 import com.saegil.mypage.mypage.component.SettingMenuItem
+import com.seagil.mypage.R
 
 @Composable
 fun MypageScreen(
@@ -64,10 +66,10 @@ internal fun MypageScreen(
         SaegilDialog(
             onNegativeButtonClicked = onLogoutDialogDismissed,
             onPositiveButtonClicked = {},
-            positiveButtonText = "취소",
-            title = "로그아웃",
-            description = "정말 로그아웃하시겠습니까? 기존 학습 대화 내역은 보관됩니다.",
-            negativeButtonText = "로그아웃"
+            positiveButtonText = stringResource(id = R.string.cancel),
+            title = stringResource(id = R.string.logout_dialog_title),
+            description = stringResource(id = R.string.logout_dialog_description),
+            negativeButtonText = stringResource(id = R.string.logout)
         )
     }
 
@@ -75,11 +77,11 @@ internal fun MypageScreen(
         SaegilDialog(
             onNegativeButtonClicked = onWithdrawDialogDismissed,
             onPositiveButtonClicked = {},
-            positiveButtonText = "취소",
-            title = "회원탈퇴",
-            subTitle = "정말 탈퇴하시겠습니까?",
-            description = "서비스 탈퇴 시 회원님의 계정 및 지금까지 진행한 학습 대화 내역은 즉시 삭제되며, 복구되지 않습니다.",
-            negativeButtonText = "회원탈퇴"
+            positiveButtonText = stringResource(id = R.string.cancel),
+            title = stringResource(id = R.string.withdraw),
+            subTitle = stringResource(id = R.string.withdraw_question),
+            description = stringResource(id = R.string.withdraw_description),
+            negativeButtonText = stringResource(id = R.string.withdraw)
         )
     }
 
