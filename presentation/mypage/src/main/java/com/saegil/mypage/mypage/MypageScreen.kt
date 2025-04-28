@@ -66,7 +66,7 @@ fun MypageScreen(
         onWithdrawDialogDismissed = { showWithdrawDialog = false },
         onLogoutClick = { showLogoutDialog = true },
         onWithdrawClick = { showWithdrawDialog = true },
-        onLogoutPositiveButtonClick = viewModel::logout,
+        onLogoutNegativeButtonClick = viewModel::logout,
         onClickTermsOfPrivacy = { navigateToWebView("") },
         onClickTermsOfService = { navigateToWebView("") },
         modifier = modifier
@@ -82,7 +82,7 @@ internal fun MypageScreen(
     onWithdrawDialogDismissed: () -> Unit,
     onLogoutClick: () -> Unit,
     onWithdrawClick: () -> Unit,
-    onLogoutPositiveButtonClick: () -> Unit,
+    onLogoutNegativeButtonClick: () -> Unit,
     onClickTermsOfPrivacy: () -> Unit,
     onClickTermsOfService: () -> Unit,
     modifier: Modifier = Modifier,
@@ -90,8 +90,12 @@ internal fun MypageScreen(
 
     if (showLogoutDialog) {
         SaegilDialog(
-            onNegativeButtonClicked = onLogoutDialogDismissed,
-            onPositiveButtonClicked = onLogoutPositiveButtonClick,
+            onDismissRequest = onLogoutDialogDismissed,
+            onNegativeButtonClicked = {
+                onLogoutNegativeButtonClick()
+                onLogoutDialogDismissed()
+            },
+            onPositiveButtonClicked = onLogoutDialogDismissed,
             positiveButtonText = stringResource(id = R.string.cancel),
             title = stringResource(id = R.string.logout_dialog_title),
             description = stringResource(id = R.string.logout_dialog_description),
@@ -101,6 +105,7 @@ internal fun MypageScreen(
 
     if (showWithdrawDialog) {
         SaegilDialog(
+            onDismissRequest = onWithdrawDialogDismissed,
             onNegativeButtonClicked = onWithdrawDialogDismissed,
             onPositiveButtonClicked = {},
             positiveButtonText = stringResource(id = R.string.cancel),

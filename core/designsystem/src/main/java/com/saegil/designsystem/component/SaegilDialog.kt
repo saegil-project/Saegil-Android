@@ -32,6 +32,7 @@ import com.saegil.designsystem.theme.h3
 
 @Composable
 fun SaegilDialog(
+    onDismissRequest: () -> Unit,
     onNegativeButtonClicked: () -> Unit,
     onPositiveButtonClicked: () -> Unit,
     positiveButtonText: String,
@@ -41,7 +42,7 @@ fun SaegilDialog(
     description: String? = null,
     negativeButtonText: String? = null,
 ) {
-    Dialog(onDismissRequest = onNegativeButtonClicked) {
+    Dialog(onDismissRequest = onDismissRequest) {
         Card(
             modifier = modifier
                 .padding(horizontal = 12.dp),
@@ -161,6 +162,7 @@ fun SaegilDialog(
 fun DialogPreview() {
     SaegilAndroidTheme {
         SaegilDialog(
+            onDismissRequest = {},
             onNegativeButtonClicked = {},
             onPositiveButtonClicked = {},
             positiveButtonText = "취소",
@@ -177,6 +179,7 @@ fun DialogPreview() {
 fun LogoDialogPreview() {
     SaegilAndroidTheme {
         SaegilDialog(
+            onDismissRequest = {},
             onNegativeButtonClicked = {},
             onPositiveButtonClicked = {},
             positiveButtonText = "홈으로 돌아가기",
@@ -192,6 +195,7 @@ fun LogoDialogPreview() {
 fun LogoutDialogPreview() {
     SaegilAndroidTheme {
         SaegilDialog(
+            onDismissRequest = {},
             onNegativeButtonClicked = {},
             onPositiveButtonClicked = {},
             positiveButtonText = "취소",

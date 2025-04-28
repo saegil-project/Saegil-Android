@@ -41,9 +41,11 @@ class OAuthServiceImpl @Inject constructor(
         }.body()
     }
 
-    override suspend fun requestLogout(refreshToken: String): Boolean {
+    override suspend fun requestLogout(tokenProto: TokenProto): Boolean {
         val response = client.post(OAUTH_LOGOUT) {
-            header(HttpHeaders.Authorization, refreshToken)
+            header(HttpHeaders.Authorization, tokenProto.accessToken)
+            contentType(ContentType.Application.Json)
+            setBody(mapOf("refreshToken" to tokenProto.refreshToken))
         }
         return response.status == HttpStatusCode.NoContent
     }

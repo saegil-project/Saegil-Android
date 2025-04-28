@@ -36,7 +36,7 @@ class OAuthRepositoryImpl @Inject constructor(
 
     override suspend fun requestLogout(): Boolean {
         return try {
-            if (oAuthService.requestLogout(tokenDataSource.getToken().refreshToken)) {
+            if (oAuthService.requestLogout(tokenDataSource.getToken())) {
                 tokenDataSource.clearToken()
                 true
             } else {
