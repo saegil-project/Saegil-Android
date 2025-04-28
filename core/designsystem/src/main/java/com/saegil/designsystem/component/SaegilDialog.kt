@@ -33,13 +33,13 @@ import com.saegil.designsystem.theme.h3
 @Composable
 fun SaegilDialog(
     onDismissRequest: () -> Unit,
-    onNegativeButtonClicked: () -> Unit,
     onPositiveButtonClicked: () -> Unit,
     positiveButtonText: String,
     modifier: Modifier = Modifier,
     title: String? = null,
     subTitle: String? = null,
     description: String? = null,
+    onNegativeButtonClicked: () -> Unit = {},
     negativeButtonText: String? = null,
 ) {
     Dialog(onDismissRequest = onDismissRequest) {

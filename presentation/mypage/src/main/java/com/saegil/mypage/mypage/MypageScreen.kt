@@ -44,6 +44,7 @@ fun MypageScreen(
 
     var showLogoutDialog by rememberSaveable { mutableStateOf(false) }
     var showWithdrawDialog by rememberSaveable { mutableStateOf(false) }
+    var showGoodbyeDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
@@ -54,7 +55,8 @@ fun MypageScreen(
                 }
 
                 is MypageUiEvent.FailureLogout ->
-                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT)
+                        .show()
             }
         }
     }
@@ -62,11 +64,17 @@ fun MypageScreen(
     MypageScreen(
         showLogoutDialog = showLogoutDialog,
         showWithdrawDialog = showWithdrawDialog,
+        showGoodbyeDialog = showGoodbyeDialog,
         onLogoutDialogDismissed = { showLogoutDialog = false },
         onWithdrawDialogDismissed = { showWithdrawDialog = false },
+        onGoodbyeDialogDismissed = {
+            navigateToOnboarding()
+            showGoodbyeDialog = false
+        },
         onLogoutClick = { showLogoutDialog = true },
         onWithdrawClick = { showWithdrawDialog = true },
         onLogoutNegativeButtonClick = viewModel::logout,
+        onWithdrawNegativeButtonClick = viewModel::withdraw,
         onClickTermsOfPrivacy = { navigateToWebView("") },
         onClickTermsOfService = { navigateToWebView("") },
         modifier = modifier
@@ -78,11 +86,14 @@ fun MypageScreen(
 internal fun MypageScreen(
     showLogoutDialog: Boolean,
     showWithdrawDialog: Boolean,
+    showGoodbyeDialog: Boolean,
     onLogoutDialogDismissed: () -> Unit,
     onWithdrawDialogDismissed: () -> Unit,
+    onGoodbyeDialogDismissed: () -> Unit,
     onLogoutClick: () -> Unit,
     onWithdrawClick: () -> Unit,
     onLogoutNegativeButtonClick: () -> Unit,
+    onWithdrawNegativeButtonClick: () -> Unit,
     onClickTermsOfPrivacy: () -> Unit,
     onClickTermsOfService: () -> Unit,
     modifier: Modifier = Modifier,
@@ -107,12 +118,26 @@ internal fun MypageScreen(
         SaegilDialog(
             onDismissRequest = onWithdrawDialogDismissed,
             onNegativeButtonClicked = onWithdrawDialogDismissed,
-            onPositiveButtonClicked = {},
+            onPositiveButtonClicked = {
+                onWithdrawNegativeButtonClick()
+                onWithdrawDialogDismissed()
+            },
             positiveButtonText = stringResource(id = R.string.cancel),
             title = stringResource(id = R.string.withdraw),
             subTitle = stringResource(id = R.string.withdraw_question),
             description = stringResource(id = R.string.withdraw_description),
             negativeButtonText = stringResource(id = R.string.withdraw)
+        )
+    }
+
+    if (showGoodbyeDialog) {
+        SaegilDialog(
+            onDismissRequest = onWithdrawDialogDismissed,
+            onPositiveButtonClicked = onGoodbyeDialogDismissed,
+            positiveButtonText = stringResource(id = R.string.cancel),
+            title = stringResource(id = R.string.withdraw),
+            subTitle = stringResource(id = R.string.withdraw_question),
+            description = stringResource(id = R.string.withdraw_description)
         )
     }
 

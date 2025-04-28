@@ -22,4 +22,8 @@ class MypageViewModel @Inject constructor(
             _uiEvent.emit(if(logoutUseCase()) MypageUiEvent.SuccessLogout else MypageUiEvent.FailureLogout)
         }
     }
+
+    fun withdraw() {
+
+    }
 }
