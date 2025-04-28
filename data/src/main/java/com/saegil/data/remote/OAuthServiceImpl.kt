@@ -53,7 +53,10 @@ class OAuthServiceImpl @Inject constructor(
 
     override suspend fun requestWithdrawal(tokenProto: TokenProto): Boolean {
         val response = client.post(OAUTH_WITHDRAWAL) {
-
+            header(HttpHeaders.Authorization, tokenProto.accessToken)
+            contentType(ContentType.Application.Json)
+            setBody(mapOf("refreshToken" to tokenProto.refreshToken))
         }
+        return response.status == HttpStatusCode.NoContent
     }
 }

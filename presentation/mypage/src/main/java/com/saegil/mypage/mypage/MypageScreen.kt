@@ -55,8 +55,17 @@ fun MypageScreen(
                 }
 
                 is MypageUiEvent.FailureLogout ->
-                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT).show()
+
+                is MypageUiEvent.SuccessWithdrawal -> {
+                    Toast.makeText(context, R.string.withdrawal_message, Toast.LENGTH_SHORT).show()
+                    showGoodbyeDialog = true
+                }
+
+                is MypageUiEvent.FailureWithdrawal -> {
+                    Toast.makeText(context, R.string.withdrawal_failed_message, Toast.LENGTH_SHORT).show()
+                    showGoodbyeDialog = false
+                }
             }
         }
     }
@@ -74,10 +83,7 @@ fun MypageScreen(
         onLogoutClick = { showLogoutDialog = true },
         onWithdrawalClick = { showWithdrawalDialog = true },
         onLogoutNegativeButtonClick = viewModel::logout,
-        onWithdrawalNegativeButtonClick = {
-            viewModel.withdrawal()
-            showGoodbyeDialog = true
-        },
+        onWithdrawalNegativeButtonClick = viewModel::withdrawal,
         onClickTermsOfPrivacy = { navigateToWebView("") },
         onClickTermsOfService = { navigateToWebView("") },
         modifier = modifier

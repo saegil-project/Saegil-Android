@@ -3,6 +3,7 @@ package com.saegil.mypage.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saegil.domain.usecase.LogoutUseCase
+import com.saegil.domain.usecase.WithdrawalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -12,6 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MypageViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
+    private val withdrawalUseCase: WithdrawalUseCase
 ) : ViewModel() {
 
     private val _uiEvent = MutableSharedFlow<MypageUiEvent>()
@@ -24,6 +26,8 @@ class MypageViewModel @Inject constructor(
     }
 
     fun withdrawal() {
-
+        viewModelScope.launch {
+            _uiEvent.emit(if(withdrawalUseCase()) MypageUiEvent.SuccessWithdrawal else MypageUiEvent.FailureWithdrawal)
+        }
     }
 }

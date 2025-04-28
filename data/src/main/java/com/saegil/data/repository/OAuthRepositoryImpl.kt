@@ -49,7 +49,14 @@ class OAuthRepositoryImpl @Inject constructor(
 
     override suspend fun requestWithdrawal(): Boolean {
         return try {
-            if(oAuthService)
+            if (oAuthService.requestWithdrawal(tokenDataSource.getToken())) {
+                tokenDataSource.clearToken()
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            false
         }
     }
 }
