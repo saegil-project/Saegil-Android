@@ -11,11 +11,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.saegil.designsystem.component.SaegilDialog
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.caption
@@ -29,19 +34,59 @@ fun MypageScreen(
     viewModel: MypageViewModel = hiltViewModel()
 ) {
 
-    MypageScreen(2,modifier)
+    var showLogoutDialog by rememberSaveable { mutableStateOf(false) }
+    var showWithdrawDialog by rememberSaveable { mutableStateOf(false) }
+
+    MypageScreen(
+        showLogoutDialog = showLogoutDialog,
+        showWithdrawDialog = showWithdrawDialog,
+        onLogoutDialogDismissed = { showLogoutDialog = false },
+        onWithdrawDialogDismissed = { showWithdrawDialog = false },
+        onLogoutClick = { showLogoutDialog = true },
+        onWithdrawClick = { showWithdrawDialog = true },
+        modifier = modifier
+    )
 
 }
 
 @Composable
 internal fun MypageScreen(
-    s : Int = 1,
+    showLogoutDialog: Boolean,
+    showWithdrawDialog: Boolean,
+    onLogoutDialogDismissed: () -> Unit,
+    onWithdrawDialogDismissed: () -> Unit,
+    onLogoutClick: () -> Unit,
+    onWithdrawClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+
+    if(showLogoutDialog) {
+        SaegilDialog(
+            onNegativeButtonClicked = onLogoutDialogDismissed,
+            onPositiveButtonClicked = {},
+            positiveButtonText = "취소",
+            title = "로그아웃",
+            description = "정말 로그아웃하시겠습니까? 기존 학습 대화 내역은 보관됩니다.",
+            negativeButtonText = "로그아웃"
+        )
+    }
+
+    if(showWithdrawDialog) {
+        SaegilDialog(
+            onNegativeButtonClicked = onWithdrawDialogDismissed,
+            onPositiveButtonClicked = {},
+            positiveButtonText = "취소",
+            title = "회원탈퇴",
+            subTitle = "정말 탈퇴하시겠습니까?",
+            description = "서비스 탈퇴 시 회원님의 계정 및 지금까지 진행한 학습 대화 내역은 즉시 삭제되며, 복구되지 않습니다.",
+            negativeButtonText = "회원탈퇴"
+        )
+    }
+
     Surface(
         modifier = modifier.fillMaxSize(),
     ) {
-        Column{
+        Column {
             SaegilTitleText(
                 "마이페이지",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -76,17 +121,17 @@ internal fun MypageScreen(
                     isArrow = true
                 )
                 SettingMenuItem(
-                    "이용약관",
-                    {},
+                    title = "이용약관",
+                    onClick = {},
                     isArrow = true
                 )
                 SettingMenuItem(
-                    "로그아웃",
-                    {},
+                    title = "로그아웃",
+                    onClick = onLogoutClick,
                 )
                 SettingMenuItem(
-                    "회원탈퇴",
-                    {},
+                    title = "회원탈퇴",
+                    onClick = onWithdrawClick,
                 )
                 Text(
                     text = "새길 v1.0",
@@ -104,7 +149,12 @@ internal fun MypageScreen(
 private fun MypageScreenPreview() {
     SaegilAndroidTheme {
         MypageScreen(
-            2,
+            false,
+            false,
+            {},
+            {},
+            {},
+            {}
         )
     }
 }

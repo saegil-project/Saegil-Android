@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.h2
-import com.seagil.mypage.R
+import com.saegil.designsystem.R
 
 @Composable
 fun SettingMenuItem(

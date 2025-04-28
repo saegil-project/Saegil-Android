@@ -13,11 +13,6 @@ class MypageViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<MypageState> = MutableStateFlow(MypageState())
-
-    val stateFlow: StateFlow<MypageState> = _stateFlow.asStateFlow()
 
 
 }
-
-class MypageState

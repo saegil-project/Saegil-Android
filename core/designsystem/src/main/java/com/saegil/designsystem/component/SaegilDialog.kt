@@ -46,7 +46,7 @@ fun SaegilDialog(
         Card(
             modifier = modifier.padding(horizontal = 36.dp),
             shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceBright),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
         ) {
             Column(
                 modifier = Modifier.padding(
