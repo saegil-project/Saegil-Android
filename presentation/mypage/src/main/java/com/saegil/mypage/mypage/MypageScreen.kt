@@ -88,7 +88,7 @@ internal fun MypageScreen(
     modifier: Modifier = Modifier,
 ) {
 
-    if(showLogoutDialog) {
+    if (showLogoutDialog) {
         SaegilDialog(
             onNegativeButtonClicked = onLogoutDialogDismissed,
             onPositiveButtonClicked = onLogoutPositiveButtonClick,
@@ -99,7 +99,7 @@ internal fun MypageScreen(
         )
     }
 
-    if(showWithdrawDialog) {
+    if (showWithdrawDialog) {
         SaegilDialog(
             onNegativeButtonClicked = onWithdrawDialogDismissed,
             onPositiveButtonClicked = {},

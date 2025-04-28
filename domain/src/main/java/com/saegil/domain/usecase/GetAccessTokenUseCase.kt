@@ -9,6 +9,6 @@ class GetAccessTokenUseCase @Inject constructor(
     private val repository: OAuthRepository
 ) {
     operator fun invoke(): Flow<String?> = flow {
-        emit(repository.getToken()?.accessToken)
+        emit(repository.getToken().accessToken)
     }
 }
