@@ -44,14 +44,15 @@ fun SaegilDialog(
 ) {
     Dialog(onDismissRequest = onNegativeButtonClicked) {
         Card(
-            modifier = modifier.padding(horizontal = 36.dp),
+            modifier = modifier
+                .padding(horizontal = 12.dp),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
         ) {
             Column(
                 modifier = Modifier.padding(
                     vertical = 24.dp,
-                    horizontal = 16.dp
+                    horizontal = 12.dp
                 ),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -60,7 +61,7 @@ fun SaegilDialog(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.h1,
-                        fontSize = 18.sp,
+                        fontSize = 23.sp,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                     )
@@ -76,11 +77,11 @@ fun SaegilDialog(
                     Text(
                         text = subTitle,
                         style = MaterialTheme.typography.h3,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         modifier = Modifier
                             .padding(
                                 vertical = 8.dp,
-                                horizontal = 16.dp
+                                horizontal = 12.dp
                             )
                             .align(Alignment.Start)
                     )
@@ -90,14 +91,14 @@ fun SaegilDialog(
                     Text(
                         text = description,
                         style = MaterialTheme.typography.body1,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         modifier = Modifier
                             .padding(
                                 top = 8.dp,
                                 bottom = 16.dp,
                             )
                             .padding(
-                                horizontal = 16.dp
+                                horizontal = 12.dp
                             )
                             .align(Alignment.Start)
                     )
@@ -107,7 +108,7 @@ fun SaegilDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     negativeButtonText?.let {
                         Button(
@@ -118,13 +119,13 @@ fun SaegilDialog(
                                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             ),
                             modifier = Modifier
-                                .height(30.dp)
-                                .width(100.dp),
+                                .height(40.dp)
+                                .weight(1f),
                         ) {
                             Text(
                                 text = negativeButtonText,
                                 style = MaterialTheme.typography.h2,
-                                fontSize = 12.sp,
+                                fontSize = 15.sp,
                             )
                         }
                     }
@@ -137,17 +138,17 @@ fun SaegilDialog(
                             contentColor = MaterialTheme.colorScheme.onPrimary,
                         ),
                         modifier = Modifier
-                            .height(30.dp)
+                            .height(40.dp)
                             .then(
                                 negativeButtonText?.let {
-                                    Modifier.width(100.dp)
+                                    Modifier.weight(1f)
                                 } ?: Modifier.fillMaxWidth()
                             )
                     ) {
                         Text(
                             text = positiveButtonText,
                             style = MaterialTheme.typography.h2,
-                            fontSize = 12.sp,
+                            fontSize = 15.sp,
                         )
                     }
                 }
