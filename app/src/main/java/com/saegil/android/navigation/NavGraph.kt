@@ -1,7 +1,10 @@
 package com.saegil.android.navigation
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,6 +20,9 @@ import com.saegil.notice.notice.NoticeScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
+
+    val context = LocalContext.current
+
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
         composable(Screen.Learning.route) {
             LearningListScreen(
@@ -44,7 +50,12 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         }
         composable(Screen.Announcement.route) {
             NoticeScreen(
-                modifier = modifier
+                modifier = modifier,
+                navigateToWebView = { url ->
+                    CustomTabsIntent.Builder().build().also {
+                        it.launchUrl(context, Uri.parse(url))
+                    }
+                }
             )
         }
         composable(Screen.Map.route) {
@@ -54,7 +65,17 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         }
         composable(Screen.MyPage.route) {
             MypageScreen(
-                modifier = modifier
+                modifier = modifier,
+                navigateToWebView = { url ->
+                    CustomTabsIntent.Builder().build().also {
+                        it.launchUrl(context, Uri.parse(url))
+                    }
+                },
+                navigateToOnboarding = {
+                    navController.navigate(Screen.Onboarding.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
             )
         }
         composable(Screen.Onboarding.route) {

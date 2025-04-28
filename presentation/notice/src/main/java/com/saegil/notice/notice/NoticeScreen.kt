@@ -1,9 +1,5 @@
 package com.saegil.notice.notice
 
-
-import android.content.Context
-import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +43,7 @@ import com.saegil.notice.notice.component.SearchToolBar
 
 @Composable
 fun NoticeScreen(
+    navigateToWebView: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: NoticeViewModel = hiltViewModel(),
 ) {
@@ -56,7 +52,6 @@ fun NoticeScreen(
     val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
     val selectedIndex by viewModel.organization.collectAsStateWithLifecycle()
     val searchQuery by viewModel.query.collectAsStateWithLifecycle()
-    val context = LocalContext.current
 
     NoticeScreen(
         feedState = feedState,
@@ -65,7 +60,7 @@ fun NoticeScreen(
         searchQuery = searchQuery,
         onSearchTriggered = viewModel::onSearchTriggered,
         selectedIndex = selectedIndex?.toInt(),
-        context = context,
+        navigateToWebView = navigateToWebView,
         modifier = modifier
     )
 
@@ -79,7 +74,7 @@ internal fun NoticeScreen(
     searchQuery: String,
     onSearchTriggered: (String) -> Unit,
     selectedIndex: Int?,
-    context : Context,
+    navigateToWebView: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface {
@@ -110,7 +105,7 @@ internal fun NoticeScreen(
                 Loading -> LoadingState()
                 is Success -> NoticesList(
                     feedResource = feedResource,
-                    context = context
+                    navigateToWebView = navigateToWebView
                 )
             }
         }
@@ -166,8 +161,8 @@ fun SaegilLoadingWheel(
 @Composable
 private fun NoticesList(
     feedResource: LazyPagingItems<Notice>?,
+    navigateToWebView: (String) -> Unit,
     modifier: Modifier = Modifier,
-    context : Context,
 ) {
     Box(
         modifier = modifier
@@ -176,7 +171,7 @@ private fun NoticesList(
         LazyColumn {
             newsFeed(
                 feedResource = feedResource,
-                context = context
+                navigateToWebView = navigateToWebView
             )
         }
     }
@@ -184,7 +179,7 @@ private fun NoticesList(
 
 fun LazyListScope.newsFeed(
     feedResource: LazyPagingItems<Notice>?,
-    context : Context,
+    navigateToWebView: (String) -> Unit
 ) {
     feedResource?.let {
         items(feedResource.itemCount) { index ->
@@ -208,7 +203,7 @@ fun LazyListScope.newsFeed(
                             }
                         },
                         modifier = Modifier
-                            .clickable { openCustomTab(context, it.webLink) },
+                            .clickable { navigateToWebView(it.webLink) },
                         overlineContent = {
                             Text(
                                 text = it.title,
@@ -253,10 +248,6 @@ fun LazyListScope.newsFeed(
         }
     }
 }
-
-fun openCustomTab(context: Context, url: String) =
-    CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(url))
-
 
 @Composable
 @Preview(apiLevel = 33)
