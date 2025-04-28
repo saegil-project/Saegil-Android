@@ -14,6 +14,8 @@ object HttpRoutes {
 
     const val OAUTH_LOGOUT = "$BASE_URL/api/v1/oauth2/logout"
 
+    const val OAUTH_WITHDRAWAL = "$BASE_URL/api/v1/oauth2/withdrawl"
+
     const val OAUTH_VALIDATE_TOKEN = "$BASE_URL/api/v1/oauth2/validate-token"
 
     const val SCENARIO = "$BASE_URL/api/v1/scenarios" //시뮬레이션 상황 목록 조회

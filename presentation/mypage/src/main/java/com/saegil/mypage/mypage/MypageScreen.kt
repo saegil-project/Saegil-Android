@@ -43,7 +43,7 @@ fun MypageScreen(
     val context = LocalContext.current
 
     var showLogoutDialog by rememberSaveable { mutableStateOf(false) }
-    var showWithdrawDialog by rememberSaveable { mutableStateOf(false) }
+    var showWithdrawalDialog by rememberSaveable { mutableStateOf(false) }
     var showGoodbyeDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -63,18 +63,21 @@ fun MypageScreen(
 
     MypageScreen(
         showLogoutDialog = showLogoutDialog,
-        showWithdrawDialog = showWithdrawDialog,
+        showWithdrawalDialog = showWithdrawalDialog,
         showGoodbyeDialog = showGoodbyeDialog,
         onLogoutDialogDismissed = { showLogoutDialog = false },
-        onWithdrawDialogDismissed = { showWithdrawDialog = false },
+        onWithdrawalDialogDismissed = { showWithdrawalDialog = false },
         onGoodbyeDialogDismissed = {
-            navigateToOnboarding()
             showGoodbyeDialog = false
+            navigateToOnboarding()
         },
         onLogoutClick = { showLogoutDialog = true },
-        onWithdrawClick = { showWithdrawDialog = true },
+        onWithdrawalClick = { showWithdrawalDialog = true },
         onLogoutNegativeButtonClick = viewModel::logout,
-        onWithdrawNegativeButtonClick = viewModel::withdraw,
+        onWithdrawalNegativeButtonClick = {
+            viewModel.withdrawal()
+            showGoodbyeDialog = true
+        },
         onClickTermsOfPrivacy = { navigateToWebView("") },
         onClickTermsOfService = { navigateToWebView("") },
         modifier = modifier
@@ -85,15 +88,15 @@ fun MypageScreen(
 @Composable
 internal fun MypageScreen(
     showLogoutDialog: Boolean,
-    showWithdrawDialog: Boolean,
+    showWithdrawalDialog: Boolean,
     showGoodbyeDialog: Boolean,
     onLogoutDialogDismissed: () -> Unit,
-    onWithdrawDialogDismissed: () -> Unit,
+    onWithdrawalDialogDismissed: () -> Unit,
     onGoodbyeDialogDismissed: () -> Unit,
     onLogoutClick: () -> Unit,
-    onWithdrawClick: () -> Unit,
+    onWithdrawalClick: () -> Unit,
     onLogoutNegativeButtonClick: () -> Unit,
-    onWithdrawNegativeButtonClick: () -> Unit,
+    onWithdrawalNegativeButtonClick: () -> Unit,
     onClickTermsOfPrivacy: () -> Unit,
     onClickTermsOfService: () -> Unit,
     modifier: Modifier = Modifier,
@@ -114,30 +117,29 @@ internal fun MypageScreen(
         )
     }
 
-    if (showWithdrawDialog) {
+    if (showWithdrawalDialog) {
         SaegilDialog(
-            onDismissRequest = onWithdrawDialogDismissed,
-            onNegativeButtonClicked = onWithdrawDialogDismissed,
-            onPositiveButtonClicked = {
-                onWithdrawNegativeButtonClick()
-                onWithdrawDialogDismissed()
+            onDismissRequest = onWithdrawalDialogDismissed,
+            onNegativeButtonClicked = {
+                onWithdrawalNegativeButtonClick()
+                onWithdrawalDialogDismissed()
             },
+            onPositiveButtonClicked = onWithdrawalDialogDismissed,
             positiveButtonText = stringResource(id = R.string.cancel),
-            title = stringResource(id = R.string.withdraw),
-            subTitle = stringResource(id = R.string.withdraw_question),
-            description = stringResource(id = R.string.withdraw_description),
-            negativeButtonText = stringResource(id = R.string.withdraw)
+            title = stringResource(id = R.string.withdrawal),
+            subTitle = stringResource(id = R.string.withdrawal_question),
+            description = stringResource(id = R.string.withdrawal_description),
+            negativeButtonText = stringResource(id = R.string.withdrawal)
         )
     }
 
     if (showGoodbyeDialog) {
         SaegilDialog(
-            onDismissRequest = onWithdrawDialogDismissed,
+            onDismissRequest = onGoodbyeDialogDismissed,
             onPositiveButtonClicked = onGoodbyeDialogDismissed,
-            positiveButtonText = stringResource(id = R.string.cancel),
-            title = stringResource(id = R.string.withdraw),
-            subTitle = stringResource(id = R.string.withdraw_question),
-            description = stringResource(id = R.string.withdraw_description)
+            positiveButtonText = stringResource(id = R.string.action_go_home),
+            subTitle = stringResource(id = R.string.message_account_deletion_success),
+            description = stringResource(id = R.string.message_account_deletion_support)
         )
     }
 
@@ -189,7 +191,7 @@ internal fun MypageScreen(
                 )
                 SettingMenuItem(
                     title = "회원탈퇴",
-                    onClick = onWithdrawClick,
+                    onClick = onWithdrawalClick,
                 )
                 Text(
                     text = "새길 v1.0",
@@ -209,6 +211,9 @@ private fun MypageScreenPreview() {
         MypageScreen(
             false,
             false,
+            false,
+            {},
+            {},
             {},
             {},
             {},

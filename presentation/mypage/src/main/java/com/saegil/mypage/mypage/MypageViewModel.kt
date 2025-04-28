@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MypageViewModel @Inject constructor(
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
 ) : ViewModel() {
 
     private val _uiEvent = MutableSharedFlow<MypageUiEvent>()
@@ -23,7 +23,7 @@ class MypageViewModel @Inject constructor(
         }
     }
 
-    fun withdraw() {
+    fun withdrawal() {
 
     }
 }

@@ -7,4 +7,5 @@ interface OAuthService {
     suspend fun loginWithKakao(accessToken: String): TokenProto
     suspend fun validateAccessToken(accessToken: String): ValidateTokenResponse
     suspend fun requestLogout(tokenProto: TokenProto): Boolean
+    suspend fun requestWithdrawal(tokenProto: TokenProto): Boolean
 }

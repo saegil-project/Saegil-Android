@@ -7,4 +7,5 @@ interface OAuthRepository {
     suspend fun getToken(): Token
     suspend fun validateAccessToken(accessToken: String): Boolean
     suspend fun requestLogout(): Boolean
+    suspend fun requestWithdrawal(): Boolean
 }

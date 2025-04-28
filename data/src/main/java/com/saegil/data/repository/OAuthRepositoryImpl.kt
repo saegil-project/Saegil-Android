@@ -46,6 +46,12 @@ class OAuthRepositoryImpl @Inject constructor(
             false
         }
     }
+
+    override suspend fun requestWithdrawal(): Boolean {
+        return try {
+            if(oAuthService)
+        }
+    }
 }
 
 

@@ -5,6 +5,7 @@ import com.saegil.data.model.ValidateTokenResponse
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGIN
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
+import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -48,5 +49,11 @@ class OAuthServiceImpl @Inject constructor(
             setBody(mapOf("refreshToken" to tokenProto.refreshToken))
         }
         return response.status == HttpStatusCode.NoContent
+    }
+
+    override suspend fun requestWithdrawal(tokenProto: TokenProto): Boolean {
+        val response = client.post(OAUTH_WITHDRAWAL) {
+
+        }
     }
 }
