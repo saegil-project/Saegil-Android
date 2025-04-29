@@ -2,7 +2,7 @@ package com.saegil.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.saegil.domain.usecase.GetAccessTokenUseCase
+import com.saegil.domain.usecase.GetTokenUseCase
 import com.saegil.domain.usecase.IsAccessTokenValidUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
@@ -18,19 +18,21 @@ import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    getAccessTokenUseCase: GetAccessTokenUseCase,
+    getTokenUseCase: GetTokenUseCase,
     isAccessTokenValidUseCase: IsAccessTokenValidUseCase
 ) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val loginUiState: StateFlow<LoginState> = getAccessTokenUseCase()
+    val loginUiState: StateFlow<LoginState> = getTokenUseCase()
         .flatMapLatest { token ->
             token?.let {
-                isAccessTokenValidUseCase(token)
-                    .map { isValid ->
-                        if (isValid) LoggedIn else NotLoggedIn
-                    }
-                    .onStart { emit(Loading) }
+                token.accessToken?.let { accessToken ->
+                    isAccessTokenValidUseCase(accessToken)
+                        .map { isValid ->
+                            if (isValid) LoggedIn else NotLoggedIn
+                        }
+                        .onStart { emit(Loading) }
+                }
             } ?: flowOf(NotLoggedIn)
         }
         .stateIn(
