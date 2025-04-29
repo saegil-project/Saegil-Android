@@ -201,7 +201,7 @@ internal fun MypageScreen(
                     onClick = onWithdrawalClick,
                 )
                 Text(
-                    text = "새길 v1.0",
+                    text = BuildConfig.VERSION_NAME,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier.padding(top = 15.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
