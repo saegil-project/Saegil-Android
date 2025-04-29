@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.saegil.designsystem.R
 import com.saegil.designsystem.theme.SaegilAndroidTheme
@@ -61,7 +60,6 @@ fun SaegilDialog(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.h1,
-                        fontSize = 23.sp,
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                     )
@@ -77,7 +75,6 @@ fun SaegilDialog(
                     Text(
                         text = subTitle,
                         style = MaterialTheme.typography.h3,
-                        fontSize = 14.sp,
                         modifier = Modifier
                             .padding(
                                 vertical = 8.dp,
@@ -91,7 +88,6 @@ fun SaegilDialog(
                     Text(
                         text = description,
                         style = MaterialTheme.typography.body1,
-                        fontSize = 14.sp,
                         modifier = Modifier
                             .padding(
                                 top = 8.dp,
@@ -125,7 +121,6 @@ fun SaegilDialog(
                             Text(
                                 text = negativeButtonText,
                                 style = MaterialTheme.typography.h2,
-                                fontSize = 15.sp,
                             )
                         }
                     }
@@ -148,7 +143,6 @@ fun SaegilDialog(
                         Text(
                             text = positiveButtonText,
                             style = MaterialTheme.typography.h2,
-                            fontSize = 15.sp,
                         )
                     }
                 }
