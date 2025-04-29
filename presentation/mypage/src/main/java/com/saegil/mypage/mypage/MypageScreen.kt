@@ -31,7 +31,7 @@ import com.saegil.designsystem.theme.caption
 import com.saegil.mypage.mypage.component.LearningLogButton
 import com.saegil.mypage.mypage.component.ProfileCard
 import com.saegil.mypage.mypage.component.SettingMenuItem
-import com.seagil.mypage.R
+import com.saegil.mypage.R
 
 @Composable
 fun MypageScreen(
@@ -201,7 +201,7 @@ internal fun MypageScreen(
                     onClick = onWithdrawalClick,
                 )
                 Text(
-                    text = BuildConfig.VERSION_NAME,
+                    text = "새길 v1.0",
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier.padding(top = 15.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant

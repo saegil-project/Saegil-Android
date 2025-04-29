@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.seagil.mypage"
+    namespace = "com.saegil.mypage"
     compileSdk = 35
 
     defaultConfig {
