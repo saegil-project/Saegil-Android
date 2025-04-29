@@ -26,7 +26,7 @@ class SplashViewModel @Inject constructor(
     val loginUiState: StateFlow<LoginState> = getTokenUseCase()
         .flatMapLatest { token ->
             token?.let {
-                token.accessToken?.let { accessToken ->
+                token.accessToken.let { accessToken ->
                     isAccessTokenValidUseCase(accessToken)
                         .map { isValid ->
                             if (isValid) LoggedIn else NotLoggedIn

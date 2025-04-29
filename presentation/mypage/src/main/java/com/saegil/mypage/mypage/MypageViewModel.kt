@@ -23,13 +23,21 @@ class MypageViewModel @Inject constructor(
 
     fun logout() {
         viewModelScope.launch {
-            _uiEvent.emit(if(logoutUseCase()) MypageUiEvent.SuccessLogout else MypageUiEvent.FailureLogout)
+            getTokenUseCase().collect { token ->
+                token?.let {
+                    _uiEvent.emit(if (logoutUseCase(it)) MypageUiEvent.SuccessLogout else MypageUiEvent.FailureLogout)
+                }
+            }
         }
     }
 
     fun withdrawal() {
         viewModelScope.launch {
-            _uiEvent.emit(if(withdrawalUseCase()) MypageUiEvent.SuccessWithdrawal else MypageUiEvent.FailureWithdrawal)
+            getTokenUseCase().collect { token ->
+                token?.let {
+                    _uiEvent.emit(if (withdrawalUseCase(it)) MypageUiEvent.SuccessWithdrawal else MypageUiEvent.FailureWithdrawal)
+                }
+            }
         }
     }
 }

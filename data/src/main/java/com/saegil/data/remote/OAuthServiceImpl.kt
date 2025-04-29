@@ -42,20 +42,20 @@ class OAuthServiceImpl @Inject constructor(
         }.body()
     }
 
-    override suspend fun requestLogout(tokenProto: TokenProto): Boolean {
+    override suspend fun requestLogout(accessToken: String, refreshToken: String): Boolean {
         val response = client.post(OAUTH_LOGOUT) {
-            header(HttpHeaders.Authorization, tokenProto.accessToken)
+            header(HttpHeaders.Authorization, accessToken)
             contentType(ContentType.Application.Json)
-            setBody(mapOf("refreshToken" to tokenProto.refreshToken))
+            setBody(mapOf("refreshToken" to refreshToken))
         }
         return response.status == HttpStatusCode.NoContent
     }
 
-    override suspend fun requestWithdrawal(token: TokenProto): Boolean {
+    override suspend fun requestWithdrawal(accessToken: String, refreshToken: String): Boolean {
         val response = client.post(OAUTH_WITHDRAWAL) {
-            header(HttpHeaders.Authorization, tokenProto.accessToken)
+            header(HttpHeaders.Authorization, accessToken)
             contentType(ContentType.Application.Json)
-            setBody(mapOf("refreshToken" to tokenProto.refreshToken))
+            setBody(mapOf("refreshToken" to refreshToken))
         }
         return response.status == HttpStatusCode.NoContent
     }
