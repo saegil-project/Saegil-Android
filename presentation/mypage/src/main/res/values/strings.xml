@@ -14,4 +14,6 @@
     <string name="action_go_home">홈으로 돌아가기</string>
     <string name="message_account_deletion_success">회원탈퇴가 완료되었습니다.</string>
     <string name="message_account_deletion_support">새길 서비스에서의 경험을 바탕으로\n한국에서의 멋진 ‘새길’을 걸어가시길\n응원합니다 :)</string>
+    <string name="TermsOfService">https://sae-gil.notion.site/1e49b2ff4b1180b5bd99cf93df2aa3cf?pvs=73</string>
+    <string name="TermsOfPrivacy">https://sae-gil.notion.site/1e49b2ff4b11806b8d0fe43b596b7971?pvs=73</string>
 </resources>

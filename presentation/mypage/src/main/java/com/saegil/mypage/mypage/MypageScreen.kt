@@ -55,7 +55,8 @@ fun MypageScreen(
                 }
 
                 is MypageUiEvent.FailureLogout ->
-                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT)
+                        .show()
 
                 is MypageUiEvent.SuccessWithdrawal -> {
                     Toast.makeText(context, R.string.withdrawal_message, Toast.LENGTH_SHORT).show()
@@ -84,8 +85,8 @@ fun MypageScreen(
         onWithdrawalClick = { showWithdrawalDialog = true },
         onLogoutNegativeButtonClick = viewModel::logout,
         onWithdrawalNegativeButtonClick = viewModel::withdrawal,
-        onClickTermsOfPrivacy = { navigateToWebView("") },
-        onClickTermsOfService = { navigateToWebView("") },
+        onClickTermsOfPrivacy = { navigateToWebView(context.getString(R.string.TermsOfPrivacy)) },
+        onClickTermsOfService = { navigateToWebView(context.getString(R.string.TermsOfService)) },
         modifier = modifier
     )
 
