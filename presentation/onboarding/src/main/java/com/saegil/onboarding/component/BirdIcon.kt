@@ -24,8 +24,8 @@ fun BirdIcon(
             .fillMaxWidth()
             .padding(
                 top = when (index) {
-                    0 -> 400.dp
-                    1 -> 270.dp
+                    0 -> 380.dp
+                    1 -> 260.dp
                     2 -> 50.dp
                     else -> 10.dp
                 }
