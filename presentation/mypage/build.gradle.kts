@@ -58,5 +58,6 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     implementation(project(":core:designsystem"))
+    implementation(project(":core:ui"))
     implementation(project(":domain"))
 }

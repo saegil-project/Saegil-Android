@@ -1,6 +1,5 @@
 package com.saegil.mypage.mypage
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +31,7 @@ import com.saegil.mypage.mypage.component.LearningLogButton
 import com.saegil.mypage.mypage.component.ProfileCard
 import com.saegil.mypage.mypage.component.SettingMenuItem
 import com.saegil.mypage.R
+import com.saegil.ui.util.SaegilToast
 
 @Composable
 fun MypageScreen(
@@ -50,21 +50,20 @@ fun MypageScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is MypageUiEvent.SuccessLogout -> {
-                    Toast.makeText(context, R.string.logout_message, Toast.LENGTH_SHORT).show()
+                    SaegilToast(context, context.getString(R.string.logout_message))
                     navigateToOnboarding()
                 }
 
                 is MypageUiEvent.FailureLogout ->
-                    Toast.makeText(context, R.string.logout_failed_message, Toast.LENGTH_SHORT)
-                        .show()
+                    SaegilToast(context, context.getString(R.string.logout_failed_message))
 
                 is MypageUiEvent.SuccessWithdrawal -> {
-                    Toast.makeText(context, R.string.withdrawal_message, Toast.LENGTH_SHORT).show()
+                    SaegilToast(context, context.getString(R.string.withdrawal_message))
                     showGoodbyeDialog = true
                 }
 
                 is MypageUiEvent.FailureWithdrawal -> {
-                    Toast.makeText(context, R.string.withdrawal_failed_message, Toast.LENGTH_SHORT).show()
+                    SaegilToast(context, context.getString(R.string.withdrawal_failed_message))
                     showGoodbyeDialog = false
                 }
             }
