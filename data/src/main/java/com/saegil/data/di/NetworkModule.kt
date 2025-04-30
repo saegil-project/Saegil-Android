@@ -1,5 +1,7 @@
 package com.saegil.data.di
 
+import com.saegil.data.remote.AssistantService
+import com.saegil.data.remote.AssistantServiceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.MapService
@@ -63,5 +65,11 @@ object NetworkModule {
     @Singleton
     fun provideScenarioService(client: HttpClient): ScenarioService {
         return ScenarioServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAssistantService(client: HttpClient): AssistantService {
+        return AssistantServiceImpl(client)
     }
 }
