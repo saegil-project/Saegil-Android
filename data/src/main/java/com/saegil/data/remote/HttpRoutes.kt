@@ -20,4 +20,6 @@ object HttpRoutes {
 
     const val SCENARIO = "$BASE_URL/api/v1/scenarios" //시뮬레이션 상황 목록 조회
 
+    const val ASSISTANT = "$BASE_URL/api/v1/llm/assistant/upload" //mp3 업로드
+
 }
