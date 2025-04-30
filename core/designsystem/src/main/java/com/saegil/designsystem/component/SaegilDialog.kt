@@ -4,10 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,10 +20,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.saegil.designsystem.R
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body1
@@ -41,13 +45,19 @@ fun SaegilDialog(
     onNegativeButtonClicked: () -> Unit = {},
     negativeButtonText: String? = null,
 ) {
-    Dialog(onDismissRequest = onDismissRequest) {
+    val configuration = LocalConfiguration.current
+
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+    ) {
         Card(
             modifier = modifier
-                .padding(horizontal = 12.dp),
+                .widthIn(max = configuration.screenWidthDp.dp - 80.dp),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
         ) {
+            Spacer(modifier = Modifier.height(12.dp))
             Column(
                 modifier = Modifier.padding(
                     vertical = 24.dp,
@@ -61,7 +71,7 @@ fun SaegilDialog(
                         text = title,
                         style = MaterialTheme.typography.h1,
                         modifier = Modifier
-                            .padding(bottom = 8.dp)
+                            .padding(bottom = 10.dp)
                     )
                 } ?: Image(
                     painter = painterResource(id = R.drawable.ic_saegil_logo),
@@ -91,7 +101,7 @@ fun SaegilDialog(
                         modifier = Modifier
                             .padding(
                                 top = 8.dp,
-                                bottom = 16.dp,
+                                bottom = 20.dp,
                             )
                             .padding(
                                 horizontal = 12.dp
@@ -103,8 +113,8 @@ fun SaegilDialog(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        .padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     negativeButtonText?.let {
                         Button(
@@ -115,7 +125,7 @@ fun SaegilDialog(
                                 contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             ),
                             modifier = Modifier
-                                .height(40.dp)
+                                .height(45.dp)
                                 .weight(1f),
                         ) {
                             Text(
@@ -133,7 +143,7 @@ fun SaegilDialog(
                             contentColor = MaterialTheme.colorScheme.onPrimary,
                         ),
                         modifier = Modifier
-                            .height(40.dp)
+                            .height(45.dp)
                             .then(
                                 negativeButtonText?.let {
                                     Modifier.weight(1f)
@@ -146,6 +156,8 @@ fun SaegilDialog(
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.height(6.dp))
             }
         }
     }
