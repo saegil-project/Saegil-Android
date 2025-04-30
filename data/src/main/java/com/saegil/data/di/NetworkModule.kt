@@ -14,13 +14,19 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+
 import kotlinx.serialization.json.Json
+import okhttp3.internal.connection.ConnectInterceptor.intercept
 import javax.inject.Singleton
 
 @Module
@@ -37,6 +43,9 @@ object NetworkModule {
             }
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
+            }
+            install(DefaultRequest) {
+                contentType(ContentType.Application.Json)
             }
         }
     }

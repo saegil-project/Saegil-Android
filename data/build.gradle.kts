@@ -86,7 +86,6 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation) // JSON 파싱
     implementation(libs.ktor.serialization.kotlinx.json) // kotlinx.serialization 사용
     implementation(libs.ktor.client.serialization)
-    implementation(libs.kotlinx.serialization.json)
 
     //Hilt
     implementation(libs.hilt.android)
