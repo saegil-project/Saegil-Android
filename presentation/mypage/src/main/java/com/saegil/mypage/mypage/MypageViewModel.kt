@@ -1,23 +1,43 @@
 package com.saegil.mypage.mypage
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.saegil.domain.usecase.GetTokenUseCase
+import com.saegil.domain.usecase.LogoutUseCase
+import com.saegil.domain.usecase.WithdrawalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MypageViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    private val logoutUseCase: LogoutUseCase,
+    private val withdrawalUseCase: WithdrawalUseCase,
+    private val getTokenUseCase: GetTokenUseCase
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<MypageState> = MutableStateFlow(MypageState())
+    private val _uiEvent = MutableSharedFlow<MypageUiEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
 
-    val stateFlow: StateFlow<MypageState> = _stateFlow.asStateFlow()
+    fun logout() {
+        viewModelScope.launch {
+            getTokenUseCase().collect { token ->
+                token?.let {
+                    _uiEvent.emit(if (logoutUseCase(it)) MypageUiEvent.SuccessLogout else MypageUiEvent.FailureLogout)
+                }
+            }
+        }
+    }
 
-
+    fun withdrawal() {
+        viewModelScope.launch {
+            getTokenUseCase().collect { token ->
+                token?.let {
+                    _uiEvent.emit(if (withdrawalUseCase(it)) MypageUiEvent.SuccessWithdrawal else MypageUiEvent.FailureWithdrawal)
+                }
+            }
+        }
+    }
 }
-
-class MypageState

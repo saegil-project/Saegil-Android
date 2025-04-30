@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="logout">로그아웃</string>
+    <string name="cancel">취소</string>
+    <string name="logout_dialog_title">로그아웃</string>
+    <string name="logout_dialog_description">정말 로그아웃하시겠습니까?\n기존 학습 대화 내역은 보관됩니다.</string>
+    <string name="withdrawal">회원탈퇴</string>
+    <string name="withdrawal_question">정말 탈퇴하시겠습니까?</string>
+    <string name="withdrawal_description">서비스 탈퇴 시 회원님의 계정 및\n지금까지 진행한 학습 대화 내역은\n즉시 삭제되며, 복구되지 않습니다.</string>
+    <string name="logout_message">로그아웃 되었습니다.</string>
+    <string name="logout_failed_message">로그아웃을 다시 시도해주세요.</string>
+    <string name="withdrawal_message">회원탈퇴 되었습니다.</string>
+    <string name="withdrawal_failed_message">회원탈퇴를 다시 시도해주세요.</string>
+    <string name="action_go_home">홈으로 돌아가기</string>
+    <string name="message_account_deletion_success">회원탈퇴가 완료되었습니다.</string>
+    <string name="message_account_deletion_support">새길 서비스에서의 경험을 바탕으로\n한국에서의 멋진 ‘새길’을 걸어가시길\n응원합니다 :)</string>
+    <string name="TermsOfService">https://sae-gil.notion.site/1e49b2ff4b1180b5bd99cf93df2aa3cf?pvs=73</string>
+    <string name="TermsOfPrivacy">https://sae-gil.notion.site/1e49b2ff4b11806b8d0fe43b596b7971?pvs=73</string>
+</resources>

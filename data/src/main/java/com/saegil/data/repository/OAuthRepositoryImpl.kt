@@ -33,6 +33,32 @@ class OAuthRepositoryImpl @Inject constructor(
             false
         }
     }
+
+    override suspend fun requestLogout(accessToken: String, refreshToken: String): Boolean {
+        return try {
+            if (oAuthService.requestLogout(accessToken, refreshToken)) {
+                tokenDataSource.clearToken()
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    override suspend fun requestWithdrawal(accessToken: String, refreshToken: String): Boolean {
+        return try {
+            if (oAuthService.requestWithdrawal(accessToken, refreshToken)) {
+                tokenDataSource.clearToken()
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
 
 
