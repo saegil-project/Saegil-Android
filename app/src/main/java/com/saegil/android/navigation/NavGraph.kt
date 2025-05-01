@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.saegil.learning.learning.LearningScreen
 import com.saegil.learning.learning_list.LearningListScreen
+import com.saegil.loglist.LogListScreen
 import com.saegil.map.map.MapScreen
 import com.saegil.mypage.mypage.MypageScreen
 import com.saegil.onboarding.OnboardingScreen
@@ -76,11 +77,15 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
                 },
-                navigateToLogList = {}
+                navigateToLogList = {
+                    navController.navigate(Screen.LogList.route)
+                }
             )
         }
         composable(Screen.LogList.route) {
-
+            LogListScreen(
+                navigateToLog = {}
+            )
         }
         composable(Screen.Onboarding.route) {
             OnboardingScreen(

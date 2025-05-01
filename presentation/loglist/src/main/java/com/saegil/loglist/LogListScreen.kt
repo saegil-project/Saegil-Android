@@ -1,12 +1,14 @@
 package com.saegil.loglist
 
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
 fun LogListScreen(
-    navigateToLog: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    navigateToLog: (Int) -> Unit = {},
+    navigateToMypage: () -> Unit = {},
 ) {
 
     LogListScreen()
@@ -16,5 +18,7 @@ fun LogListScreen(
 internal fun LogListScreen(
     modifier: Modifier = Modifier,
 ) {
+    LazyColumn() {
 
+    }
 }

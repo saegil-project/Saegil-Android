@@ -39,19 +39,17 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val noBars = currentRoute == Screen.Splash.route || currentRoute == Screen.Onboarding.route
-    val backArrowTopBar = currentRoute == Screen.LogList.route
+    val noBars = currentRoute in setOf(
+        Screen.Splash.route,
+        Screen.Onboarding.route,
+        Screen.LogList.route
+    )
 
     Scaffold(
         topBar = {
             if (!noBars) SaegilTopBar(
                 showLogo = true,
                 showBackButton = false
-            )
-            if(backArrowTopBar) SaegilTopBar(
-                showLogo = false,
-                showBackButton = true,
-                onBackClick = {}
             )
         },
         bottomBar = { if (!noBars) BottomNavigationBar(navController) },
