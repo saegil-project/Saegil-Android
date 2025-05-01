@@ -75,8 +75,12 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                     navController.navigate(Screen.Onboarding.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
-                }
+                },
+                navigateToLogList = {}
             )
+        }
+        composable(Screen.LogList.route) {
+
         }
         composable(Screen.Onboarding.route) {
             OnboardingScreen(

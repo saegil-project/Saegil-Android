@@ -31,7 +31,7 @@ fun SaegilTopBar(
     showLogo: Boolean,
     showBackButton: Boolean,
     modifier: Modifier = Modifier,
-    title: String = "",
+    title: String? = null,
     onBackClick: () -> Unit = {},
 ) {
     Box(
@@ -43,7 +43,7 @@ fun SaegilTopBar(
         contentAlignment = Alignment.Center
     ) {
 
-        title.let {
+        title?.let {
             Text(
                 text = title,
                 style = MaterialTheme.typography.h1,
@@ -78,7 +78,7 @@ fun SaegilTopBar(
 }
 
 
-@Preview
+@Preview(apiLevel = 33)
 @Composable
 fun LogoTopBarPreview() {
     SaegilAndroidTheme {
@@ -93,7 +93,7 @@ fun LogoTopBarPreview() {
     }
 }
 
-@Preview
+@Preview(apiLevel = 33)
 @Composable
 fun BackTitleTopBar1Preview() {
     SaegilAndroidTheme {
@@ -109,7 +109,7 @@ fun BackTitleTopBar1Preview() {
     }
 }
 
-@Preview
+@Preview(apiLevel = 33)
 @Composable
 fun BackTitleTopBar2Preview() {
     SaegilAndroidTheme {

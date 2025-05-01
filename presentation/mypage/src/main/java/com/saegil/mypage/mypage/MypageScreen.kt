@@ -37,6 +37,7 @@ import com.saegil.ui.util.SaegilToast
 fun MypageScreen(
     navigateToWebView: (String) -> Unit,
     navigateToOnboarding: () -> Unit,
+    navigateToLogList: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MypageViewModel = hiltViewModel()
 ) {
