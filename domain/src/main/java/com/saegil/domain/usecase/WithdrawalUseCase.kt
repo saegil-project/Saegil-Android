@@ -7,5 +7,5 @@ import javax.inject.Inject
 class WithdrawalUseCase @Inject constructor(
     private val oAuthRepository: OAuthRepository
 ) {
-    suspend operator fun invoke(token: Token) = oAuthRepository.requestWithdrawal(token.accessToken, token.refreshToken)
+    suspend operator fun invoke(token: Token) = oAuthRepository.requestWithdrawal(token.refreshToken)
 }

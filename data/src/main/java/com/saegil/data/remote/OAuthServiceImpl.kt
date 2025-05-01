@@ -35,14 +35,14 @@ class OAuthServiceImpl @Inject constructor(
         return client.get(OAUTH_VALIDATE_TOKEN).body()
     }
 
-    override suspend fun requestLogout(accessToken: String, refreshToken: String): Boolean {
+    override suspend fun requestLogout(refreshToken: String): Boolean {
         val response = client.post(OAUTH_LOGOUT) {
             setBody(mapOf("refreshToken" to refreshToken))
         }
         return response.status == HttpStatusCode.NoContent
     }
 
-    override suspend fun requestWithdrawal(accessToken: String, refreshToken: String): Boolean {
+    override suspend fun requestWithdrawal(refreshToken: String): Boolean {
         val response = client.post(OAUTH_WITHDRAWAL) {
             setBody(mapOf("refreshToken" to refreshToken))
         }

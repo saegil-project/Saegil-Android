@@ -7,5 +7,5 @@ import javax.inject.Inject
 class LogoutUseCase @Inject constructor(
     private val oAuthRepository: OAuthRepository
 ) {
-    suspend operator fun invoke(token: Token) = oAuthRepository.requestLogout(token.accessToken, token.refreshToken)
+    suspend operator fun invoke(token: Token) = oAuthRepository.requestLogout(token.refreshToken)
 }
