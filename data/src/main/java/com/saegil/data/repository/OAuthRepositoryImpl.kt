@@ -61,7 +61,6 @@ class OAuthRepositoryImpl @Inject constructor(
     }
 }
 
-
 fun TokenProto.toDomain() = Token(
     accessToken = this.accessToken,
     refreshToken = this.refreshToken

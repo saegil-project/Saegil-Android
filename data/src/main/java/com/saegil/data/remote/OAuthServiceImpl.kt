@@ -9,13 +9,9 @@ import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.contentType
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import javax.inject.Inject
@@ -26,7 +22,6 @@ class OAuthServiceImpl @Inject constructor(
 
     override suspend fun loginWithKakao(accessToken: String): TokenProto {
         val response = client.post(OAUTH_LOGIN) {
-            contentType(ContentType.Application.Json)
             setBody(mapOf("accessToken" to accessToken))
         }
         val json = response.body<JsonObject>()
@@ -37,15 +32,11 @@ class OAuthServiceImpl @Inject constructor(
     }
 
     override suspend fun validateAccessToken(accessToken: String): ValidateTokenResponse {
-        return client.get(OAUTH_VALIDATE_TOKEN) {
-            header(HttpHeaders.Authorization, accessToken)
-        }.body()
+        return client.get(OAUTH_VALIDATE_TOKEN).body()
     }
 
     override suspend fun requestLogout(accessToken: String, refreshToken: String): Boolean {
         val response = client.post(OAUTH_LOGOUT) {
-            header(HttpHeaders.Authorization, accessToken)
-            contentType(ContentType.Application.Json)
             setBody(mapOf("refreshToken" to refreshToken))
         }
         return response.status == HttpStatusCode.NoContent
@@ -53,8 +44,6 @@ class OAuthServiceImpl @Inject constructor(
 
     override suspend fun requestWithdrawal(accessToken: String, refreshToken: String): Boolean {
         val response = client.post(OAUTH_WITHDRAWAL) {
-            header(HttpHeaders.Authorization, accessToken)
-            contentType(ContentType.Application.Json)
             setBody(mapOf("refreshToken" to refreshToken))
         }
         return response.status == HttpStatusCode.NoContent

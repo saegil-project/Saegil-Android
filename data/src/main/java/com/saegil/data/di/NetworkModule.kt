@@ -1,5 +1,7 @@
 package com.saegil.data.di
 
+import com.saegil.data.di.network.ConditionalAuthPlugin
+import com.saegil.data.local.TokenDataSource
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.MapService
@@ -15,7 +17,6 @@ import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -23,10 +24,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
-
 import kotlinx.serialization.json.Json
-import okhttp3.internal.connection.ConnectInterceptor.intercept
 import javax.inject.Singleton
 
 @Module
@@ -35,7 +35,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient(): HttpClient {
+    fun provideHttpClient(
+        tokenDataSource: TokenDataSource
+    ): HttpClient {
         return HttpClient(Android) {
             install(Logging) {
                 level = LogLevel.ALL
@@ -47,7 +49,19 @@ object NetworkModule {
             install(DefaultRequest) {
                 contentType(ContentType.Application.Json)
             }
+            install(ConditionalAuthPlugin) {
+                tokenProvider = { tokenDataSource.getToken().accessToken }
+                shouldAttach = { request ->
+                    val path = request.url.encodedPath
+                    path in setOf(
+                        "/api/v1/oauth2/withdrawal",
+                        "/api/v1/oauth2/logout",
+                        "/api/v1/oauth2/validate-token"
+                    )
+                }
+            }
         }
+
     }
 
     @Provides
