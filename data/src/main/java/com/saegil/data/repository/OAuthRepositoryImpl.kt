@@ -34,9 +34,9 @@ class OAuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun requestLogout(accessToken: String, refreshToken: String): Boolean {
+    override suspend fun requestLogout(refreshToken: String): Boolean {
         return try {
-            if (oAuthService.requestLogout(accessToken, refreshToken)) {
+            if (oAuthService.requestLogout(refreshToken)) {
                 tokenDataSource.clearToken()
                 true
             } else {
@@ -47,9 +47,9 @@ class OAuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun requestWithdrawal(accessToken: String, refreshToken: String): Boolean {
+    override suspend fun requestWithdrawal(refreshToken: String): Boolean {
         return try {
-            if (oAuthService.requestWithdrawal(accessToken, refreshToken)) {
+            if (oAuthService.requestWithdrawal(refreshToken)) {
                 tokenDataSource.clearToken()
                 true
             } else {
@@ -60,7 +60,6 @@ class OAuthRepositoryImpl @Inject constructor(
         }
     }
 }
-
 
 fun TokenProto.toDomain() = Token(
     accessToken = this.accessToken,

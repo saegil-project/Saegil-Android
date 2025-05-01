@@ -1,7 +1,12 @@
 package com.saegil.data.di
 
+import com.saegil.data.di.network.ConditionalAuthPlugin
+import com.saegil.data.local.TokenDataSource
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
+import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
+import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
+import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
 import com.saegil.data.remote.OAuthService
@@ -14,11 +19,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
@@ -29,7 +37,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient(): HttpClient {
+    fun provideHttpClient(
+        tokenDataSource: TokenDataSource
+    ): HttpClient {
         return HttpClient(Android) {
             install(Logging) {
                 level = LogLevel.ALL
@@ -38,7 +48,22 @@ object NetworkModule {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
             }
+            install(DefaultRequest) {
+                contentType(ContentType.Application.Json)
+            }
+            install(ConditionalAuthPlugin) {
+                tokenProvider = { tokenDataSource.getToken().accessToken }
+                shouldAttach = { request ->
+                    val path = request.url.toString()
+                    path in setOf(
+                        OAUTH_LOGOUT,
+                        OAUTH_WITHDRAWAL,
+                        OAUTH_VALIDATE_TOKEN
+                    )
+                }
+            }
         }
+
     }
 
     @Provides
