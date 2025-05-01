@@ -10,10 +10,12 @@ import com.saegil.data.remote.ScenarioService
 import com.saegil.data.repository.FeedRepositoryImpl
 import com.saegil.data.repository.MapRepositoryImpl
 import com.saegil.data.repository.OAuthRepositoryImpl
+import com.saegil.data.repository.ScenarioLogRepositoryImpl
 import com.saegil.data.repository.ScenarioRepositoryImpl
 import com.saegil.domain.repository.FeedRepository
 import com.saegil.domain.repository.MapRepository
 import com.saegil.domain.repository.OAuthRepository
+import com.saegil.domain.repository.ScenarioLogRepository
 import com.saegil.domain.repository.ScenarioRepository
 import dagger.Module
 import dagger.Provides
@@ -58,5 +60,11 @@ object DataModule {
     @Singleton
     fun provideScenarioRepository(scenarioService: ScenarioService): ScenarioRepository {
         return ScenarioRepositoryImpl(scenarioService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideScenarioLogRepository(): ScenarioLogRepository {
+        return ScenarioLogRepositoryImpl()
     }
 }
