@@ -4,6 +4,9 @@ import com.saegil.data.di.network.ConditionalAuthPlugin
 import com.saegil.data.local.TokenDataSource
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
+import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
+import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
+import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
 import com.saegil.data.remote.OAuthService
@@ -24,7 +27,6 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
@@ -52,11 +54,11 @@ object NetworkModule {
             install(ConditionalAuthPlugin) {
                 tokenProvider = { tokenDataSource.getToken().accessToken }
                 shouldAttach = { request ->
-                    val path = request.url.encodedPath
+                    val path = request.url.toString()
                     path in setOf(
-                        "/api/v1/oauth2/withdrawal",
-                        "/api/v1/oauth2/logout",
-                        "/api/v1/oauth2/validate-token"
+                        OAUTH_LOGOUT,
+                        OAUTH_WITHDRAWAL,
+                        OAUTH_VALIDATE_TOKEN
                     )
                 }
             }
