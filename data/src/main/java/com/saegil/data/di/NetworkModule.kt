@@ -11,6 +11,8 @@ import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.OAuthServiceImpl
+import com.saegil.data.remote.ScenarioLogService
+import com.saegil.data.remote.ScenarioLogServiceImpl
 import com.saegil.data.remote.ScenarioService
 import com.saegil.data.remote.ScenarioServiceImpl
 import dagger.Module
@@ -88,5 +90,11 @@ object NetworkModule {
     @Singleton
     fun provideScenarioService(client: HttpClient): ScenarioService {
         return ScenarioServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideScenarioLogService(client: HttpClient): ScenarioLogService {
+        return ScenarioLogServiceImpl(client)
     }
 }
