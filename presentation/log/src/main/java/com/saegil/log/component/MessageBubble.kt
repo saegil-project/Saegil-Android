@@ -1,11 +1,14 @@
 package com.saegil.log.component
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,23 +21,27 @@ fun MessageBubble(
     modifier: Modifier = Modifier,
     message: String = "",
 ) {
-    Surface(
-        shape = RoundedCornerShape(4.dp),
-        color = if (isUser) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSecondary,
-        modifier = modifier
-            .padding(
-                start = if (isUser) 64.dp else 8.dp,
-                end = if (isUser) 8.dp else 64.dp,
-                top = 4.dp,
-                bottom = 4.dp
-            )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+        contentAlignment = if (isUser) Alignment.CenterEnd else Alignment.CenterStart
     ) {
-        Text(
-            text = message,
-            modifier = Modifier.padding(12.dp),
-            style = MaterialTheme.typography.caption,
-            color = MaterialTheme.colorScheme.onSurface,
-        )
+        Surface(
+            shape = RoundedCornerShape(4.dp),
+            color = if (isUser) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSecondary,
+            modifier = modifier
+                .padding(
+                    start = if (isUser) 100.dp else 20.dp,
+                    end = if (isUser) 20.dp else 100.dp,
+                )
+        ) {
+            Text(
+                text = message,
+                modifier = Modifier.padding(12.dp),
+                style = MaterialTheme.typography.caption,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
     }
 }
 
