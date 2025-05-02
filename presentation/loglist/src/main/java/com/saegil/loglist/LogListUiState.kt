@@ -8,6 +8,6 @@ sealed interface LogListUiState {
     data object Loading : LogListUiState
 
     data class Success (
-        val feeds : Flow<PagingData<Scenario>>
+        val logList : Flow<PagingData<Scenario>>
     ) : LogListUiState
 }

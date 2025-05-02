@@ -59,5 +59,6 @@ dependencies {
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
 
+    implementation(project(":core:designsystem"))
     implementation(project(":domain"))
 }

@@ -3,6 +3,7 @@ package com.saegil.loglist
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,6 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.designsystem.component.SaegilLoadingWheel
+import com.saegil.domain.model.Scenario
 
 @Composable
 fun LogListScreen(
@@ -20,16 +25,21 @@ fun LogListScreen(
 ) {
 
     val logState by viewModel.logUiState.collectAsStateWithLifecycle()
+    val scenarioLogResource = (logState as? LogListUiState.Success)?.logList?.collectAsLazyPagingItems()
 
     LogListScreen(
-        logState = logState
+        logState = logState,
+        scenarioLogResource = scenarioLogResource,
+        modifier = modifier
     )
 }
 
 @Composable
 internal fun LogListScreen(
     logState: LogListUiState,
+    scenarioLogResource: LazyPagingItems<Scenario>?,
     modifier: Modifier = Modifier,
+    navigateToLog: (Int) -> Unit = {},
 ) {
     Surface {
         Column(
@@ -38,6 +48,24 @@ internal fun LogListScreen(
                 .padding(horizontal = 25.dp)
         ) {
 
+
+            when (logState) {
+                LogListUiState.Loading -> LoadingState()
+                is LogListUiState.Success -> NoticesList(
+                    feedResource = scenarioLogResource,
+                    navigateToWebView = navigateToLog
+                )
+            }
         }
     }
+}
+
+@Composable
+private fun LoadingState(
+    modifier: Modifier = Modifier,
+) {
+    SaegilLoadingWheel(
+        modifier = modifier
+            .wrapContentSize()
+    )
 }
