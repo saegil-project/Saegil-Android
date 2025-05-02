@@ -51,9 +51,9 @@ internal fun LogListScreen(
 
             when (logState) {
                 LogListUiState.Loading -> LoadingState()
-                is LogListUiState.Success -> NoticesList(
-                    feedResource = scenarioLogResource,
-                    navigateToWebView = navigateToLog
+                is LogListUiState.Success -> ScenarioLogList(
+                    sceanrioLogResource = scenarioLogResource,
+                    navigateToLog = navigateToLog
                 )
             }
         }
@@ -68,4 +68,13 @@ private fun LoadingState(
         modifier = modifier
             .wrapContentSize()
     )
+}
+
+@Composable
+private fun ScenarioLogList(
+    sceanrioLogResource: LazyPagingItems<Scenario>?,
+    modifier: Modifier = Modifier,
+    navigateToLog: (Int) -> Unit = {},
+) {
+
 }
