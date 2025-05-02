@@ -8,6 +8,4 @@ interface ScenarioLogRepository {
 
     fun getScenarioLogs(): Flow<PagingData<Scenario>>
 
-    fun setScenarioLog(scenario: Scenario)
-
 }

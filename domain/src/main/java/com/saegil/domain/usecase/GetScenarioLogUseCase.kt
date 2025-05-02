@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetScenarioLogUseCase @Inject constructor(
-    scenarioLogRepository: ScenarioLogRepository
+    private val  scenarioLogRepository: ScenarioLogRepository
 ) {
-    //operator fun invoke() : Flow<PagingData<Scenario>> =
+    operator fun invoke() : Flow<PagingData<Scenario>> = scenarioLogRepository.getScenarioLogs()
 }
