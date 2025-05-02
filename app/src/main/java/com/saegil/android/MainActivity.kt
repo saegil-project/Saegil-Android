@@ -42,7 +42,8 @@ fun MainScreen() {
     val noBars = currentRoute in setOf(
         Screen.Splash.route,
         Screen.Onboarding.route,
-        Screen.LogList.route
+        Screen.LogList.route,
+        Screen.Log.route
     )
 
     Scaffold(

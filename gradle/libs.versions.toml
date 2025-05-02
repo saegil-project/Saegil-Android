@@ -55,6 +55,7 @@ media3CommonKtxVersion = "1.6.1"
 protobuf-plugin = "0.9.4"
 uiAndroidVersion = "1.5.0"
 foundationAndroidVersion = "1.8.0"
+runtimeAndroidVersion = "1.8.0"
 
 [libraries]
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastoreVersion" }
@@ -117,6 +118,7 @@ androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiToolingVersion" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroidVersion" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroidVersion" }
+runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroidVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
