@@ -63,7 +63,8 @@ internal fun LearningListScreen(
                 ) {
                     items(learningListState.organizationList) { item ->
                         ScenarioItem(
-                            item = item,
+                            name = item.name,
+                            iconImageUrl = item.iconImageUrl,
                             onClick = { onScenarioClick(item.id, item.name) }
                         )
                     }
