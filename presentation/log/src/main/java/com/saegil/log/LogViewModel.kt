@@ -8,4 +8,7 @@ import javax.inject.Inject
 class LogViewModel @Inject constructor(
 
 ): ViewModel() {
+
+    val logUiState
+
 }
