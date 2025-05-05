@@ -42,8 +42,6 @@ dependencies {
     implementation(libs.runtime.android)
     implementation(libs.androidx.material3.android)
     implementation(libs.ui.tooling.preview.android)
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:designsystem"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -54,4 +52,11 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
+
+    //Paging
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+
+    implementation(project(":core:designsystem"))
+    implementation(project(":domain"))
 }
