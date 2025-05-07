@@ -1,9 +1,7 @@
 package com.saegil.data.di
 
-import com.saegil.data.BuildConfig
 import com.saegil.data.di.network.ConditionalAuthPlugin
 import com.saegil.data.local.TokenDataSource
-import com.saegil.data.remote.AssistantApi
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
@@ -15,8 +13,6 @@ import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.OAuthServiceImpl
 import com.saegil.data.remote.ScenarioService
 import com.saegil.data.remote.ScenarioServiceImpl
-import com.saegil.data.repository.AssistantRepositoryImpl
-import com.saegil.domain.repository.AssistantRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,11 +29,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -102,53 +93,5 @@ object NetworkModule {
 //    @Singleton
 //    fun provideAssistantService(client: HttpClient): AssistantService {
 //        return AssistantServiceImpl(client)
-//    }
-
-
-    @Provides
-    @Singleton
-    fun provideAssistantRepository(api: AssistantApi): AssistantRepository =
-        AssistantRepositoryImpl(api)
-
-    @Provides
-    fun provideBaseUrl(): String = BuildConfig.BASE_URL
-
-    @Provides
-    @Singleton
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY // 로그 레벨 설정
-        }
-    }
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor) // 로깅 인터셉터 추가
-            .addInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader("Authorization-Header", "Bearer saegil-dev-test-token")
-                    .build()
-                chain.proceed(request)
-            }
-            .connectTimeout(100, TimeUnit.SECONDS)
-            .readTimeout(100, TimeUnit.SECONDS)
-            .writeTimeout(100, TimeUnit.SECONDS)
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(client: OkHttpClient, baseUrl: String): Retrofit =
-        Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideAssistantApi(retrofit: Retrofit): AssistantApi =
-        retrofit.create(AssistantApi::class.java)
+//    }//todo ktor로 추후 변경하기 위해서 주석처리함
 }

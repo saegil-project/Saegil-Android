@@ -64,5 +64,5 @@ object DataModule {
 //    @Singleton
 //    fun provideAssistantRepository(assistantService: AssistantService): AssistantRepository {
 //        return AssistantRepositoryImpl(assistantService)
-//    }
+//    } //todo ktor로 추후 변경하기 위해서 주석처리함
 }
