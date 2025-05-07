@@ -7,10 +7,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +43,7 @@ import com.saegil.designsystem.theme.h1
 import com.saegil.designsystem.theme.h2
 import com.saegil.designsystem.theme.h3
 import com.saegil.learning.learning.components.CharacterEmotion
+import kotlinx.coroutines.delay
 
 @Composable
 fun LearningScreen(
@@ -49,6 +55,9 @@ fun LearningScreen(
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     var showPermissionDialog by remember { mutableStateOf(false) }
+    var currentEmotion by remember { mutableStateOf(CharacterEmotion.SMILE) }
+    var displayText by remember { mutableStateOf("") }
+    val scrollState = rememberScrollState()
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -57,6 +66,39 @@ fun LearningScreen(
             viewModel.startRecording()
         } else {
             showPermissionDialog = true
+        }
+    }
+
+    LaunchedEffect(state) {
+        when (state) {
+            is LearningUiState.isConverting, is LearningUiState.isUploading -> {
+                while (true) {
+                    currentEmotion = CharacterEmotion.NORMAL
+                    delay(300)
+                    currentEmotion = CharacterEmotion.SAYING
+                    delay(300)
+                }
+            }
+
+            is LearningUiState.isRecording -> {
+                currentEmotion = CharacterEmotion.WONDER
+                displayText = ""
+            }
+
+            is LearningUiState.Idle -> {
+                currentEmotion = CharacterEmotion.SMILE
+                displayText = "상황을 설명하고 대화 연습을 시작해보세요"
+            }
+
+            is LearningUiState.Success -> {
+                currentEmotion = CharacterEmotion.NORMAL
+                displayText = (state as LearningUiState.Success).response.response
+            }
+
+            is LearningUiState.Error -> {
+                currentEmotion = CharacterEmotion.NORMAL
+                displayText = "error"
+            }
         }
     }
 
@@ -79,116 +121,95 @@ fun LearningScreen(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(
-            modifier = Modifier,
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "상황 $scenarioId",
-                style = MaterialTheme.typography.h3,
-                modifier = Modifier.padding(top = 20.dp, bottom = 14.dp)
-            )
-            Text(
-                text = scenarioName,
-                style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colorScheme.primary
-            )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(scrollState),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "상황 $scenarioId",
+                    style = MaterialTheme.typography.h3,
+                    modifier = Modifier.padding(top = 20.dp, bottom = 14.dp)
+                )
+                Text(
+                    text = scenarioName,
+                    style = MaterialTheme.typography.h1,
+                    color = MaterialTheme.colorScheme.primary
+                )
 
-            SaegilCharacter(
-                modifier = Modifier.padding(top = 117.dp),
-                characterEmotion = CharacterEmotion.NORMAL
-            )
+                SaegilCharacter(
+                    modifier = Modifier.padding(top = 117.dp),
+                    characterEmotion = currentEmotion
+                )
 
+                when (state) {
 
-            when (state) {
-//                is LearningUiState.Idle -> {
-//                    Text(
-//                        text = "상황을 설명하고 대화 연습을 시작해보세요", //Todo 수정
-//                        style = MaterialTheme.typography.h2,
-//                        modifier = Modifier.padding(top = 30.dp),
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
+                    is LearningUiState.isConverting, is LearningUiState.isUploading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.padding(top = 100.dp)
+                        )
+                    }
 
-                is LearningUiState.Error -> {
-                    Text(
-                        text = "error",
-                        style = MaterialTheme.typography.h2,
-                        modifier = Modifier.padding(top = 100.dp),
-                        color = MaterialTheme.colorScheme.error
-                    )
+                    is LearningUiState.Error, is LearningUiState.Success, is LearningUiState.Idle -> {
+                        Text(
+                            text = displayText,
+                            style = MaterialTheme.typography.h2,
+                            modifier = Modifier
+                                .padding(top = 30.dp, start = 16.dp, end = 16.dp)
+                                .fillMaxWidth(),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
+                    LearningUiState.isRecording -> {
+                    }
                 }
+            }
 
-                is LearningUiState.isConverting -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(top = 100.dp)
-                    )
-                }
-
-                is LearningUiState.isUploading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.padding(top = 100.dp)
-                    )
-                }
-
-                is LearningUiState.Success -> {
-                    Text(
-                        text = (state as LearningUiState.Success).response.response,
-                        style = MaterialTheme.typography.h2,
-                        modifier = Modifier.padding(top = 30.dp),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textAlign = TextAlign.Center
-                    )
-
-                    RecordButton(
-                        modifier = Modifier.padding(top = 100.dp),
-                        isRecording = state == LearningUiState.isRecording,
-                        onClick = {
-                            if (state == LearningUiState.isRecording) {
-                                viewModel.stopRecording()
-                            } else {
-                                if (ContextCompat.checkSelfPermission(
-                                        context,
-                                        Manifest.permission.RECORD_AUDIO
-                                    ) == PackageManager.PERMISSION_GRANTED
-                                ) {
-                                    viewModel.startRecording()
+            // 고정된 버튼 위치
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 32.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                when (state) {
+                    is LearningUiState.Success, is LearningUiState.Idle -> {
+                        RecordButton(
+                            isRecording = state == LearningUiState.isRecording,
+                            onClick = {
+                                if (state == LearningUiState.isRecording) {
+                                    viewModel.stopRecording()
                                 } else {
-                                    permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                                    if (ContextCompat.checkSelfPermission(
+                                            context,
+                                            Manifest.permission.RECORD_AUDIO
+                                        ) == PackageManager.PERMISSION_GRANTED
+                                    ) {
+                                        viewModel.startRecording()
+                                    } else {
+                                        permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                                    }
                                 }
                             }
-                        }
-                    )
-                }
+                        )
+                    }
 
-                else -> {
-                    Text(
-                        text = "상황을 설명하고 대화 연습을 시작해보세요", //Todo 수정
-                        style = MaterialTheme.typography.h2,
-                        modifier = Modifier.padding(top = 30.dp),
-                        textAlign = TextAlign.Center
-                    )
-
-                    RecordButton(
-                        modifier = Modifier.padding(top = 100.dp),
-                        isRecording = state == LearningUiState.isRecording,
-                        onClick = {
-                            if (state == LearningUiState.isRecording) {
+                    LearningUiState.isRecording -> {
+                        RecordButton(
+                            isRecording = true,
+                            onClick = {
                                 viewModel.stopRecording()
-                            } else {
-                                if (ContextCompat.checkSelfPermission(
-                                        context,
-                                        Manifest.permission.RECORD_AUDIO
-                                    ) == PackageManager.PERMISSION_GRANTED
-                                ) {
-                                    viewModel.startRecording()
-                                } else {
-                                    permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-                                }
                             }
-                        }
-                    )
+                        )
+                    }
+
+                    else -> {}
                 }
             }
         }
@@ -209,12 +230,11 @@ fun SaegilCharacter(
 
 @Composable
 fun RecordButton(
-    modifier: Modifier,
     isRecording: Boolean,
     onClick: () -> Unit
 ) {
     Image(
-        modifier = modifier
+        modifier = Modifier
             .size(126.dp)
             .clickable(onClick = onClick),
         painter = painterResource(
