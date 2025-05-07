@@ -1,4 +1,4 @@
-package com.saegil.loglist
+package com.saegil.log.log_list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.component.ScenarioItem
 import com.saegil.domain.model.SimulationLog
-import com.saegil.loglist.component.EmptyLogImage
+import com.saegil.log.log_list.component.EmptyLogImage
 
 @Composable
 fun LogListScreen(

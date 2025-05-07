@@ -1,4 +1,4 @@
-package com.saegil.log.component
+package com.saegil.log.log.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -1,4 +1,4 @@
-package com.saegil.loglist.component
+package com.saegil.log.log_list.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

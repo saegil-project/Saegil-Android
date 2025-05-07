@@ -1,4 +1,4 @@
-package com.saegil.log
+package com.saegil.log.log
 
 import com.saegil.domain.model.SimulationLogDetail
 

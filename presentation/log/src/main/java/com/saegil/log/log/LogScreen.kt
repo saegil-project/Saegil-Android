@@ -1,4 +1,4 @@
-package com.saegil.log
+package com.saegil.log.log
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.domain.model.SimulationLogDetail
 import com.saegil.domain.model.SimulationMessage
-import com.saegil.log.component.MessageBubble
+import com.saegil.log.log.component.MessageBubble
 
 @Composable
 fun LogScreen(

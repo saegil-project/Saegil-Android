@@ -1,4 +1,4 @@
-package com.saegil.log
+package com.saegil.log.log
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -23,7 +23,7 @@ class LogViewModel @Inject constructor(
 
     val logUiState: StateFlow<LogUiState> =
         getMessageLogUseCase(simulationId)
-        .map<SimulationLogDetail,LogUiState>(LogUiState::Success)
+        .map<SimulationLogDetail, LogUiState>(LogUiState::Success)
         .onStart { emit(LogUiState.Loading) }
         .stateIn(
             scope = viewModelScope,

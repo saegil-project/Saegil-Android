@@ -1,4 +1,4 @@
-package com.saegil.loglist
+package com.saegil.log.log_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
