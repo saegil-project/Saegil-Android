@@ -19,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.domain.model.SimulationLogDetail
+import com.saegil.domain.model.SimulationMessage
 import com.saegil.log.component.MessageBubble
 
 @Composable
@@ -87,6 +88,37 @@ private fun LoadingState(
 @Composable
 fun LogScreenPreview() {
     SaegilAndroidTheme {
-        LogScreen()
+        LogScreen(
+            logState = LogUiState.Success(
+                detail = SimulationLogDetail(
+                    scenarioName = "11",
+                    messages = listOf(
+                        SimulationMessage(
+                            id = 1,
+                            isFromUser = true,
+                            contents = "반갑습니다.",
+                            createdAt = "111111"
+                        ),
+                        SimulationMessage(
+                            id = 1,
+                            isFromUser = false,
+                            contents = "반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
+                            createdAt = "111111"
+                        ),
+                        SimulationMessage(
+                            id = 1,
+                            isFromUser = true,
+                            contents = "반갑습니다.반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
+                            createdAt = "111111"
+                        ),SimulationMessage(
+                            id = 1,
+                            isFromUser = false,
+                            contents = "반갑습니다.반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
+                            createdAt = "111111"
+                        )
+                    )
+                )
+            )
+        )
     }
 }
