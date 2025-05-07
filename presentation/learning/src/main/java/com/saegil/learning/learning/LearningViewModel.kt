@@ -7,16 +7,12 @@ import android.os.Environment
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.saegil.domain.model.UploadAudio
 import com.saegil.domain.usecase.UploadAudioUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
@@ -87,12 +83,14 @@ class LearningViewModel @Inject constructor(
                     _uiState.value = LearningUiState.isUploading
 
                     try {
-                        uploadAudioUseCase(file)
-                            .map<UploadAudio, LearningUiState>(LearningUiState::Success)
-                            .onStart { emit(LearningUiState.isUploading) }
-                            .collectLatest { result ->
-                                _uiState.value = result
-                            }
+                        uploadAudioUseCase(file).collect { result ->
+                            result
+                                .onSuccess { dto ->
+                                    _uiState.value = LearningUiState.Success(dto)
+                                    println("성공: $dto")
+                                }
+                                .onFailure { error -> println("실패: ${error.message}") }
+                        }
                     } catch (e: Exception) {
                         _uiState.value = LearningUiState.Error("파일 업로드 중 오류가 발생했습니다")
                     }
@@ -101,7 +99,8 @@ class LearningViewModel @Inject constructor(
                 _uiState.value = LearningUiState.Error("파일 변환 중 오류가 발생했습니다")
             }
         }
-    }
+            }
+
 
     override fun onCleared() {
         super.onCleared()

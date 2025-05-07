@@ -100,14 +100,17 @@ fun LearningScreen(
                 characterEmotion = CharacterEmotion.NORMAL
             )
 
-            Text(
-                text = "content", //Todo 수정
-                style = MaterialTheme.typography.h2,
-                modifier = Modifier.padding(top = 30.dp),
-                textAlign = TextAlign.Center
-            )
 
             when (state) {
+//                is LearningUiState.Idle -> {
+//                    Text(
+//                        text = "상황을 설명하고 대화 연습을 시작해보세요", //Todo 수정
+//                        style = MaterialTheme.typography.h2,
+//                        modifier = Modifier.padding(top = 30.dp),
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
+
                 is LearningUiState.Error -> {
                     Text(
                         text = "error",
@@ -129,7 +132,44 @@ fun LearningScreen(
                     )
                 }
 
+                is LearningUiState.Success -> {
+                    Text(
+                        text = (state as LearningUiState.Success).response.response,
+                        style = MaterialTheme.typography.h2,
+                        modifier = Modifier.padding(top = 30.dp),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        textAlign = TextAlign.Center
+                    )
+
+                    RecordButton(
+                        modifier = Modifier.padding(top = 100.dp),
+                        isRecording = state == LearningUiState.isRecording,
+                        onClick = {
+                            if (state == LearningUiState.isRecording) {
+                                viewModel.stopRecording()
+                            } else {
+                                if (ContextCompat.checkSelfPermission(
+                                        context,
+                                        Manifest.permission.RECORD_AUDIO
+                                    ) == PackageManager.PERMISSION_GRANTED
+                                ) {
+                                    viewModel.startRecording()
+                                } else {
+                                    permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                                }
+                            }
+                        }
+                    )
+                }
+
                 else -> {
+                    Text(
+                        text = "상황을 설명하고 대화 연습을 시작해보세요", //Todo 수정
+                        style = MaterialTheme.typography.h2,
+                        modifier = Modifier.padding(top = 30.dp),
+                        textAlign = TextAlign.Center
+                    )
+
                     RecordButton(
                         modifier = Modifier.padding(top = 100.dp),
                         isRecording = state == LearningUiState.isRecording,

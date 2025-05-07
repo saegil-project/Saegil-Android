@@ -3,17 +3,14 @@ package com.saegil.data.di
 import android.content.Context
 import com.saegil.data.local.TokenDataSource
 import com.saegil.data.local.TokenDataSourceImpl
-import com.saegil.data.remote.AssistantService
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.ScenarioService
-import com.saegil.data.repository.AssistantRepositoryImpl
 import com.saegil.data.repository.FeedRepositoryImpl
 import com.saegil.data.repository.MapRepositoryImpl
 import com.saegil.data.repository.OAuthRepositoryImpl
 import com.saegil.data.repository.ScenarioRepositoryImpl
-import com.saegil.domain.repository.AssistantRepository
 import com.saegil.domain.repository.FeedRepository
 import com.saegil.domain.repository.MapRepository
 import com.saegil.domain.repository.OAuthRepository
@@ -63,9 +60,9 @@ object DataModule {
         return ScenarioRepositoryImpl(scenarioService)
     }
 
-    @Provides
-    @Singleton
-    fun provideAssistantRepository(assistantService: AssistantService): AssistantRepository {
-        return AssistantRepositoryImpl(assistantService)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideAssistantRepository(assistantService: AssistantService): AssistantRepository {
+//        return AssistantRepositoryImpl(assistantService)
+//    }
 }

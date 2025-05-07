@@ -9,7 +9,7 @@ import javax.inject.Inject
 class UploadAudioUseCase @Inject constructor(
     private val assistantRepository: AssistantRepository
 ) {
-    suspend operator fun invoke(file: File): Flow<UploadAudio> {
+    suspend operator fun invoke(file: File): Flow<Result<UploadAudio>> {
         return assistantRepository.uploadAudio(file)
     }
 } 
