@@ -13,10 +13,10 @@ import com.saegil.data.remote.MessageLogService
 import com.saegil.data.remote.MessageLogServiceImpl
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.OAuthServiceImpl
-import com.saegil.data.remote.ScenarioLogService
-import com.saegil.data.remote.ScenarioLogServiceImpl
 import com.saegil.data.remote.ScenarioService
 import com.saegil.data.remote.ScenarioServiceImpl
+import com.saegil.data.remote.SimulationLogService
+import com.saegil.data.remote.SimulationLogServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -96,8 +96,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideScenarioLogService(client: HttpClient): ScenarioLogService {
-        return ScenarioLogServiceImpl(client)
+    fun provideSimulationLogService(client: HttpClient): SimulationLogService {
+        return SimulationLogServiceImpl(client)
     }
 
     @Provides

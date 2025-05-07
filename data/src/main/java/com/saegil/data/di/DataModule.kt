@@ -6,18 +6,18 @@ import com.saegil.data.local.TokenDataSourceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.OAuthService
-import com.saegil.data.remote.ScenarioLogService
 import com.saegil.data.remote.ScenarioService
+import com.saegil.data.remote.SimulationLogService
 import com.saegil.data.repository.FeedRepositoryImpl
 import com.saegil.data.repository.MapRepositoryImpl
 import com.saegil.data.repository.OAuthRepositoryImpl
-import com.saegil.data.repository.ScenarioLogRepositoryImpl
+import com.saegil.data.repository.SimulationLogRepositoryImpl
 import com.saegil.data.repository.ScenarioRepositoryImpl
 import com.saegil.domain.repository.FeedRepository
 import com.saegil.domain.repository.MapRepository
 import com.saegil.domain.repository.OAuthRepository
-import com.saegil.domain.repository.ScenarioLogRepository
 import com.saegil.domain.repository.ScenarioRepository
+import com.saegil.domain.repository.SimulationLogRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,7 +65,7 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun providesScenarioLogRepository(scenarioLogService: ScenarioLogService): ScenarioLogRepository {
-        return ScenarioLogRepositoryImpl(scenarioLogService)
+    fun providesSimulationLogRepository(simulationLogService: SimulationLogService): SimulationLogRepository {
+        return SimulationLogRepositoryImpl(simulationLogService)
     }
 }

@@ -1,13 +1,11 @@
 package com.saegil.loglist
 
-import androidx.paging.PagingData
-import com.saegil.domain.model.Scenario
-import kotlinx.coroutines.flow.Flow
+import com.saegil.domain.model.SimulationLog
 
 sealed interface LogListUiState {
     data object Loading : LogListUiState
 
     data class Success (
-        val logList : Flow<PagingData<Scenario>>
+        val logList : List<SimulationLog>?
     ) : LogListUiState
 }

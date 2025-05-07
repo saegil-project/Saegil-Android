@@ -35,7 +35,6 @@ class FeedServiceImpl @Inject constructor(
                 }
             }.body<NoticeListDto>()
         } catch (e : Exception) {
-            Log.d("FeedService", e.toString())
             null
         }
     }

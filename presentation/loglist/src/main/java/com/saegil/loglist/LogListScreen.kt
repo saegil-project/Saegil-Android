@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,11 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.component.ScenarioItem
-import com.saegil.domain.model.Scenario
+import com.saegil.domain.model.SimulationLog
 import com.saegil.loglist.component.EmptyLogImage
 
 @Composable
@@ -31,12 +30,9 @@ fun LogListScreen(
 ) {
 
     val logState by viewModel.logUiState.collectAsStateWithLifecycle()
-    val scenarioLogResource =
-        (logState as? LogListUiState.Success)?.logList?.collectAsLazyPagingItems()
 
     LogListScreen(
         logState = logState,
-        scenarioLogResource = scenarioLogResource,
         navigateToLog = navigateToLog,
         modifier = modifier
     )
@@ -45,7 +41,6 @@ fun LogListScreen(
 @Composable
 internal fun LogListScreen(
     logState: LogListUiState,
-    scenarioLogResource: LazyPagingItems<Scenario>?,
     modifier: Modifier = Modifier,
     navigateToLog: (Long) -> Unit = {},
 ) {
@@ -59,7 +54,7 @@ internal fun LogListScreen(
             when (logState) {
                 LogListUiState.Loading -> LoadingState()
                 is LogListUiState.Success -> ScenarioLogList(
-                    scenarioLogResource = scenarioLogResource,
+                    logState = logState,
                     navigateToLog = navigateToLog
                 )
             }
@@ -79,18 +74,19 @@ private fun LoadingState(
 
 @Composable
 private fun ScenarioLogList(
-    scenarioLogResource: LazyPagingItems<Scenario>?,
+    logState: LogListUiState.Success,
     modifier: Modifier = Modifier,
     navigateToLog: (Long) -> Unit = {},
 ) {
-    scenarioLogResource?.let {
+    logState.logList?.let {
         LazyColumn(
             modifier = modifier.fillMaxSize(),
             contentPadding = PaddingValues(36.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+
             scenarioLogList(
-                scenarioLogResource = scenarioLogResource,
+                logList = logState.logList,
                 navigateToLog = navigateToLog,
             )
         }
@@ -98,17 +94,15 @@ private fun ScenarioLogList(
 }
 
 fun LazyListScope.scenarioLogList(
-    scenarioLogResource: LazyPagingItems<Scenario>,
+    logList: List<SimulationLog>,
     navigateToLog: (Long) -> Unit = {},
 ) {
-    items(scenarioLogResource.itemCount) { index ->
-        val scenarioLog = scenarioLogResource[index]
-        scenarioLog?.let { scenario ->
-            ScenarioItem(
-                name = scenario.name,
-                iconImageUrl = scenario.iconImageUrl,
-                onClick = { navigateToLog(scenario.id) }
-            )
-        }
+    items(logList) { simulationLog ->
+        ScenarioItem(
+            name = simulationLog.scenarioName,
+            iconImageUrl = simulationLog.scenarioIconImageUrl,
+            onClick = { navigateToLog(simulationLog.id) },
+            date = simulationLog.createdAt
+        )
     }
 }
