@@ -18,8 +18,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -50,7 +48,7 @@ class LearningViewModel @Inject constructor(
         }
 
         try {
-            val fileName = "recording_${System.currentTimeMillis()}.mp3"
+            val fileName = "recording_${System.currentTimeMillis()}.m4a"
             audioFile = File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), fileName)
 
             mediaRecorder = MediaRecorder().apply {
@@ -88,18 +86,10 @@ class LearningViewModel @Inject constructor(
                 audioFile?.let { file ->
                     _uiState.value = LearningUiState.isUploading
 
-                    val requestFile = file.asRequestBody("audio/mp3".toMediaTypeOrNull())
-//                    val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-
                     try {
-                        val response = uploadAudioUseCase(file)
+                        uploadAudioUseCase(file)
                             .map<UploadAudio, LearningUiState>(LearningUiState::Success)
                             .onStart { emit(LearningUiState.isUploading) }
-//                            .stateIn(
-//                                scope = viewModelScope,
-//                                started = SharingStarted.WhileSubscribed(5_000),
-//                                initialValue = LearningUiState.isUploading,
-//                            ).value
                             .collectLatest { result ->
                                 _uiState.value = result
                             }
