@@ -87,6 +87,7 @@ fun MypageScreen(
         onWithdrawalNegativeButtonClick = viewModel::withdrawal,
         onClickTermsOfPrivacy = { navigateToWebView(context.getString(R.string.TermsOfPrivacy)) },
         onClickTermsOfService = { navigateToWebView(context.getString(R.string.TermsOfService)) },
+        navigateToLogList = navigateToLogList,
         modifier = modifier
     )
 
@@ -106,6 +107,7 @@ internal fun MypageScreen(
     onWithdrawalNegativeButtonClick: () -> Unit,
     onClickTermsOfPrivacy: () -> Unit,
     onClickTermsOfService: () -> Unit,
+    navigateToLogList: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -167,7 +169,7 @@ internal fun MypageScreen(
                 ProfileCard(
                     name = "김주민",
                 )
-                LearningLogButton({})
+                LearningLogButton(navigateToLogList)
             }
 
             Box(
@@ -219,6 +221,7 @@ private fun MypageScreenPreview() {
             false,
             false,
             false,
+            {},
             {},
             {},
             {},

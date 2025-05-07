@@ -29,10 +29,10 @@ fun LogListScreen(
     navigateToMypage: () -> Unit = {},
 ) {
 
-    val logState by viewModel.logUiState.collectAsStateWithLifecycle()
+    val logListState by viewModel.logListUiState.collectAsStateWithLifecycle()
 
     LogListScreen(
-        logState = logState,
+        logListState = logListState,
         navigateToLog = navigateToLog,
         modifier = modifier
     )
@@ -40,7 +40,7 @@ fun LogListScreen(
 
 @Composable
 internal fun LogListScreen(
-    logState: LogListUiState,
+    logListState: LogListUiState,
     modifier: Modifier = Modifier,
     navigateToLog: (Long) -> Unit = {},
 ) {
@@ -51,10 +51,10 @@ internal fun LogListScreen(
                 .padding(horizontal = 25.dp)
         ) {
 
-            when (logState) {
+            when (logListState) {
                 LogListUiState.Loading -> LoadingState()
                 is LogListUiState.Success -> ScenarioLogList(
-                    logState = logState,
+                    logListState = logListState,
                     navigateToLog = navigateToLog
                 )
             }
@@ -74,11 +74,11 @@ private fun LoadingState(
 
 @Composable
 private fun ScenarioLogList(
-    logState: LogListUiState.Success,
+    logListState: LogListUiState.Success,
     modifier: Modifier = Modifier,
     navigateToLog: (Long) -> Unit = {},
 ) {
-    logState.logList?.let {
+    logListState.logList?.let {
         LazyColumn(
             modifier = modifier.fillMaxSize(),
             contentPadding = PaddingValues(36.dp),
@@ -86,7 +86,7 @@ private fun ScenarioLogList(
         ) {
 
             scenarioLogList(
-                logList = logState.logList,
+                logList = logListState.logList,
                 navigateToLog = navigateToLog,
             )
         }

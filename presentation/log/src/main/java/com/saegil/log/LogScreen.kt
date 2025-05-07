@@ -3,17 +3,22 @@ package com.saegil.log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.theme.SaegilAndroidTheme
+import com.saegil.domain.model.SimulationLogDetail
 import com.saegil.log.component.MessageBubble
 
 @Composable
@@ -22,37 +27,60 @@ fun LogScreen(
     viewModel: LogViewModel = hiltViewModel(),
     navigateToLogList: () -> Unit = {},
 ) {
+
+    val logState by viewModel.logUiState.collectAsStateWithLifecycle()
+
     LogScreen(
+        logState = logState,
         modifier = modifier,
     )
 }
 
 @Composable
 internal fun LogScreen(
+    logState: LogUiState,
     modifier: Modifier = Modifier,
 ) {
-
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.primaryContainer)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+        when (logState) {
+            LogUiState.Loading -> LoadingState()
+            is LogUiState.Success -> MessageLogList(simulationLogDetail = logState.detail)
+        }
+    }
+}
+
+@Composable
+fun MessageLogList(
+    simulationLogDetail: SimulationLogDetail,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        items(simulationLogDetail.messages) {
             MessageBubble(
-                isUser = false,
-                message = "안녕하세요. 어떤 거 찾으세요?"
-            )
-            MessageBubble(
-                isUser = true,
-                message = "아, 안녕하세요. 꼬부랑 국수는 어디에 있습니까?"
+                isUser = it.isFromUser,
+                message = it.contents
             )
         }
     }
+}
+
+@Composable
+private fun LoadingState(
+    modifier: Modifier = Modifier,
+) {
+    SaegilLoadingWheel(
+        modifier = modifier
+            .wrapContentSize()
+    )
 }
 
 @Preview(apiLevel = 33)

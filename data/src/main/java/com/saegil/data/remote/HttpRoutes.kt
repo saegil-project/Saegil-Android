@@ -20,6 +20,6 @@ object HttpRoutes {
 
     const val SCENARIO = "$BASE_URL/api/v1/scenarios" //시뮬레이션 상황 목록 조회
 
-    const val SIMULATION_LOG_LIST = "$BASE_URL/api/v1/simulations"
+    const val SIMULATION_LOG = "$BASE_URL/api/v1/simulations"
 
 }

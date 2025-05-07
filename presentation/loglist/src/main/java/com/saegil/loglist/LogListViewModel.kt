@@ -17,7 +17,7 @@ class LogListViewModel @Inject constructor(
     getSimulationLogUseCase: GetSimulationLogUseCase
 ) : ViewModel() {
 
-    val logUiState: StateFlow<LogListUiState> =
+    val logListUiState: StateFlow<LogListUiState> =
         getSimulationLogUseCase()
             .map<List<SimulationLog>?, LogListUiState>(LogListUiState::Success)
             .onStart { emit(LogListUiState.Loading) }

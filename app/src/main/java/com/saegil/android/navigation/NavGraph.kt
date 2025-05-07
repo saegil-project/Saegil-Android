@@ -85,11 +85,16 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         }
         composable(Screen.LogList.route) {
             LogListScreen(
-                navigateToLog = {},
+                navigateToLog = { simulationId ->
+                    navController.navigate("${Screen.Log.route}/$simulationId")
+                },
                 navigateToMypage = { navController.popBackStack() }
             )
         }
-        composable(Screen.Log.route) {
+        composable(
+            route = "${Screen.Log.route}/{simulationId}",
+            arguments = listOf(navArgument("simulationId") { type = NavType.LongType })
+        ) {
             LogScreen(
                 navigateToLogList = { navController.popBackStack() }
             )
