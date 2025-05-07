@@ -14,9 +14,9 @@ import com.saegil.learning.learning.LearningScreen
 import com.saegil.learning.learning_list.LearningListScreen
 import com.saegil.map.map.MapScreen
 import com.saegil.mypage.mypage.MypageScreen
+import com.saegil.notice.notice.NoticeScreen
 import com.saegil.onboarding.OnboardingScreen
 import com.saegil.splash.SplashScreen
-import com.saegil.notice.notice.NoticeScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
@@ -37,7 +37,6 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             arguments = listOf(
                 navArgument("scenarioId") { type = NavType.LongType },
                 navArgument("scenarioName") { type = NavType.StringType },
-
             )
         ) { backStackEntry ->
             val scenarioId = backStackEntry.arguments?.getLong("scenarioId") ?: 0

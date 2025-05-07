@@ -39,7 +39,9 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val noBars = currentRoute == Screen.Splash.route || currentRoute == Screen.Onboarding.route
+    val noBars = currentRoute == Screen.Splash.route ||
+            currentRoute == Screen.Onboarding.route ||
+            currentRoute?.startsWith("${Screen.Learning.route}/") == true
 
     Scaffold(
         topBar = {
