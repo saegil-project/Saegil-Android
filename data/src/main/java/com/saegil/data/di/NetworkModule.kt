@@ -10,8 +10,6 @@ import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import com.saegil.data.remote.HttpRoutes.SIMULATION_LOG
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
-import com.saegil.data.remote.MessageLogService
-import com.saegil.data.remote.MessageLogServiceImpl
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.OAuthServiceImpl
 import com.saegil.data.remote.ScenarioService
@@ -99,11 +97,5 @@ object NetworkModule {
     @Singleton
     fun provideSimulationLogService(client: HttpClient): SimulationLogService {
         return SimulationLogServiceImpl(client)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMessageLogService(client: HttpClient): MessageLogService {
-        return MessageLogServiceImpl(client)
     }
 }
