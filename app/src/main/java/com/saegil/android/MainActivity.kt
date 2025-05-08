@@ -39,14 +39,16 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val noBars = currentRoute == Screen.Splash.route || currentRoute == Screen.Onboarding.route
+    val noBars = currentRoute in setOf(
+        Screen.Splash.route,
+        Screen.Onboarding.route,
+        Screen.LogList.route,
+        Screen.Log.route
+    )
 
     Scaffold(
         topBar = {
-            if (!noBars) SaegilTopBar(
-                showLogo = true,
-                showBackButton = false
-            )
+            if (!noBars) SaegilTopBar()
         },
         bottomBar = { if (!noBars) BottomNavigationBar(navController) },
     ) { paddingValues ->

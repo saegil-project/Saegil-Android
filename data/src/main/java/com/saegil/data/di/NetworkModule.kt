@@ -7,12 +7,15 @@ import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
 import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
+import com.saegil.data.remote.HttpRoutes.SIMULATION_LOG
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.OAuthServiceImpl
 import com.saegil.data.remote.ScenarioService
 import com.saegil.data.remote.ScenarioServiceImpl
+import com.saegil.data.remote.SimulationLogService
+import com.saegil.data.remote.SimulationLogServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,15 +58,15 @@ object NetworkModule {
                 tokenProvider = { tokenDataSource.getToken().accessToken }
                 shouldAttach = { request ->
                     val path = request.url.toString()
-                    path in setOf(
+                    setOf(
                         OAUTH_LOGOUT,
                         OAUTH_WITHDRAWAL,
-                        OAUTH_VALIDATE_TOKEN
-                    )
+                        OAUTH_VALIDATE_TOKEN,
+                        SIMULATION_LOG
+                    ).any { it in path }
                 }
             }
         }
-
     }
 
     @Provides
@@ -88,5 +91,11 @@ object NetworkModule {
     @Singleton
     fun provideScenarioService(client: HttpClient): ScenarioService {
         return ScenarioServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSimulationLogService(client: HttpClient): SimulationLogService {
+        return SimulationLogServiceImpl(client)
     }
 }

@@ -12,6 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.saegil.learning.learning.LearningScreen
 import com.saegil.learning.learning_list.LearningListScreen
+import com.saegil.log.log.LogScreen
+import com.saegil.log.log_list.LogListScreen
 import com.saegil.map.map.MapScreen
 import com.saegil.mypage.mypage.MypageScreen
 import com.saegil.onboarding.OnboardingScreen
@@ -75,7 +77,26 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                     navController.navigate(Screen.Onboarding.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
+                },
+                navigateToLogList = {
+                    navController.navigate(Screen.LogList.route)
                 }
+            )
+        }
+        composable(Screen.LogList.route) {
+            LogListScreen(
+                navigateToLog = { simulationId ->
+                    navController.navigate("${Screen.Log.route}/$simulationId")
+                },
+                navigateToMypage = { navController.popBackStack() }
+            )
+        }
+        composable(
+            route = "${Screen.Log.route}/{simulationId}",
+            arguments = listOf(navArgument("simulationId") { type = NavType.LongType })
+        ) {
+            LogScreen(
+                navigateToLogList = { navController.popBackStack() }
             )
         }
         composable(Screen.Onboarding.route) {

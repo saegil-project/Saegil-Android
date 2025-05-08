@@ -1,7 +1,5 @@
 package com.saegil.data.remote
 
-
-import android.util.Log
 import com.saegil.data.model.NoticeListDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -35,7 +33,6 @@ class FeedServiceImpl @Inject constructor(
                 }
             }.body<NoticeListDto>()
         } catch (e : Exception) {
-            Log.d("FeedService", e.toString())
             null
         }
     }
