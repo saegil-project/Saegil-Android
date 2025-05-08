@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.component.SaegilLoadingWheel
+import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.component.ScenarioItem
 import com.saegil.domain.model.SimulationLog
 import com.saegil.log.log_list.component.EmptyLogImage
@@ -34,7 +35,8 @@ fun LogListScreen(
     LogListScreen(
         logListState = logListState,
         navigateToLog = navigateToLog,
-        modifier = modifier
+        modifier = modifier,
+        navigateToMypage = navigateToMypage
     )
 }
 
@@ -43,6 +45,7 @@ internal fun LogListScreen(
     logListState: LogListUiState,
     modifier: Modifier = Modifier,
     navigateToLog: (Long) -> Unit = {},
+    navigateToMypage: () -> Unit = {},
 ) {
     Surface {
         Column(
@@ -50,7 +53,10 @@ internal fun LogListScreen(
                 .fillMaxSize()
                 .padding(horizontal = 25.dp)
         ) {
-
+            SaegilTitleText(
+                title = "학습 대화 내역",
+                onBackClick = navigateToMypage,
+            )
             when (logListState) {
                 LogListUiState.Loading -> LoadingState()
                 is LogListUiState.Success -> ScenarioLogList(

@@ -48,10 +48,7 @@ fun MainScreen() {
 
     Scaffold(
         topBar = {
-            if (!noBars) SaegilTopBar(
-                showLogo = true,
-                showBackButton = false
-            )
+            if (!noBars) SaegilTopBar()
         },
         bottomBar = { if (!noBars) BottomNavigationBar(navController) },
     ) { paddingValues ->
