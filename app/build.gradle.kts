@@ -94,6 +94,7 @@ dependencies {
     implementation(project(":presentation:mypage"))
     implementation(project(":presentation:onboarding"))
     implementation(project(":presentation:splash"))
+    implementation(project(":presentation:log"))
 
     implementation(libs.kakao.v2.all) // 전체 모듈 설치, 2.11.0 버전부터 지원
     implementation(libs.kakao.v2.user) // 카카오 로그인 API 모듈

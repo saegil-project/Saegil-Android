@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
@@ -144,17 +143,6 @@ private fun LoadingState(
     SaegilLoadingWheel(
         modifier = modifier
             .wrapContentSize()
-    )
-}
-
-@Composable
-fun SaegilLoadingWheel(
-    modifier: Modifier = Modifier
-) {
-    CircularProgressIndicator(
-        modifier = modifier.width(48.dp),//부모로부터 받은 modifier를 중앙배치용으로 사용
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
     )
 }
 

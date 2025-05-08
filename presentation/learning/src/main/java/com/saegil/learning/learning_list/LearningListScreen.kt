@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.component.SaegilTitleText
+import com.saegil.designsystem.component.ScenarioItem
 import com.saegil.designsystem.theme.SaegilAndroidTheme
-import com.saegil.learning.learning_list.components.ScenarioItem
 
 @Composable
 fun LearningListScreen(
@@ -63,7 +63,8 @@ internal fun LearningListScreen(
                 ) {
                     items(learningListState.organizationList) { item ->
                         ScenarioItem(
-                            item = item,
+                            name = item.name,
+                            iconImageUrl = item.iconImageUrl,
                             onClick = { onScenarioClick(item.id, item.name) }
                         )
                     }

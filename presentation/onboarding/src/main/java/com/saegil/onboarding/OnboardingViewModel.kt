@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val kakaoLoginUseCase: KakaoLoginUseCase
+    private val kakaoLoginUseCase: KakaoLoginUseCase,
 ) : ViewModel() {
 
     private val kakaoAccessToken = MutableStateFlow<String?>(null)
