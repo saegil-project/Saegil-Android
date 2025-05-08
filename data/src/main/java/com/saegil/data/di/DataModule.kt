@@ -63,6 +63,13 @@ object DataModule {
         return ScenarioRepositoryImpl(scenarioService)
     }
 
+
+//    @Provides
+//    @Singleton
+//    fun provideAssistantRepository(assistantService: AssistantService): AssistantRepository {
+//        return AssistantRepositoryImpl(assistantService)
+//    } //todo ktor로 추후 변경하기 위해서 주석처리함
+
     @Provides
     @Singleton
     fun provideSimulationLogRepository(simulationLogService: SimulationLogService): SimulationLogRepository {

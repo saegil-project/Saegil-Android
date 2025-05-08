@@ -3,6 +3,6 @@ package com.saegil.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ValidateTokenResponse(
+data class ValidateTokenDto(
     val validated: Boolean
 )

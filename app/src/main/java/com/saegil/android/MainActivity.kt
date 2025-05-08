@@ -44,7 +44,7 @@ fun MainScreen() {
         Screen.Onboarding.route,
         Screen.LogList.route,
         Screen.Log.route
-    )
+    ) || currentRoute?.startsWith("${Screen.Learning.route}/") == true
 
     Scaffold(
         topBar = {

@@ -1,7 +1,7 @@
 package com.saegil.data.remote
 
 import com.example.app.data.proto.TokenProto
-import com.saegil.data.model.ValidateTokenResponse
+import com.saegil.data.model.ValidateTokenDto
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGIN
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
@@ -31,7 +31,7 @@ class OAuthServiceImpl @Inject constructor(
             .build()
     }
 
-    override suspend fun validateAccessToken(accessToken: String): ValidateTokenResponse {
+    override suspend fun validateAccessToken(accessToken: String): ValidateTokenDto {
         return client.get(OAUTH_VALIDATE_TOKEN).body()
     }
 

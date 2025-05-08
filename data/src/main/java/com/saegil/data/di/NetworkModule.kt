@@ -93,9 +93,17 @@ object NetworkModule {
         return ScenarioServiceImpl(client)
     }
 
+
+//    @Provides
+//    @Singleton
+//    fun provideAssistantService(client: HttpClient): AssistantService {
+//        return AssistantServiceImpl(client)
+//    }//todo ktor로 추후 변경하기 위해서 주석처리함
+
     @Provides
     @Singleton
     fun provideSimulationLogService(client: HttpClient): SimulationLogService {
         return SimulationLogServiceImpl(client)
     }
+    
 }

@@ -27,5 +27,4 @@ class LearningListViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = LearningListUiState.Loading,
             )
-
 }

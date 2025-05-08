@@ -69,4 +69,6 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":domain"))
 
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 }
