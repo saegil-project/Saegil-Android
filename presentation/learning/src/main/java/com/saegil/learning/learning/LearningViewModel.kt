@@ -30,7 +30,7 @@ class LearningViewModel @Inject constructor(
     private var mediaRecorder: MediaRecorder? = null
     private var audioFile: File? = null
 
-    fun checkAndRequestPermission(): Boolean {
+    private fun checkAndRequestPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             context,
             android.Manifest.permission.RECORD_AUDIO
@@ -99,7 +99,7 @@ class LearningViewModel @Inject constructor(
                 _uiState.value = LearningUiState.Error("파일 변환 중 오류가 발생했습니다")
             }
         }
-            }
+    }
 
 
     override fun onCleared() {
