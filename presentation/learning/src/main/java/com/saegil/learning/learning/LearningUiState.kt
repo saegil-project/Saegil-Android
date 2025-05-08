@@ -8,8 +8,6 @@ sealed interface LearningUiState {
 
     data object isRecording : LearningUiState
 
-    data object isConverting : LearningUiState
-
     data object isUploading : LearningUiState
 
     data class Success(val response: UploadAudio) : LearningUiState
