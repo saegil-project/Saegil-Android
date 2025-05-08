@@ -71,7 +71,7 @@ fun LearningScreen(
 
     LaunchedEffect(state) {
         when (state) {
-            is LearningUiState.isConverting, is LearningUiState.isUploading -> {
+            is LearningUiState.isUploading -> {
                 while (true) {
                     currentEmotion = CharacterEmotion.NORMAL
                     delay(300)
@@ -82,7 +82,6 @@ fun LearningScreen(
 
             is LearningUiState.isRecording -> {
                 currentEmotion = CharacterEmotion.WONDER
-                displayText = ""
             }
 
             is LearningUiState.Idle -> {
@@ -97,7 +96,7 @@ fun LearningScreen(
 
             is LearningUiState.Error -> {
                 currentEmotion = CharacterEmotion.NORMAL
-                displayText = "error"
+                displayText = (state as LearningUiState.Error).message
             }
         }
     }
@@ -147,7 +146,7 @@ fun LearningScreen(
 
                 when (state) {
 
-                    is LearningUiState.isConverting, is LearningUiState.isUploading -> {
+                    is LearningUiState.isUploading -> {
                         CircularProgressIndicator(
                             modifier = Modifier.padding(top = 100.dp)
                         )
@@ -181,11 +180,8 @@ fun LearningScreen(
                 when (state) {
                     is LearningUiState.Success, is LearningUiState.Idle -> {
                         RecordButton(
-                            isRecording = state == LearningUiState.isRecording,
+                            isRecording = false,
                             onClick = {
-                                if (state == LearningUiState.isRecording) {
-                                    viewModel.stopRecording()
-                                } else {
                                     if (ContextCompat.checkSelfPermission(
                                             context,
                                             Manifest.permission.RECORD_AUDIO
@@ -195,7 +191,6 @@ fun LearningScreen(
                                     } else {
                                         permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                                     }
-                                }
                             }
                         )
                     }
@@ -247,6 +242,7 @@ fun RecordButton(
         contentDescription = if (isRecording) "녹음 중지" else "녹음 시작"
     )
 }
+
 
 @Composable
 @Preview(name = "Learning", apiLevel = 33)
