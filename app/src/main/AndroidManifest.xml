@@ -25,17 +25,21 @@
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.SaegilAndroid">
+            <!-- 앱 아이콘을 위한 런처 인텐트 필터 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+
+            <!-- 딥링크를 위한 인텐트 필터 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="saegil"
-                    android:host="callback"/>
-
+                    android:host="callback" />
             </intent-filter>
         </activity>
     </application>
