@@ -249,7 +249,7 @@ fun RecordButton(
 }
 
 @Composable
-@Preview(name = "Learning")
+@Preview(name = "Learning", apiLevel = 33)
 private fun LearningScreenPreview() {
     SaegilAndroidTheme {
         Surface {
