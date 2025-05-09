@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.component.SaegilDialog
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.theme.SaegilAndroidTheme
@@ -42,6 +43,7 @@ fun MypageScreen(
     viewModel: MypageViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val mypageState by viewModel.mypageUiState.collectAsStateWithLifecycle()
 
     var showLogoutDialog by rememberSaveable { mutableStateOf(false) }
     var showWithdrawalDialog by rememberSaveable { mutableStateOf(false) }
@@ -72,6 +74,7 @@ fun MypageScreen(
     }
 
     MypageScreen(
+        mypageState = mypageState,
         showLogoutDialog = showLogoutDialog,
         showWithdrawalDialog = showWithdrawalDialog,
         showGoodbyeDialog = showGoodbyeDialog,
@@ -95,6 +98,7 @@ fun MypageScreen(
 
 @Composable
 internal fun MypageScreen(
+    mypageState: MypageUiState,
     showLogoutDialog: Boolean,
     showWithdrawalDialog: Boolean,
     showGoodbyeDialog: Boolean,
@@ -167,7 +171,7 @@ internal fun MypageScreen(
                     .padding(top = 30.dp)
             ) {
                 ProfileCard(
-                    name = "김주민",
+                    name = (mypageState as? MypageUiState.Success)?.userName ?: "김주민",
                 )
                 LearningLogButton(navigateToLogList)
             }
@@ -218,19 +222,20 @@ internal fun MypageScreen(
 private fun MypageScreenPreview() {
     SaegilAndroidTheme {
         MypageScreen(
-            false,
-            false,
-            false,
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {}
+            mypageState = MypageUiState.Success("돌아온 김주민"),
+            showLogoutDialog = false,
+            showWithdrawalDialog = false,
+            showGoodbyeDialog = false,
+            onLogoutDialogDismissed = {},
+            onWithdrawalDialogDismissed = {},
+            onGoodbyeDialogDismissed = {},
+            onLogoutClick = {},
+            onWithdrawalClick = {},
+            onLogoutNegativeButtonClick = {},
+            onWithdrawalNegativeButtonClick = {},
+            onClickTermsOfPrivacy = {},
+            onClickTermsOfService = {},
+            navigateToLogList = {}
         )
     }
 }

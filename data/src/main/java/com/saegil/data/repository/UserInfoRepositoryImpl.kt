@@ -1,7 +1,6 @@
 package com.saegil.data.repository
 
 import com.saegil.data.remote.UserInfoService
-import com.saegil.domain.model.UserInfo
 import com.saegil.domain.repository.UserInfoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,8 +12,8 @@ class UserInfoRepositoryImpl @Inject constructor(
     private val userInfoService: UserInfoService
 ) : UserInfoRepository {
 
-    override fun getUserInfo(): Flow<UserInfo> = flow {
-        emit(userInfoService.getUserInfo().toDomain())
+    override fun getUserName(): Flow<String> = flow {
+        emit(userInfoService.getUserInfo().toDomain().name)
     }.flowOn(Dispatchers.IO)
 
 }
