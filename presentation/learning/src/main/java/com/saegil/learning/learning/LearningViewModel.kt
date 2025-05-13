@@ -2,17 +2,20 @@ package com.saegil.learning.learning
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Environment
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saegil.domain.usecase.DownloadAudioUseCase
 import com.saegil.domain.usecase.UploadAudioUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
@@ -21,13 +24,15 @@ import javax.inject.Inject
 @HiltViewModel
 class LearningViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val uploadAudioUseCase: UploadAudioUseCase
+    private val uploadAudioUseCase: UploadAudioUseCase,
+    private val downloadAudioUseCase: DownloadAudioUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<LearningUiState>(LearningUiState.Idle)
     val uiState: StateFlow<LearningUiState> = _uiState.asStateFlow()
 
     private var mediaRecorder: MediaRecorder? = null
+    private var mediaPlayer: MediaPlayer? = null
     private var audioFile: File? = null
 
     private fun checkAndRequestPermission(): Boolean {
@@ -69,16 +74,15 @@ class LearningViewModel @Inject constructor(
             }
             mediaRecorder = null
             _uiState.value = LearningUiState.Idle
-            convertAndUpload()
+            exchangeAudio()
         } catch (e: Exception) {
             _uiState.value = LearningUiState.Error("녹음 중지 중 오류가 발생했습니다")
         }
     }
 
-    private fun convertAndUpload() {
+    private fun exchangeAudio() {
         viewModelScope.launch {
             try {
-                _uiState.value = LearningUiState.isConverting
                 audioFile?.let { file ->
                     _uiState.value = LearningUiState.isUploading
 
@@ -87,7 +91,7 @@ class LearningViewModel @Inject constructor(
                             result
                                 .onSuccess { dto ->
                                     _uiState.value = LearningUiState.Success(dto)
-                                    println("성공: $dto")
+                                    downloadAudio(dto.response)
                                 }
                                 .onFailure { error -> println("실패: ${error.message}") }
                         }
@@ -106,6 +110,31 @@ class LearningViewModel @Inject constructor(
         super.onCleared()
         if (_uiState.value == LearningUiState.isRecording) {
             stopRecording()
+        }
+    }
+
+    private fun downloadAudio(text: String) {
+        viewModelScope.launch {
+            try {
+                downloadAudioUseCase(text)
+                    .catch {
+                        _uiState.value = LearningUiState.Error("오디오 다운로드 실패")
+                    }
+                    .collect { file ->
+                        playAudio(file)
+                    }
+            } catch (e: Exception) {
+                _uiState.value = LearningUiState.Error("오디오 처리 중 오류 발생")
+            }
+        }
+    }
+
+    private fun playAudio(file: File) {
+        mediaPlayer?.release()
+        mediaPlayer = MediaPlayer().apply {
+            setDataSource(file.absolutePath)
+            prepare()
+            start()
         }
     }
 }

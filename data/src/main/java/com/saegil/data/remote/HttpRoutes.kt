@@ -21,6 +21,8 @@ object HttpRoutes {
     const val SCENARIO = "$BASE_URL/api/v1/scenarios" //시뮬레이션 상황 목록 조회
 
     const val ASSISTANT = "$BASE_URL/api/v1/llm/assistant/upload" // 음성 파일로부터 Assistant 응답 가져오기
+
+    const val TTS = "$BASE_URL/api/v1/llm/tts"
   
     const val SIMULATION_LOG = "$BASE_URL/api/v1/simulations"
 
