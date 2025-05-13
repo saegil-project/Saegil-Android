@@ -20,6 +20,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -59,6 +60,7 @@ fun MapScreen(
         selectedOrganization = selectedOrganization,
         onOrganizationSelected = { organization -> selectedOrganization = organization },
         onDismissBottomSheet = { selectedOrganization = null },
+        onLocationUpdate = viewModel::updateLocation,
         modifier = modifier
     )
 }
@@ -71,6 +73,7 @@ internal fun MapScreen(
     selectedOrganization: Organization?,
     onOrganizationSelected: (Organization) -> Unit,
     onDismissBottomSheet: () -> Unit,
+    onLocationUpdate: (Double, Double) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -83,26 +86,40 @@ internal fun MapScreen(
     )
 
     LaunchedEffect(permissionState.status.isGranted) {
+        Timber.d("Location permission status: ${permissionState.status.isGranted}")
         if (permissionState.status.isGranted) {
             try {
-                fusedLocationClient.lastLocation
-                    .addOnSuccessListener { location ->
-                        location?.let {
-                            val cameraUpdate = CameraUpdate.scrollTo(
-                                LatLng(it.latitude, it.longitude)
-                            ).animate(CameraAnimation.Easing)
-                            cameraPositionState.move(cameraUpdate)
-                        }
+                fusedLocationClient.getCurrentLocation(
+                    Priority.PRIORITY_HIGH_ACCURACY,
+                    null
+                ).addOnSuccessListener { location ->
+                    location?.let {
+                        Timber.d("Got current location: lat=${it.latitude}, lng=${it.longitude}")
+                        val cameraUpdate = CameraUpdate.scrollTo(
+                            LatLng(it.latitude, it.longitude)
+                        ).animate(CameraAnimation.Easing)
+                        cameraPositionState.move(cameraUpdate)
+                    } ?: run {
+                        Timber.e("Current location is null")
                     }
-                    .addOnFailureListener { exception ->
-                        Timber.e(exception, "Error getting location")
-                    }
+                }.addOnFailureListener { exception ->
+                    Timber.e(exception, "Error getting current location")
+                }
             } catch (e: Exception) {
-                Timber.e(e, "Error getting location")
+                Timber.e(e, "Error getting current location")
             }
         } else {
+            Timber.d("Requesting location permission")
             permissionState.launchPermissionRequest()
         }
+    }
+
+    LaunchedEffect(cameraPositionState.position) {
+        Timber.d("Camera position updated: lat=${cameraPositionState.position.target.latitude}, lng=${cameraPositionState.position.target.longitude}")
+        onLocationUpdate(
+            cameraPositionState.position.target.latitude,
+            cameraPositionState.position.target.longitude
+        )
     }
 
     Surface(

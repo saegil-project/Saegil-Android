@@ -2,18 +2,21 @@ package com.saegil.map.map
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.saegil.domain.model.Organization
 import com.saegil.domain.usecase.GetMapListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,33 +24,41 @@ class MapViewModel @Inject constructor(
     private val getMapListUseCase: GetMapListUseCase,
 ) : ViewModel() {
 
-    var latitude: Double by mutableDoubleStateOf(0.0)
-        private set
-
-    var longitude: Double by mutableDoubleStateOf(0.0)
-        private set
+    private val _latitude = MutableStateFlow(0.0)
+    private val _longitude = MutableStateFlow(0.0)
+    private val _radius = MutableStateFlow(500) //500, 1000, 5000 라서 500m를 디폴트로 함
 
     var zoomLevel: Double by mutableDoubleStateOf(15.0)
         private set
 
-    var radius: Int by mutableStateOf(0)
-
     fun updateLocation(lat: Double, lng: Double) {
-        latitude = lat
-        longitude = lng
+        Timber.d("Updating location in ViewModel: lat=$lat, lng=$lng")
+        _latitude.value = lat
+        _longitude.value = lng
     }
 
     fun updateZoomLevel(zoom: Double) {
+        Timber.d("Updating zoom level: $zoom")
         zoomLevel = zoom
     }
 
-    val mapUiState: StateFlow<MapUiState> =
-        getMapListUseCase(latitude, longitude, radius)
-            .map<List<Organization>, MapUiState>(MapUiState::Success)
-            .onStart { emit(MapUiState.Loading) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = MapUiState.Loading,
-            )
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val mapUiState: StateFlow<MapUiState> = combine(
+        _latitude,
+        _longitude,
+        _radius
+    ) { lat, lng, radius ->
+        Timber.d("Location changed, fetching new data: lat=$lat, lng=$lng, radius=$radius")
+        getMapListUseCase(lat, lng, radius)
+    }.flatMapLatest { organizationsFlow ->
+        organizationsFlow.map { organizations ->
+            MapUiState.Success(organizations)
+        }
+    }.onStart {
+        MapUiState.Loading
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = MapUiState.Loading,
+    )
 }
