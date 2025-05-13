@@ -2,10 +2,16 @@ package com.saegil.designsystem.component
 
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import com.saegil.designsystem.theme.SaegilAndroidTheme
 
 @Composable
 fun SourceChip(
@@ -20,7 +26,9 @@ fun SourceChip(
             onFilterChipClick(index)
         },
         label = {
-            Text(title)
+            Text(
+                text = title,
+            )
         },
         selected = selected,
         modifier = modifier,
@@ -36,6 +44,19 @@ fun SourceChip(
             borderColor = MaterialTheme.colorScheme.secondary,
         )
     )
+}
+
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+@Composable
+fun SourceChipPreview() {
+    SaegilAndroidTheme {
+        SourceChip(
+            title = "전체",
+            index = null,
+            selected = true,
+            onFilterChipClick = {}
+        )
+    }
 }
 
 
