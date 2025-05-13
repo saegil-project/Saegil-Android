@@ -74,13 +74,13 @@ class LearningViewModel @Inject constructor(
             }
             mediaRecorder = null
             _uiState.value = LearningUiState.Idle
-            convertAndUpload()
+            exchangeAudio()
         } catch (e: Exception) {
             _uiState.value = LearningUiState.Error("녹음 중지 중 오류가 발생했습니다")
         }
     }
 
-    private fun convertAndUpload() {
+    private fun exchangeAudio() {
         viewModelScope.launch {
             try {
                 audioFile?.let { file ->

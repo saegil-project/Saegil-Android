@@ -20,8 +20,8 @@ android {
         applicationId = "com.saegil.android"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders["NAVER_CLIENT_ID"] = properties.getProperty("naver_client_id")
