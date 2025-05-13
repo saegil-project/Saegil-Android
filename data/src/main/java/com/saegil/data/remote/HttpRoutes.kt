@@ -26,4 +26,6 @@ object HttpRoutes {
   
     const val SIMULATION_LOG = "$BASE_URL/api/v1/simulations"
 
+    const val USER = "$BASE_URL/api/v1/users/me"
+
 }

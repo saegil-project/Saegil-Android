@@ -9,6 +9,7 @@ import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
 import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import com.saegil.data.remote.HttpRoutes.SIMULATION_LOG
 import com.saegil.data.remote.HttpRoutes.TTS
+import com.saegil.data.remote.HttpRoutes.USER
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
 import com.saegil.data.remote.OAuthService
@@ -19,6 +20,8 @@ import com.saegil.data.remote.SimulationLogService
 import com.saegil.data.remote.SimulationLogServiceImpl
 import com.saegil.data.remote.TextToSpeechService
 import com.saegil.data.remote.TextToSpeechServiceImpl
+import com.saegil.data.remote.UserInfoService
+import com.saegil.data.remote.UserInfoServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,7 +69,8 @@ object NetworkModule {
                         OAUTH_WITHDRAWAL,
                         OAUTH_VALIDATE_TOKEN,
                         SIMULATION_LOG,
-                        TTS
+                        TTS,
+                        USER
                     ).any { it in path }
                 }
             }
@@ -116,4 +120,10 @@ object NetworkModule {
         return TextToSpeechServiceImpl(client)
     }
     
+    @Provides
+    @Singleton
+    fun provideUserInfoService(client: HttpClient): UserInfoService {
+        return UserInfoServiceImpl(client)
+    }
+
 }
