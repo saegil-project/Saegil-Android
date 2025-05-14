@@ -50,8 +50,7 @@ internal fun LogListScreen(
     Surface {
         Column(
             modifier = modifier
-                .fillMaxSize()
-                .padding(horizontal = 25.dp)
+                .fillMaxSize(),
         ) {
             SaegilTitleText(
                 title = "학습 대화 내역",
@@ -86,7 +85,9 @@ private fun ScenarioLogList(
 ) {
     logListState.logList?.let {
         LazyColumn(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 25.dp),
             contentPadding = PaddingValues(36.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
