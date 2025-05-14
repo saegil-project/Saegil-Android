@@ -72,7 +72,7 @@ internal fun OnboardingScreen(
     }
     HorizontalPager(
         state = pagerState,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) { page ->
         Box(
             modifier = Modifier
@@ -88,13 +88,17 @@ internal fun OnboardingScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 48.dp),
+                    .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.weight(0.2f))
                 Indicator(page)
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.weight(0.1f))
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.weight(0.3f),
+                ) {
                     Text(
                         text = OnboardingPage.pages[page].title,
                         style = MaterialTheme.typography.h1,
@@ -108,7 +112,7 @@ internal fun OnboardingScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(0.4f))
 
                 if (OnboardingPage.pages[page].showButton) {
                     KakaoLoginButton(
@@ -138,9 +142,11 @@ internal fun OnboardingScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 70.dp)
+                            .padding(bottom = 32.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.weight(0.05f))
             }
         }
     }
@@ -177,6 +183,48 @@ fun OnBoarding2Preview() {
 @Composable
 @Preview(apiLevel = 33, device = Devices.NEXUS_5)
 fun OnBoarding3Preview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 2, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33)
+fun NormalOnBoardingPreview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33)
+fun NorMalOnBoarding2Preview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 1, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33)
+fun NormalOnBoarding3Preview() {
     SaegilAndroidTheme {
         OnboardingScreen(
             pagerState = rememberPagerState(initialPage = 2, pageCount = { OnboardingPage.pages.size }),
