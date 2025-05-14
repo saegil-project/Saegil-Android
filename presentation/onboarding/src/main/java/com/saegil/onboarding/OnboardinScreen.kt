@@ -33,7 +33,6 @@ import com.saegil.designsystem.theme.body1
 import com.saegil.onboarding.component.KakaoLoginButton
 import com.saegil.onboarding.OnboardingState.*
 import com.saegil.designsystem.theme.h1
-import com.saegil.onboarding.component.BirdIcon
 import com.saegil.onboarding.component.OnboardingBackground
 import com.saegil.onboarding.component.OnboardingPage
 import com.saegil.onboarding.component.Indicator
@@ -109,8 +108,6 @@ internal fun OnboardingScreen(
                     )
                 }
 
-                BirdIcon(page)
-
                 Spacer(modifier = Modifier.weight(1f))
 
                 if (OnboardingPage.pages[page].showButton) {
@@ -152,6 +149,34 @@ internal fun OnboardingScreen(
 @Composable
 @Preview(apiLevel = 33, device = Devices.NEXUS_5)
 fun OnBoardingPreview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+fun OnBoarding2Preview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 1, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+fun OnBoarding3Preview() {
     SaegilAndroidTheme {
         OnboardingScreen(
             pagerState = rememberPagerState(initialPage = 2, pageCount = { OnboardingPage.pages.size }),
