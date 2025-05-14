@@ -20,12 +20,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body1
 import com.saegil.onboarding.component.KakaoLoginButton
 import com.saegil.onboarding.OnboardingState.*
@@ -143,5 +146,19 @@ internal fun OnboardingScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+fun OnBoardingPreview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 2, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
     }
 }
