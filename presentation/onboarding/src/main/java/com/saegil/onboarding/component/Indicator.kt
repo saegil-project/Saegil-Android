@@ -20,9 +20,6 @@ fun Indicator(
     index: Int,
 ) {
     Row(
-        modifier = Modifier
-            .padding(top = 80.dp)
-            .padding(50.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
     ) {
         if(index==0) ActiveDot() else InactiveDot()
