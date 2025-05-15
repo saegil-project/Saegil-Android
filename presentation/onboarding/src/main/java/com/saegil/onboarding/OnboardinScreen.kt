@@ -20,17 +20,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body1
 import com.saegil.onboarding.component.KakaoLoginButton
 import com.saegil.onboarding.OnboardingState.*
 import com.saegil.designsystem.theme.h1
-import com.saegil.onboarding.component.BirdIcon
 import com.saegil.onboarding.component.OnboardingBackground
 import com.saegil.onboarding.component.OnboardingPage
 import com.saegil.onboarding.component.Indicator
@@ -70,7 +72,7 @@ internal fun OnboardingScreen(
     }
     HorizontalPager(
         state = pagerState,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) { page ->
         Box(
             modifier = Modifier
@@ -86,13 +88,17 @@ internal fun OnboardingScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 48.dp),
+                    .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.weight(0.2f))
                 Indicator(page)
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.weight(0.1f))
 
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.weight(0.3f),
+                ) {
                     Text(
                         text = OnboardingPage.pages[page].title,
                         style = MaterialTheme.typography.h1,
@@ -106,9 +112,7 @@ internal fun OnboardingScreen(
                     )
                 }
 
-                BirdIcon(page)
-
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(0.4f))
 
                 if (OnboardingPage.pages[page].showButton) {
                     KakaoLoginButton(
@@ -138,10 +142,96 @@ internal fun OnboardingScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 70.dp)
+                            .padding(bottom = 32.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.weight(0.05f))
             }
         }
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+fun OnBoardingPreview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+fun OnBoarding2Preview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 1, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+fun OnBoarding3Preview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 2, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33)
+fun NormalOnBoardingPreview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33)
+fun NorMalOnBoarding2Preview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 1, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
+    }
+}
+
+@Composable
+@Preview(apiLevel = 33)
+fun NormalOnBoarding3Preview() {
+    SaegilAndroidTheme {
+        OnboardingScreen(
+            pagerState = rememberPagerState(initialPage = 2, pageCount = { OnboardingPage.pages.size }),
+            loginState = Success,
+            context = LocalContext.current,
+            loginWithKakaokakaoAccessToken = {},
+            navigateToMain = {}
+        )
     }
 }

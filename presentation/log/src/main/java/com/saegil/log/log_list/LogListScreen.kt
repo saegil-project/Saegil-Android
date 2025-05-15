@@ -13,12 +13,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.component.ScenarioItem
+import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.domain.model.SimulationLog
 import com.saegil.log.log_list.component.EmptyLogImage
 
@@ -50,8 +53,7 @@ internal fun LogListScreen(
     Surface {
         Column(
             modifier = modifier
-                .fillMaxSize()
-                .padding(horizontal = 25.dp)
+                .fillMaxSize(),
         ) {
             SaegilTitleText(
                 title = "학습 대화 내역",
@@ -86,7 +88,9 @@ private fun ScenarioLogList(
 ) {
     logListState.logList?.let {
         LazyColumn(
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 25.dp),
             contentPadding = PaddingValues(36.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -109,6 +113,16 @@ fun LazyListScope.scenarioLogList(
             iconImageUrl = simulationLog.scenarioIconImageUrl,
             onClick = { navigateToLog(simulationLog.id) },
             date = simulationLog.createdAt
+        )
+    }
+}
+
+@Composable
+@Preview(device = Devices.NEXUS_5)
+fun LogListScreenPreview() {
+    SaegilAndroidTheme {
+        LogListScreen(
+            logListState = LogListUiState.Success(emptyList())
         )
     }
 }

@@ -2,15 +2,14 @@ package com.saegil.designsystem.component
 
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 
 @Composable
@@ -28,6 +27,9 @@ fun SourceChip(
         label = {
             Text(
                 text = title,
+                modifier = Modifier.graphicsLayer {
+                    translationY = (-1.5).dp.toPx()
+                },
             )
         },
         selected = selected,
@@ -46,6 +48,7 @@ fun SourceChip(
     )
 }
 
+
 @Preview(apiLevel = 33, device = Devices.NEXUS_5)
 @Composable
 fun SourceChipPreview() {
@@ -58,5 +61,3 @@ fun SourceChipPreview() {
         )
     }
 }
-
-
