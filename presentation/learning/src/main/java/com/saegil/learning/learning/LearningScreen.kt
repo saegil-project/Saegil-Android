@@ -119,65 +119,68 @@ fun LearningScreen(
             }
         )
     }
-
-    Column(
-        modifier = modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
-            .navigationBarsPadding(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SaegilTitleText(
-            title = "",
-            onBackClick = navigateToLearningList,
-        )
-        Text(
-            text = "상황 $scenarioId",
-            style = MaterialTheme.typography.h3,
-            modifier = Modifier.padding(top = 20.dp, bottom = 14.dp)
-        )
-        Text(
-            text = scenarioName,
-            style = MaterialTheme.typography.h1,
-            color = MaterialTheme.colorScheme.primary
-        )
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SaegilTitleText(
+                title = "",
+                onBackClick = navigateToLearningList,
+            )
+            Text(
+                text = "상황 $scenarioId",
+                style = MaterialTheme.typography.h3,
+                modifier = Modifier.padding(bottom = 14.dp)
+            )
+            Text(
+                text = scenarioName,
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colorScheme.primary
+            )
 
-        SaegilCharacter(
-            modifier = Modifier.padding(top = 117.dp),
-            characterEmotion = currentEmotion
-        )
+            SaegilCharacter(
+                modifier = Modifier.padding(top = 117.dp),
+                characterEmotion = currentEmotion
+            )
 
-        when (state) {
+            when (state) {
 
-            is LearningUiState.isUploading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.padding(top = 100.dp)
-                )
-            }
+                is LearningUiState.isUploading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(top = 100.dp)
+                    )
+                }
 
-            is LearningUiState.Error, is LearningUiState.Success, is LearningUiState.Idle -> {
-                Text(
-                    text = displayText,
-                    style = MaterialTheme.typography.h2,
-                    modifier = Modifier
-                        .padding(top = 30.dp, start = 16.dp, end = 16.dp)
-                        .fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Center
-                )
-            }
+                is LearningUiState.Error, is LearningUiState.Success, is LearningUiState.Idle -> {
+                    Text(
+                        text = displayText,
+                        style = MaterialTheme.typography.h2,
+                        modifier = Modifier
+                            .padding(top = 30.dp, start = 16.dp, end = 16.dp)
+                            .fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        textAlign = TextAlign.Center
+                    )
+                }
 
-            LearningUiState.isRecording -> {
+                LearningUiState.isRecording -> {
+                }
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
-        // 고정된 버튼 위치
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
                 .padding(bottom = 32.dp),
-            contentAlignment = Alignment.BottomCenter
+            contentAlignment = Alignment.Center
         ) {
             when (state) {
                 is LearningUiState.Success, is LearningUiState.Idle -> {
@@ -197,7 +200,7 @@ fun LearningScreen(
                     )
                 }
 
-                LearningUiState.isRecording -> {
+                is LearningUiState.isRecording -> {
                     RecordButton(
                         isRecording = true,
                         onClick = {
