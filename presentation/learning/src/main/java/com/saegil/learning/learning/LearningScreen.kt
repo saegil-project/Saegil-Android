@@ -90,7 +90,7 @@ fun LearningScreen(
 
             is LearningUiState.Idle -> {
                 currentEmotion = CharacterEmotion.SMILE
-                displayText = "상황을 설명하고 대화 연습을 시작해보세요"
+                displayText = "상황을 설명하고\n대화 연습을 시작해보세요"
             }
 
             is LearningUiState.Success -> {
