@@ -1,6 +1,5 @@
 package com.saegil.android.navigation
 
-import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +18,7 @@ import com.saegil.mypage.mypage.MypageScreen
 import com.saegil.notice.notice.NoticeScreen
 import com.saegil.onboarding.OnboardingScreen
 import com.saegil.splash.SplashScreen
+import androidx.core.net.toUri
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
@@ -44,9 +44,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             val scenarioId = backStackEntry.arguments?.getLong("scenarioId") ?: 0
             val scenarioName = backStackEntry.arguments?.getString("scenarioName") ?: ""
             LearningScreen(
-                modifier = modifier,
                 scenarioId = scenarioId,
-                scenarioName = scenarioName
+                scenarioName = scenarioName,
+                navigateToLearningList = { navController.popBackStack() }
             )
         }
         composable(Screen.Announcement.route) {
@@ -54,7 +54,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                 modifier = modifier,
                 navigateToWebView = { url ->
                     CustomTabsIntent.Builder().build().also {
-                        it.launchUrl(context, Uri.parse(url))
+                        it.launchUrl(context, url.toUri())
                     }
                 }
             )
@@ -69,7 +69,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                 modifier = modifier,
                 navigateToWebView = { url ->
                     CustomTabsIntent.Builder().build().also {
-                        it.launchUrl(context, Uri.parse(url))
+                        it.launchUrl(context, url.toUri())
                     }
                 },
                 navigateToOnboarding = {

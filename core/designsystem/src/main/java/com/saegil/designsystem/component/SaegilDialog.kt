@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -20,8 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -45,7 +46,7 @@ fun SaegilDialog(
     onNegativeButtonClicked: () -> Unit = {},
     negativeButtonText: String? = null,
 ) {
-    val configuration = LocalConfiguration.current
+    val dialogMaxWidth = LocalWindowInfo.current.containerSize.width.dp
 
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -53,7 +54,8 @@ fun SaegilDialog(
     ) {
         Card(
             modifier = modifier
-                .widthIn(max = configuration.screenWidthDp.dp - 80.dp),
+                .width(dialogMaxWidth)
+                .padding(horizontal = 25.dp),
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
         ) {
@@ -163,7 +165,7 @@ fun SaegilDialog(
     }
 }
 
-@Preview(apiLevel = 33)
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
 @Composable
 fun DialogPreview() {
     SaegilAndroidTheme {
@@ -197,6 +199,21 @@ fun LogoDialogPreview() {
 @Preview(apiLevel = 33)
 @Composable
 fun LogoutDialogPreview() {
+    SaegilAndroidTheme {
+        SaegilDialog(
+            onNegativeButtonClicked = {},
+            onPositiveButtonClicked = {},
+            positiveButtonText = "취소",
+            title = "로그아웃",
+            description = "정말 로그아웃하시겠습니까? 기존 학습 대화 내역은 보관됩니다.",
+            negativeButtonText = "로그아웃"
+        )
+    }
+}
+
+@Preview(apiLevel = 33, device = Devices.NEXUS_5)
+@Composable
+fun NEXUS5_LogoutDialogPreview() {
     SaegilAndroidTheme {
         SaegilDialog(
             onNegativeButtonClicked = {},
