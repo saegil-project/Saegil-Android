@@ -111,6 +111,15 @@ class LearningViewModel @Inject constructor(
         if (_uiState.value == LearningUiState.isRecording) {
             stopRecording()
         }
+        stopPlaying()
+    }
+
+    private fun stopPlaying() {
+        mediaPlayer?.apply {
+            stop()
+            release()
+        }
+        mediaPlayer = null
     }
 
     private suspend fun downloadAudio(text: String) {
