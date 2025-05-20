@@ -1,6 +1,7 @@
 package com.saegil.data.di
 
 import com.saegil.data.BuildConfig
+import com.saegil.data.local.ThreadPreferencesManager
 import com.saegil.data.remote.AssistantApi
 import com.saegil.data.repository.AssistantRepositoryImpl
 import com.saegil.domain.repository.AssistantRepository
@@ -64,6 +65,10 @@ object RetrofitNetworkModule {
 
     @Provides
     @Singleton
-    fun provideAssistantRepository(api: AssistantApi): AssistantRepository =
-        AssistantRepositoryImpl(api)
+    fun provideAssistantRepository(
+        api: AssistantApi,
+        threadPreferencesManager: ThreadPreferencesManager
+    ): AssistantRepository =
+        AssistantRepositoryImpl(api, threadPreferencesManager)
+
 }
