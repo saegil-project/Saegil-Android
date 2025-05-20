@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface AssistantRepository {
-    suspend fun uploadAudio(
-        file: File,
-    ): Flow<Result<UploadAudio>>
+    suspend fun uploadAudio(file: File): Flow<Result<UploadAudio>>
+    suspend fun saveThreadId(threadId: String)
+    fun getThreadId(): Flow<String?>
+    suspend fun clearThreadId()
 }
