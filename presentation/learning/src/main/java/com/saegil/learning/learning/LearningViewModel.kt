@@ -18,8 +18,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
-import kotlin.onFailure
 
 @HiltViewModel
 class LearningViewModel @Inject constructor(
@@ -60,7 +60,7 @@ class LearningViewModel @Inject constructor(
                 prepare()
                 start()
             }
-            _uiState.value = LearningUiState.isRecording
+            _uiState.value = LearningUiState.Recording
         }.onFailure {
             _uiState.value = LearningUiState.Error("녹음 시작 중 오류가 발생했습니다")
         }
@@ -84,7 +84,7 @@ class LearningViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 audioFile?.let { file ->
-                    _uiState.value = LearningUiState.isUploading
+                    _uiState.value = LearningUiState.Uploading
 
                     runCatching {
                         uploadAudioUseCase(file).let { dto ->
@@ -104,7 +104,7 @@ class LearningViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        if (_uiState.value == LearningUiState.isRecording) {
+        if (_uiState.value == LearningUiState.Recording) {
             stopRecording()
         }
         stopPlaying()

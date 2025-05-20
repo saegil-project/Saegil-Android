@@ -6,9 +6,9 @@ sealed interface LearningUiState {
 
     data object Idle : LearningUiState
 
-    data object isRecording : LearningUiState
+    data object Recording : LearningUiState
 
-    data object isUploading : LearningUiState
+    data object Uploading : LearningUiState
 
     data class Success(val response: UploadAudio) : LearningUiState
 
