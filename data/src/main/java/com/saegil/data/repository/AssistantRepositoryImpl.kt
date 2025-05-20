@@ -17,6 +17,34 @@ class AssistantRepositoryImpl @Inject constructor(
     private val threadPreferencesManager: ThreadPreferencesManager
 ) : AssistantRepository {
 
+    override suspend fun uploadAudio(file: File, threadId: String?): Flow<Result<UploadAudio>> =
+        flow {
+            try {
+                val requestFile = file.asRequestBody("audio/x-m4a".toMediaTypeOrNull())
+                val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+                val response = api.uploadAudio(file = body, threadId = threadId)
+
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        emit(Result.success(it.toDomain()))
+                    } ?: emit(Result.failure(Exception("Empty body")))
+                } else {
+                    emit(
+                        Result.failure(
+                            Exception(
+                                "Error: ${response.code()} - ${
+                                    response.errorBody()?.string()
+                                }"
+                            )
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                emit(Result.failure(e))
+            }
+        }
+
+
     override suspend fun uploadAudio(file: File): Flow<Result<UploadAudio>> = flow {
         try {
             val requestFile = file.asRequestBody("audio/x-m4a".toMediaTypeOrNull())
