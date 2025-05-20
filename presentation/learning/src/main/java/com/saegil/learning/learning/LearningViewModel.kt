@@ -60,7 +60,7 @@ class LearningViewModel @Inject constructor(
                 prepare()
                 start()
             }
-            _uiState.value = LearningUiState.isRecording
+            _uiState.value = LearningUiState.Recording
         } catch (e: IOException) {
             _uiState.value = LearningUiState.Error("녹음 시작 중 오류가 발생했습니다")
         }
@@ -84,7 +84,7 @@ class LearningViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 audioFile?.let { file ->
-                    _uiState.value = LearningUiState.isUploading
+                    _uiState.value = LearningUiState.Uploading
 
                     try {
                         uploadAudioUseCase(file).collect { result ->
@@ -108,7 +108,7 @@ class LearningViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        if (_uiState.value == LearningUiState.isRecording) {
+        if (_uiState.value == LearningUiState.Recording) {
             stopRecording()
         }
         stopPlaying()
