@@ -10,7 +10,6 @@ import java.io.File
 class AssistantRepositoryImpl(
     private val assistantService: AssistantService,
     private val threadPreferencesManager: ThreadPreferencesManager
-
 ) : AssistantRepository {
 
     override suspend fun uploadAudio(file: File): UploadAudio = assistantService.getAssistant(file).toDomain()
