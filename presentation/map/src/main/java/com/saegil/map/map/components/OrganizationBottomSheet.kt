@@ -66,7 +66,7 @@ private fun OrganizationContent(
             style = MaterialTheme.typography.h2
         )
         Spacer(modifier = Modifier.height(8.dp))
-        InfoText(modifier = Modifier, "운영시간", organization.name)
+        InfoText(modifier = Modifier, "운영시간", organization.operatingHours) //todo 운영 시간, 전화번호 없음 이슈
         Spacer(modifier = Modifier.height(8.dp))
         InfoText(modifier = Modifier, "전화번호", organization.telephoneNumber)
         Spacer(modifier = Modifier.height(8.dp))
