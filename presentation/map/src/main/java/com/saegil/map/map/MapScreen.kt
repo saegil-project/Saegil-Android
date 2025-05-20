@@ -36,6 +36,10 @@ import com.saegil.map.map.components.OrganizationBottomSheet
 import com.saegil.map.map.components.SelectedMarker
 import com.saegil.map.map.components.UnselectedMarker
 import timber.log.Timber
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 @Composable
 fun MapScreen(
@@ -45,13 +49,30 @@ fun MapScreen(
     val mapState by viewModel.mapUiState.collectAsStateWithLifecycle()
     val cameraPositionState = rememberCameraPositionState()
     var selectedOrganization by remember { mutableStateOf<Organization?>(null) }
+    var lastLocation by remember { mutableStateOf<LatLng?>(null) }
+
+    val ZOOM_LEVEL = 15.0
+    val THRESHOLD = 0.1
+
 
     LaunchedEffect(cameraPositionState.position) {
-        viewModel.updateLocation(
+        val currentLocation = LatLng(
             cameraPositionState.position.target.latitude,
             cameraPositionState.position.target.longitude
         )
-        viewModel.updateZoomLevel(cameraPositionState.position.zoom)
+
+        if (lastLocation == null || calculateDistance(
+                lastLocation!!,
+                currentLocation
+            ) > THRESHOLD
+        ) {
+            viewModel.updateLocation(
+                currentLocation.latitude,
+                currentLocation.longitude
+            )
+            viewModel.updateZoomLevel(cameraPositionState.position.zoom)
+            lastLocation = currentLocation
+        }
     }
 
     MapScreen(
@@ -190,5 +211,19 @@ internal fun MapScreen(
 @Preview(name = "Map")
 private fun MapScreenPreview() {
     MapScreen()
+}
+
+private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
+    val R = 6371.0 // Earth's radius in kilometers
+    val lat1 = Math.toRadians(location1.latitude)
+    val lat2 = Math.toRadians(location2.latitude)
+    val dLat = Math.toRadians(location2.latitude - location1.latitude)
+    val dLon = Math.toRadians(location2.longitude - location1.longitude)
+
+    val a = sin(dLat / 2) * sin(dLat / 2) +
+            cos(lat1) * cos(lat2) *
+            sin(dLon / 2) * sin(dLon / 2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return R * c
 }
 
