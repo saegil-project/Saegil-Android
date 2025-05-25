@@ -1,6 +1,7 @@
 # Saegil-Android
-- Kotlin
-- Jetpack Compose
+- [PlayStore 바로가기](https://play.google.com/store/apps/details?id=com.saegil.android)
+- [OneStore 바로가기](https://m.onestore.co.kr/ko-kr/apps/appsDetail.omp?prodId=0001000714)
+
 
 ## ↔️ 모듈 구조
 
@@ -37,6 +38,8 @@ graph TD
 ```
 
 ## 📌 라이브러리 정리
+- Kotlin
+- Jetpack Compose
 
 | 라이브러리          | 용도         | 설명                                                                                             |
 |----------------|------------|------------------------------------------------------------------------------------------------|
