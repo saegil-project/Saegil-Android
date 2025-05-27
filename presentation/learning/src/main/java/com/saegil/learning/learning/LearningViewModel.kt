@@ -90,8 +90,8 @@ class LearningViewModel @Inject constructor(
                         uploadAudioUseCase(file).collect { result ->
                             result
                                 .onSuccess { dto ->
-                                    _uiState.value = LearningUiState.Success(dto)
                                     downloadAudio(dto.response)
+                                    _uiState.value = LearningUiState.Success(dto)
                                 }
                                 .onFailure { error -> println("실패: ${error.message}") }
                         }
@@ -111,21 +111,28 @@ class LearningViewModel @Inject constructor(
         if (_uiState.value == LearningUiState.isRecording) {
             stopRecording()
         }
+        stopPlaying()
     }
 
-    private fun downloadAudio(text: String) {
-        viewModelScope.launch {
-            try {
-                downloadAudioUseCase(text)
-                    .catch {
-                        _uiState.value = LearningUiState.Error("오디오 다운로드 실패")
-                    }
-                    .collect { file ->
-                        playAudio(file)
-                    }
-            } catch (e: Exception) {
-                _uiState.value = LearningUiState.Error("오디오 처리 중 오류 발생")
-            }
+    private fun stopPlaying() {
+        mediaPlayer?.apply {
+            stop()
+            release()
+        }
+        mediaPlayer = null
+    }
+
+    private suspend fun downloadAudio(text: String) {
+        try {
+            downloadAudioUseCase(text)
+                .catch {
+                    _uiState.value = LearningUiState.Error("오디오 다운로드 실패")
+                }
+                .collect { file ->
+                    playAudio(file)
+                }
+        } catch (e: Exception) {
+            _uiState.value = LearningUiState.Error("오디오 처리 중 오류 발생")
         }
     }
 
