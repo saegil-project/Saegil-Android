@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
@@ -103,43 +102,44 @@ class LearningViewModel @Inject constructor(
                                     _uiState.value = LearningUiState.Success(dto)
                                 }
                                 .onFailure { error -> println("실패: ${error.message}") }
-                        val threadId = getThreadId()
-                        Log.d("LearningViewModel", "dld threadId: $threadId")
-                        if (threadId?.isNotEmpty() == true) {
-                            uploadAudioUseCase(
-                                file = file,
-                                threadId = getThreadId()
-                            ).collect { result ->
-                                result
-                                    .onSuccess { dto ->
-                                        _uiState.value = LearningUiState.Success(dto) //응답 받아서
-                                        downloadAudio(dto.response)
-                                        saveThreadId(dto.threadId)
-                                    }
-                                    .onFailure { error ->
-                                        Log.d(
-                                            "LearningViewModel",
-                                            "에러: ${error.message}"
-                                        )
-                                    }
-                            }
-                        } else {
-                            uploadAudioUseCase(
-                                file = file,
-                                threadId = getThreadId()
-                            ).collect { result ->
-                                result
-                                    .onSuccess { dto ->
-                                        _uiState.value = LearningUiState.Success(dto) //응답 받아서
-                                        downloadAudio(dto.response)
-                                        Log.d("LearningViewModel", "threadId: ${threadId}")
-                                    }
-                                    .onFailure { error ->
-                                        Log.d(
-                                            "LearningViewModel",
-                                            "에러: ${error.message}"
-                                        )
-                                    }
+                            val threadId = getThreadId()
+                            Log.d("LearningViewModel", "dld threadId: $threadId")
+                            if (threadId?.isNotEmpty() == true) {
+                                uploadAudioUseCase(
+                                    file = file,
+                                    threadId = getThreadId()
+                                ).collect { result ->
+                                    result
+                                        .onSuccess { dto ->
+                                            _uiState.value = LearningUiState.Success(dto) //응답 받아서
+                                            downloadAudio(dto.response)
+                                            saveThreadId(dto.threadId)
+                                        }
+                                        .onFailure { error ->
+                                            Log.d(
+                                                "LearningViewModel",
+                                                "에러: ${error.message}"
+                                            )
+                                        }
+                                }
+                            } else {
+                                uploadAudioUseCase(
+                                    file = file,
+                                    threadId = getThreadId()
+                                ).collect { result ->
+                                    result
+                                        .onSuccess { dto ->
+                                            _uiState.value = LearningUiState.Success(dto) //응답 받아서
+                                            downloadAudio(dto.response)
+                                            Log.d("LearningViewModel", "threadId: ${threadId}")
+                                        }
+                                        .onFailure { error ->
+                                            Log.d(
+                                                "LearningViewModel",
+                                                "에러: ${error.message}"
+                                            )
+                                        }
+                                }
                             }
                         }
                     } catch (e: Exception) {
