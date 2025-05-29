@@ -8,4 +8,5 @@ plugins {
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.devtools.ksp) apply false
     alias(libs.plugins.secrets.gradle.plugin) apply false
-}   
+    id("com.vanniktech.dependency.graph.generator") version "0.8.0"
+}
