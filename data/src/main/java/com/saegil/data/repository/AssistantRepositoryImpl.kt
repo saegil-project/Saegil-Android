@@ -13,8 +13,8 @@ class AssistantRepositoryImpl(
     private val assistantService: AssistantService
 ) : AssistantRepository {
 
-    override suspend fun uploadAudio(file: File): Flow<UploadAudio> = flow {
-        assistantService.getAssistant(file)?.toDomain() ?:
+    override suspend fun uploadAudio(file: File): Flow<UploadAudio> = flow<UploadAudio> {
+        assistantService.getAssistant(file).toDomain()
     }.flowOn(Dispatchers.IO)
 //    override suspend fun uploadAudio(file: File): Flow<Result<UploadAudio>> = flow {
 //        try {

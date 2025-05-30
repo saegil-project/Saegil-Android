@@ -7,5 +7,5 @@ import java.io.File
 interface AssistantRepository {
     suspend fun uploadAudio(
         file: File,
-    ): Flow<Result<UploadAudio>>
+    ): Flow<UploadAudio>
 }
