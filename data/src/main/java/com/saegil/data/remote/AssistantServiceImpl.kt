@@ -3,15 +3,10 @@ package com.saegil.data.remote
 import com.saegil.data.model.UploadAudioDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
-import io.ktor.client.request.headers
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
+import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
-import io.ktor.http.contentType
 import io.ktor.util.InternalAPI
 import java.io.File
 import javax.inject.Inject
@@ -21,30 +16,17 @@ class AssistantServiceImpl @Inject constructor(
 ) : AssistantService {
     @OptIn(InternalAPI::class)
     override suspend fun getAssistant(file: File): UploadAudioDto {
-        val response = client.post(HttpRoutes.ASSISTANT) {
-            setBody(
-                MultiPartFormDataContent(
-                    formData {
-                        append(
-                            key = "file",
-                            value = file.inputStream(),
-                            headers = Headers.build {
-                                append(
-                                    HttpHeaders.ContentDisposition,
-                                    "form-data; name=\"file\"; filename=\"${file.name}\""
-                                )
-                                append(HttpHeaders.ContentType, "audio/x-m4a")
-                            }
-                        )
-//                        append("thread_id", "") // 필요 시 추가
-//                        append("provider", "OPENAI") // 필요 시 추가
-                    }
-                )
-            )
-            headers {
-                append(HttpHeaders.Accept, "application/json")
+        val response = client.submitFormWithBinaryData(
+            url = HttpRoutes.ASSISTANT,
+            formData = formData {
+                append("file", file.readBytes(), Headers.build {
+                    append(HttpHeaders.ContentType, "audio/*")
+                    append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
+                })
             }
-            contentType(ContentType.MultiPart.FormData) // 이건 없어도 됩니다. 위에서 자동 설정됨
+        ) {
+            // thread_id가 있다면 쿼리 파라미터로 추가
+            // parameter("thread_id", threadId)
         }
         return response.body()
     }

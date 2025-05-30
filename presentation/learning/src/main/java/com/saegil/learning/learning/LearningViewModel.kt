@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -87,9 +88,11 @@ class LearningViewModel @Inject constructor(
                     _uiState.value = LearningUiState.isUploading
 
                     runCatching {
-                        uploadAudioUseCase(file).collect { dto ->
-                            _uiState.value = LearningUiState.Success(dto)
+                        uploadAudioUseCase(file).let { dto ->
+                            Log.d("경로","시작")
                             downloadAudio(dto.response)
+                            Log.d("경로","끝")
+                            _uiState.value = LearningUiState.Success(dto)
                         }
                     }.onFailure {
                         _uiState.value = LearningUiState.Error("파일 업로드 중 오류가 발생했습니다")
@@ -109,19 +112,17 @@ class LearningViewModel @Inject constructor(
         }
     }
 
-    private fun downloadAudio(text: String) {
-        viewModelScope.launch {
-            runCatching {
-                downloadAudioUseCase(text)
-                    .catch {
-                        _uiState.value = LearningUiState.Error("오디오 다운로드 실패")
-                    }
-                    .collect { file ->
-                        playAudio(file)
-                    }
-            }.onFailure {
-                _uiState.value = LearningUiState.Error("오디오 처리 중 오류 발생")
-            }
+    private suspend fun downloadAudio(text: String) {
+        runCatching {
+            downloadAudioUseCase(text)
+                .catch {
+                    _uiState.value = LearningUiState.Error("오디오 다운로드 실패")
+                }
+                .collect { file ->
+                    playAudio(file)
+                }
+        }.onFailure {
+            _uiState.value = LearningUiState.Error("오디오 처리 중 오류 발생")
         }
     }
 
