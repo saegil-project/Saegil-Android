@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Environment
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -89,9 +88,7 @@ class LearningViewModel @Inject constructor(
 
                     runCatching {
                         uploadAudioUseCase(file).let { dto ->
-                            Log.d("경로","시작")
                             downloadAudio(dto.response)
-                            Log.d("경로","끝")
                             _uiState.value = LearningUiState.Success(dto)
                         }
                     }.onFailure {
@@ -110,6 +107,15 @@ class LearningViewModel @Inject constructor(
         if (_uiState.value == LearningUiState.isRecording) {
             stopRecording()
         }
+        stopPlaying()
+    }
+
+    private fun stopPlaying() {
+        mediaPlayer?.apply {
+            stop()
+            release()
+        }
+        mediaPlayer = null
     }
 
     private suspend fun downloadAudio(text: String) {
