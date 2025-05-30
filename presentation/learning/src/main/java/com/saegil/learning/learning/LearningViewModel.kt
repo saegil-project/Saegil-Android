@@ -115,7 +115,7 @@ class LearningViewModel @Inject constructor(
 
     private fun downloadAudio(text: String) {
         viewModelScope.launch {
-            try {
+            runCatching {
                 downloadAudioUseCase(text)
                     .catch {
                         _uiState.value = LearningUiState.Error("오디오 다운로드 실패")
@@ -123,7 +123,7 @@ class LearningViewModel @Inject constructor(
                     .collect { file ->
                         playAudio(file)
                     }
-            } catch (e: Exception) {
+            }.onFailure {
                 _uiState.value = LearningUiState.Error("오디오 처리 중 오류 발생")
             }
         }

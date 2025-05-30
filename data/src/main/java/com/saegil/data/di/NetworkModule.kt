@@ -2,6 +2,8 @@ package com.saegil.data.di
 
 import com.saegil.data.di.network.ConditionalAuthPlugin
 import com.saegil.data.local.TokenDataSource
+import com.saegil.data.remote.AssistantService
+import com.saegil.data.remote.AssistantServiceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
@@ -102,11 +104,11 @@ object NetworkModule {
     }
 
 
-//    @Provides
-//    @Singleton
-//    fun provideAssistantService(client: HttpClient): AssistantService {
-//        return AssistantServiceImpl(client)
-//    }//todo ktor로 추후 변경하기 위해서 주석처리함
+    @Provides
+    @Singleton
+    fun provideAssistantService(client: HttpClient): AssistantService {
+        return AssistantServiceImpl(client)
+    }
 
     @Provides
     @Singleton
