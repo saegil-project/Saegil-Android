@@ -18,7 +18,7 @@ import javax.inject.Inject
 class AssistantServiceImpl @Inject constructor(
     private val client: HttpClient
 ) : AssistantService {
-    override suspend fun getAssistant(file: File): UploadAudioDto? {
+    override suspend fun getAssistant(file: File): UploadAudioDto {
         val response = client.post(HttpRoutes.ASSISTANT) {
             setBody(
                 MultiPartFormDataContent(

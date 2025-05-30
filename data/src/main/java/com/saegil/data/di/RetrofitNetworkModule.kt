@@ -2,8 +2,6 @@ package com.saegil.data.di
 
 import com.saegil.data.BuildConfig
 import com.saegil.data.remote.AssistantApi
-import com.saegil.data.repository.AssistantRepositoryImpl
-import com.saegil.domain.repository.AssistantRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,9 +59,4 @@ object RetrofitNetworkModule {
     @Singleton
     fun provideAssistantApi(retrofit: Retrofit): AssistantApi =
         retrofit.create(AssistantApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideAssistantRepository(api: AssistantApi): AssistantRepository =
-        AssistantRepositoryImpl(api)
 }
