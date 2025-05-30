@@ -18,8 +18,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.IOException
 import javax.inject.Inject
+import kotlin.onFailure
 
 @HiltViewModel
 class LearningViewModel @Inject constructor(
@@ -48,7 +48,7 @@ class LearningViewModel @Inject constructor(
             return
         }
 
-        try {
+        runCatching {
             val fileName = "recording_${System.currentTimeMillis()}.m4a"
             audioFile = File(context.getExternalFilesDir(Environment.DIRECTORY_MUSIC), fileName)
 
@@ -61,13 +61,13 @@ class LearningViewModel @Inject constructor(
                 start()
             }
             _uiState.value = LearningUiState.isRecording
-        } catch (e: IOException) {
+        }.onFailure {
             _uiState.value = LearningUiState.Error("녹음 시작 중 오류가 발생했습니다")
         }
     }
 
     fun stopRecording() {
-        try {
+        runCatching {
             mediaRecorder?.apply {
                 stop()
                 release()
@@ -75,18 +75,18 @@ class LearningViewModel @Inject constructor(
             mediaRecorder = null
             _uiState.value = LearningUiState.Idle
             exchangeAudio()
-        } catch (e: Exception) {
+        }.onFailure {
             _uiState.value = LearningUiState.Error("녹음 중지 중 오류가 발생했습니다")
         }
     }
 
     private fun exchangeAudio() {
         viewModelScope.launch {
-            try {
+            runCatching {
                 audioFile?.let { file ->
                     _uiState.value = LearningUiState.isUploading
 
-                    try {
+                    runCatching {
                         uploadAudioUseCase(file).collect { result ->
                             result
                                 .onSuccess { dto ->
@@ -95,11 +95,11 @@ class LearningViewModel @Inject constructor(
                                 }
                                 .onFailure { error -> println("실패: ${error.message}") }
                         }
-                    } catch (e: Exception) {
+                    }.onFailure {
                         _uiState.value = LearningUiState.Error("파일 업로드 중 오류가 발생했습니다")
                     }
                 }
-            } catch (e: Exception) {
+            }.onFailure {
                 _uiState.value = LearningUiState.Error("파일 변환 중 오류가 발생했습니다")
             }
         }
