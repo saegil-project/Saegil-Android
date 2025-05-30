@@ -12,12 +12,14 @@ import io.ktor.http.ContentType
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
+import io.ktor.util.InternalAPI
 import java.io.File
 import javax.inject.Inject
 
 class AssistantServiceImpl @Inject constructor(
     private val client: HttpClient
 ) : AssistantService {
+    @OptIn(InternalAPI::class)
     override suspend fun getAssistant(file: File): UploadAudioDto {
         val response = client.post(HttpRoutes.ASSISTANT) {
             setBody(
@@ -25,7 +27,7 @@ class AssistantServiceImpl @Inject constructor(
                     formData {
                         append(
                             key = "file",
-                            value = file.readBytes(),
+                            value = file.inputStream(),
                             headers = Headers.build {
                                 append(
                                     HttpHeaders.ContentDisposition,
@@ -40,7 +42,6 @@ class AssistantServiceImpl @Inject constructor(
                 )
             )
             headers {
-                append(HttpHeaders.Authorization, "Bearer saegil-dev-test-token")
                 append(HttpHeaders.Accept, "application/json")
             }
             contentType(ContentType.MultiPart.FormData) // 이건 없어도 됩니다. 위에서 자동 설정됨

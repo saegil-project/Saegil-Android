@@ -6,6 +6,7 @@ import com.saegil.data.remote.AssistantService
 import com.saegil.data.remote.AssistantServiceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
+import com.saegil.data.remote.HttpRoutes.ASSISTANT
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
 import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
@@ -72,7 +73,8 @@ object NetworkModule {
                         OAUTH_VALIDATE_TOKEN,
                         SIMULATION_LOG,
                         TTS,
-                        USER
+                        USER,
+                        ASSISTANT,
                     ).any { it in path }
                 }
             }

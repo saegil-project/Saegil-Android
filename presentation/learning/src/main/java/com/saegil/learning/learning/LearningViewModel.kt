@@ -87,13 +87,9 @@ class LearningViewModel @Inject constructor(
                     _uiState.value = LearningUiState.isUploading
 
                     runCatching {
-                        uploadAudioUseCase(file).collect { result ->
-                            result
-                                .onSuccess { dto ->
-                                    _uiState.value = LearningUiState.Success(dto)
-                                    downloadAudio(dto.response)
-                                }
-                                .onFailure { error -> println("실패: ${error.message}") }
+                        uploadAudioUseCase(file).collect { dto ->
+                            _uiState.value = LearningUiState.Success(dto)
+                            downloadAudio(dto.response)
                         }
                     }.onFailure {
                         _uiState.value = LearningUiState.Error("파일 업로드 중 오류가 발생했습니다")
