@@ -1,4 +1,4 @@
-package com.saegil.data.model;
+package com.saegil.data.model
 
 import com.saegil.domain.model.UploadAudio
 import kotlinx.serialization.Serializable

@@ -12,6 +12,7 @@ import com.saegil.data.remote.SimulationLogService
 import com.saegil.data.remote.TextToSpeechService
 import com.saegil.data.repository.TextToSpeechRepositoryImpl
 import com.saegil.data.remote.UserInfoService
+import com.saegil.data.repository.AssistantRepositoryImpl
 import com.saegil.data.repository.FeedRepositoryImpl
 import com.saegil.data.repository.MapRepositoryImpl
 import com.saegil.data.repository.OAuthRepositoryImpl
@@ -19,6 +20,7 @@ import com.saegil.data.repository.SimulationLogRepositoryImpl
 import com.saegil.data.repository.ScenarioRepositoryImpl
 import com.saegil.domain.repository.TextToSpeechRepository
 import com.saegil.data.repository.UserInfoRepositoryImpl
+import com.saegil.domain.repository.AssistantRepository
 import com.saegil.domain.repository.FeedRepository
 import com.saegil.domain.repository.MapRepository
 import com.saegil.domain.repository.OAuthRepository
@@ -71,11 +73,11 @@ object DataModule {
     }
 
 
-//    @Provides
-//    @Singleton
-//    fun provideAssistantRepository(assistantService: AssistantService): AssistantRepository {
-//        return AssistantRepositoryImpl(assistantService)
-//    } //todo ktor로 추후 변경하기 위해서 주석처리함
+    @Provides
+    @Singleton
+    fun provideAssistantRepository(assistantService: AssistantService): AssistantRepository {
+        return AssistantRepositoryImpl(assistantService)
+    }
 
     @Provides
     @Singleton
