@@ -133,7 +133,7 @@ fun LearningScreen(
         SaegilDialog(
             onDismissRequest = { showExitDialog = false },
             title = "학습 대화 종료",
-            subTitle = "지금 학습 대화를 종료하시겠습니까?",
+            description = "지금 학습 대화를 종료하시겠습니까?",
             positiveButtonText = "종료하기",
             onPositiveButtonClicked = {
                 showExitDialog = false
