@@ -2,6 +2,7 @@ package com.saegil.learning.learning
 
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.saegil.designsystem.R
+import com.saegil.designsystem.component.SaegilDialog
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.h1
@@ -58,6 +60,7 @@ fun LearningScreen(
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     var showPermissionDialog by remember { mutableStateOf(false) }
+    var showExitDialog by remember { mutableStateOf(false) }
     var currentEmotion by remember { mutableStateOf(CharacterEmotion.SMILE) }
     var displayText by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
@@ -74,7 +77,7 @@ fun LearningScreen(
 
     LaunchedEffect(state) {
         when (state) {
-            is LearningUiState.isUploading -> {
+            is LearningUiState.Uploading -> {
                 while (true) {
                     currentEmotion = CharacterEmotion.NORMAL
                     delay(300)
@@ -83,7 +86,7 @@ fun LearningScreen(
                 }
             }
 
-            is LearningUiState.isRecording -> {
+            is LearningUiState.Recording -> {
                 currentEmotion = CharacterEmotion.WONDER
             }
 
@@ -111,13 +114,38 @@ fun LearningScreen(
             text = { Text("녹음을 위해 마이크 권한이 필요합니다. 설정에서 권한을 허용해주세요.") },
             confirmButton = {
                 Button(
-                    onClick = { showPermissionDialog = false }
+                    onClick = {
+                        showPermissionDialog = false
+                    }
                 ) {
                     Text("확인")
                 }
             }
         )
     }
+
+    BackHandler {
+        showExitDialog = true
+    }
+
+    // 다이얼로그 표시
+    if (showExitDialog) {
+        SaegilDialog(
+            onDismissRequest = { showExitDialog = false },
+            title = "학습 대화 종료",
+            description = "지금 학습 대화를 종료하시겠습니까?",
+            positiveButtonText = "종료하기",
+            onPositiveButtonClicked = {
+                showExitDialog = false
+                viewModel.finishLearning()
+                navigateToLearningList()
+            },
+            negativeButtonText = "돌아가기",
+            onNegativeButtonClicked = { showExitDialog = false },
+        )
+    }
+
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -131,7 +159,9 @@ fun LearningScreen(
         ) {
             SaegilTitleText(
                 title = "",
-                onBackClick = navigateToLearningList,
+                onBackClick = {
+                    showExitDialog = true
+                },
             )
             Text(
                 text = "상황 $scenarioId",
@@ -151,7 +181,7 @@ fun LearningScreen(
 
             when (state) {
 
-                is LearningUiState.isUploading -> {
+                is LearningUiState.Uploading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.padding(top = 100.dp)
                     )
@@ -169,7 +199,7 @@ fun LearningScreen(
                     )
                 }
 
-                LearningUiState.isRecording -> {
+                LearningUiState.Recording -> {
                 }
             }
         }
@@ -199,7 +229,7 @@ fun LearningScreen(
                     )
                 }
 
-                is LearningUiState.isRecording -> {
+                is LearningUiState.Recording -> {
                     RecordButton(
                         isRecording = true,
                         onClick = {

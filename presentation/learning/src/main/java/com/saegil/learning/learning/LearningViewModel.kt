@@ -5,10 +5,14 @@ import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.saegil.domain.usecase.ClearThreadIdUseCase
 import com.saegil.domain.usecase.DownloadAudioUseCase
+import com.saegil.domain.usecase.GetThreadIdUseCase
+import com.saegil.domain.usecase.SaveThreadIdUseCase
 import com.saegil.domain.usecase.UploadAudioUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
@@ -26,6 +31,9 @@ class LearningViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val uploadAudioUseCase: UploadAudioUseCase,
     private val downloadAudioUseCase: DownloadAudioUseCase,
+    private val saveThreadIdUseCase: SaveThreadIdUseCase,
+    private val getThreadIdUseCase: GetThreadIdUseCase,
+    private val clearThreadIdUseCase: ClearThreadIdUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<LearningUiState>(LearningUiState.Idle)
@@ -60,7 +68,7 @@ class LearningViewModel @Inject constructor(
                 prepare()
                 start()
             }
-            _uiState.value = LearningUiState.isRecording
+            _uiState.value = LearningUiState.Recording
         } catch (e: IOException) {
             _uiState.value = LearningUiState.Error("녹음 시작 중 오류가 발생했습니다")
         }
@@ -82,36 +90,57 @@ class LearningViewModel @Inject constructor(
 
     private fun exchangeAudio() {
         viewModelScope.launch {
-            try {
-                audioFile?.let { file ->
-                    _uiState.value = LearningUiState.isUploading
+            audioFile?.let { file ->
+                _uiState.value = LearningUiState.Uploading
 
-                    try {
-                        uploadAudioUseCase(file).collect { result ->
-                            result
-                                .onSuccess { dto ->
-                                    downloadAudio(dto.response)
-                                    _uiState.value = LearningUiState.Success(dto)
-                                }
-                                .onFailure { error -> println("실패: ${error.message}") }
-                        }
-                    } catch (e: Exception) {
-                        _uiState.value = LearningUiState.Error("파일 업로드 중 오류가 발생했습니다")
+                val threadId = getThreadId()
+
+                try {
+                    val resultFlow = if (threadId.isNullOrEmpty()) {
+                        uploadAudioUseCase(file)
+                    } else {
+                        uploadAudioUseCase(file, threadId)
                     }
+
+                    resultFlow.collect { result ->
+                        result
+                            .onSuccess { dto ->
+                                _uiState.value = LearningUiState.Success(dto)
+                                downloadAudio(dto.response)
+
+                                if (threadId.isNullOrEmpty()) {
+                                    saveThreadId(dto.threadId)
+                                    Log.d("LearningViewModel", "새로운 threadId 저장: ${dto.threadId}")
+                                } else {
+                                    Log.d("LearningViewModel", "기존 threadId 사용: $threadId")
+                                }
+                            }
+                            .onFailure { error ->
+                                Log.e("LearningViewModel", "업로드 실패: ${error.message}")
+                            }
+                    }
+                } catch (e: Exception) {
+                    _uiState.value = LearningUiState.Error("파일 업로드 중 오류가 발생했습니다")
                 }
-            } catch (e: Exception) {
-                _uiState.value = LearningUiState.Error("파일 변환 중 오류가 발생했습니다")
             }
         }
     }
 
-
     override fun onCleared() {
         super.onCleared()
-        if (_uiState.value == LearningUiState.isRecording) {
+        finishLearning()
+    }
+
+    fun finishLearning() {
+        if (_uiState.value == LearningUiState.Recording) {
             stopRecording()
         }
         stopPlaying()
+
+        viewModelScope.launch {
+            clearThreadIdUseCase()
+            Log.d("LearningViewModel", "쓰레드 ID 삭제 완료")
+        }
     }
 
     private fun stopPlaying() {
@@ -120,6 +149,27 @@ class LearningViewModel @Inject constructor(
             release()
         }
         mediaPlayer = null
+    }
+
+    private fun saveThreadId(threadId: String) {
+        viewModelScope.launch {
+            try {
+                saveThreadIdUseCase(threadId)
+            } catch (e: Exception) {
+                _uiState.value = LearningUiState.Error("쓰레드 ID 저장 중 오류가 발생했습니다")
+                Log.d("LearningViewModel", "쓰레드 ID 저장 중 오류가 발생했습니다")
+            }
+        }
+    }
+
+    private suspend fun getThreadId(): String? {
+        return try {
+            getThreadIdUseCase().first() // Flow에서 첫 값을 받아옴
+        } catch (e: Exception) {
+            _uiState.value = LearningUiState.Error("쓰레드 ID를 가져오던 중 오류가 발생했습니다")
+            Log.d("LearningViewModel", "쓰레드 ID를 가져오던 중 오류가 발생했습니다")
+            null
+        }
     }
 
     private suspend fun downloadAudio(text: String) {

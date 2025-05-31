@@ -101,6 +101,7 @@ dependencies {
     //Preferences DataStore/Proto
     implementation(libs.androidx.datastore)
     implementation(libs.protobuf.javalite)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(project(":domain"))//클린아키텍처 도메인 의존
 }

@@ -1,5 +1,6 @@
 package com.saegil.data.remote
 
+import com.saegil.data.local.ThreadPreferencesManager
 import com.saegil.data.model.UploadAudioDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -12,13 +13,17 @@ import io.ktor.http.ContentType
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
+import kotlinx.coroutines.flow.first
 import java.io.File
 import javax.inject.Inject
 
 class AssistantServiceImpl @Inject constructor(
-    private val client: HttpClient
+    private val client: HttpClient,
+    private val threadPreferencesManager: ThreadPreferencesManager
 ) : AssistantService {
     override suspend fun getAssistant(file: File): UploadAudioDto? {
+        val threadId = threadPreferencesManager.threadId.first()
+        
         val response = client.post(HttpRoutes.ASSISTANT) {
             setBody(
                 MultiPartFormDataContent(
@@ -34,8 +39,9 @@ class AssistantServiceImpl @Inject constructor(
                                 append(HttpHeaders.ContentType, "audio/x-m4a")
                             }
                         )
-//                        append("thread_id", "") // 필요 시 추가
-//                        append("provider", "OPENAI") // 필요 시 추가
+                        threadId?.let { id ->
+                            append("thread_id", id)
+                        }
                     }
                 )
             )
@@ -43,7 +49,7 @@ class AssistantServiceImpl @Inject constructor(
                 append(HttpHeaders.Authorization, "Bearer saegil-dev-test-token")
                 append(HttpHeaders.Accept, "application/json")
             }
-            contentType(ContentType.MultiPart.FormData) // 이건 없어도 됩니다. 위에서 자동 설정됨
+            contentType(ContentType.MultiPart.FormData)
         }
         return response.body()
     }

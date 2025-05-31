@@ -12,4 +12,8 @@ class UploadAudioUseCase @Inject constructor(
     suspend operator fun invoke(file: File): Flow<Result<UploadAudio>> {
         return assistantRepository.uploadAudio(file)
     }
+
+    suspend operator fun invoke(file: File, threadId: String?): Flow<Result<UploadAudio>> {
+        return assistantRepository.uploadAudio(file, threadId)
+    }
 } 
