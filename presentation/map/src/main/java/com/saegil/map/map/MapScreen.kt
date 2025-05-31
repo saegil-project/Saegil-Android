@@ -230,15 +230,6 @@ private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
 object MapConstants {
     const val EARTH_RADIUS_KM = 6371.0
     const val THRESHOLD = 0.1
-
-    // 줌 레벨 기준
-    const val ZOOM_CLOSE = 15.0   // 500m
-    const val ZOOM_MEDIUM = 13.0  // 1km
-    const val ZOOM_FAR = 0.0      // 5km (기본값)
-
-    const val RADIUS_CLOSE = 0.5    // 단위: km
-    const val RADIUS_MEDIUM = 1.0
-    const val RADIUS_FAR = 5.0
 }
 
 @Composable
