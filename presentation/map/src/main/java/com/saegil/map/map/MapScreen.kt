@@ -32,6 +32,8 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.domain.model.Organization
+import com.saegil.map.map.MapConstants.EARTH_RADIUS_KM
+import com.saegil.map.map.MapConstants.THRESHOLD
 import com.saegil.map.map.components.OrganizationBottomSheet
 import com.saegil.map.map.components.SelectedMarker
 import com.saegil.map.map.components.UnselectedMarker
@@ -40,6 +42,7 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+
 
 @Composable
 fun MapScreen(
@@ -50,9 +53,6 @@ fun MapScreen(
     val cameraPositionState = rememberCameraPositionState()
     var selectedOrganization by remember { mutableStateOf<Organization?>(null) }
     var lastLocation by remember { mutableStateOf<LatLng?>(null) }
-
-    val ZOOM_LEVEL = 15.0
-    val THRESHOLD = 0.1
 
 
     LaunchedEffect(cameraPositionState.position) {
@@ -207,14 +207,7 @@ internal fun MapScreen(
     }
 }
 
-@Composable
-@Preview(name = "Map")
-private fun MapScreenPreview() {
-    MapScreen()
-}
-
 private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
-    val R = 6371.0 // Earth's radius in kilometers
     val lat1 = Math.toRadians(location1.latitude)
     val lat2 = Math.toRadians(location2.latitude)
     val dLat = Math.toRadians(location2.latitude - location1.latitude)
@@ -224,6 +217,18 @@ private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
             cos(lat1) * cos(lat2) *
             sin(dLon / 2) * sin(dLon / 2)
     val c = 2 * atan2(sqrt(a), sqrt(1 - a))
-    return R * c
+    return EARTH_RADIUS_KM * c
+}
+
+object MapConstants {
+    const val EARTH_RADIUS_KM = 6371.0
+    const val ZOOM_LEVEL = 15.0
+    const val THRESHOLD = 0.1
+}
+
+@Composable
+@Preview(name = "Map")
+private fun MapScreenPreview() {
+    MapScreen()
 }
 
