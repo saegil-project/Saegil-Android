@@ -9,6 +9,11 @@ interface AssistantRepository {
         file: File,
     ): UploadAudio
 
+    suspend fun uploadAudio(
+        file: File,
+        threadId: String?
+    ): UploadAudio
+
     suspend fun saveThreadId(threadId: String)
     fun getThreadId(): Flow<String?>
     suspend fun clearThreadId()

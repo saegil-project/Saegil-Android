@@ -14,6 +14,9 @@ class AssistantRepositoryImpl(
 
     override suspend fun uploadAudio(file: File): UploadAudio = assistantService.getAssistant(file).toDomain()
 
+    override suspend fun uploadAudio(file: File, threadId: String?): UploadAudio =
+        assistantService.getAssistant(file, threadId).toDomain()
+
     override suspend fun saveThreadId(threadId: String) {
         threadPreferencesManager.saveThreadId(threadId)
     }

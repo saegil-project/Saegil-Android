@@ -1,8 +1,10 @@
 package com.saegil.data.di
 
 import android.content.Context
+import com.saegil.data.local.ThreadPreferencesManager
 import com.saegil.data.local.TokenDataSource
 import com.saegil.data.local.TokenDataSourceImpl
+import com.saegil.data.remote.AssistantService
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.OAuthService
@@ -74,8 +76,11 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideAssistantRepository(assistantService: AssistantService): AssistantRepository {
-        return AssistantRepositoryImpl(assistantService)
+    fun provideAssistantRepository(
+        assistantService: AssistantService,
+        threadPreferencesManager: ThreadPreferencesManager
+    ): AssistantRepository {
+        return AssistantRepositoryImpl(assistantService, threadPreferencesManager)
     }
 
     @Provides
