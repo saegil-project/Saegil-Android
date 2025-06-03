@@ -4,38 +4,8 @@
 
 
 ## ↔️ 모듈 구조
+![image](https://github.com/user-attachments/assets/bdbb00d1-2d1f-4a75-9be3-565e1cd57e30)
 
-```mermaid
-graph TD
-  subgraph App
-    AppModule[app]
-  end
-
-  subgraph Presentation
-    Learning[presentation:learning]
-    Announcement[presentation:announcement]
-    Map[presentation:map]
-    MyPage[presentation:mypage]
-  end
-
-  subgraph Domain
-    DomainModule[domain]
-  end
-
-  subgraph Data
-    DataModule[data]
-  end
-
-  subgraph Core
-    DesignSystem[core:designsystem]
-  end
-
-  AppModule -->|의존성 포함| Learning & Announcement & Map & MyPage
-  Learning & Announcement & Map & MyPage -->|UseCase 호출| DomainModule
-  DataModule -->|Repository 구현| DomainModule
-  Learning & Announcement & Map & MyPage -->|테마 및 컬러 사용| DesignSystem
-
-```
 
 ## 📌 라이브러리 정리
 - Kotlin
