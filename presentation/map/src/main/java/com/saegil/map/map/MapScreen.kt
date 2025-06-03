@@ -32,10 +32,17 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.domain.model.Organization
+import com.saegil.map.map.MapConstants.EARTH_RADIUS_KM
+import com.saegil.map.map.MapConstants.THRESHOLD
 import com.saegil.map.map.components.OrganizationBottomSheet
 import com.saegil.map.map.components.SelectedMarker
 import com.saegil.map.map.components.UnselectedMarker
 import timber.log.Timber
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
+
 
 @Composable
 fun MapScreen(
@@ -45,13 +52,34 @@ fun MapScreen(
     val mapState by viewModel.mapUiState.collectAsStateWithLifecycle()
     val cameraPositionState = rememberCameraPositionState()
     var selectedOrganization by remember { mutableStateOf<Organization?>(null) }
+    var lastLocation by remember { mutableStateOf<LatLng?>(null) }
+    var lastZoomLevel by remember { mutableStateOf<Double?>(null) }
+
+
 
     LaunchedEffect(cameraPositionState.position) {
-        viewModel.updateLocation(
+        val currentLocation = LatLng(
             cameraPositionState.position.target.latitude,
             cameraPositionState.position.target.longitude
         )
-        viewModel.updateZoomLevel(cameraPositionState.position.zoom)
+        val currentZoomLevel = cameraPositionState.position.zoom
+
+        if (lastLocation == null || calculateDistance(
+                lastLocation!!,
+                currentLocation
+            ) > THRESHOLD
+        ) {
+            viewModel.updateLocation(
+                currentLocation.latitude,
+                currentLocation.longitude
+            )
+            viewModel.updateZoomLevel(cameraPositionState.position.zoom)
+            lastLocation = currentLocation
+        }
+
+        if (lastZoomLevel != currentZoomLevel) {
+            viewModel.updateZoomLevel(currentZoomLevel)
+        }
     }
 
     MapScreen(
@@ -184,6 +212,24 @@ internal fun MapScreen(
             onDismiss = onDismissBottomSheet
         )
     }
+}
+
+private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
+    val lat1 = Math.toRadians(location1.latitude)
+    val lat2 = Math.toRadians(location2.latitude)
+    val dLat = Math.toRadians(location2.latitude - location1.latitude)
+    val dLon = Math.toRadians(location2.longitude - location1.longitude)
+
+    val a = sin(dLat / 2) * sin(dLat / 2) +
+            cos(lat1) * cos(lat2) *
+            sin(dLon / 2) * sin(dLon / 2)
+    val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return EARTH_RADIUS_KM * c
+}
+
+object MapConstants {
+    const val EARTH_RADIUS_KM = 6371.0
+    const val THRESHOLD = 0.1
 }
 
 @Composable

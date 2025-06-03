@@ -1,8 +1,5 @@
 package com.saegil.map.map
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saegil.domain.usecase.GetMapListUseCase
@@ -28,9 +25,6 @@ class MapViewModel @Inject constructor(
     private val _longitude = MutableStateFlow(0.0)
     private val _radius = MutableStateFlow(500) //500, 1000, 5000 라서 500m를 디폴트로 함
 
-    var zoomLevel: Double by mutableDoubleStateOf(15.0)
-        private set
-
     fun updateLocation(lat: Double, lng: Double) {
         Timber.d("Updating location in ViewModel: lat=$lat, lng=$lng")
         _latitude.value = lat
@@ -39,7 +33,13 @@ class MapViewModel @Inject constructor(
 
     fun updateZoomLevel(zoom: Double) {
         Timber.d("Updating zoom level: $zoom")
-        zoomLevel = zoom
+
+        val radius = when {
+            zoom >= 13.5 -> 500    // 500m 반경
+            zoom >= 11.5 -> 1000    // 1km 반경
+            else -> 5000            // 5km 반경
+        }
+        _radius.value = radius
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
