@@ -1,4 +1,5 @@
 [versions]
+datastorePreferencesVersion = "1.1.6"
 datastoreVersion = "1.1.5"
 foundationLayoutAndroid = "1.5.0"
 accompanistPermissionsVersion = "0.37.2"
@@ -60,6 +61,7 @@ uiToolingPreviewAndroidVersion = "1.8.0"
 
 [libraries]
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastoreVersion" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesVersion" }
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 androidx-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compiler" }
 androidx-compose-ui-ui = { module = "androidx.compose.ui:ui" }

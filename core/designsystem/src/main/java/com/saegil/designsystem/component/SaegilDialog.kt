@@ -52,118 +52,125 @@ fun SaegilDialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
-        Card(
-            modifier = modifier
-                .width(dialogMaxWidth)
-                .padding(horizontal = 25.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
-        ) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Column(
-                modifier = Modifier.padding(
-                    vertical = 24.dp,
-                    horizontal = 12.dp
-                ),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+//        Box(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(Color.Black.copy(alpha = 0.2f)), //scrim
+//            contentAlignment = Alignment.Center
+//        ) {
+            Card(
+                modifier = modifier
+                    .width(dialogMaxWidth)
+                    .padding(horizontal = 25.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
             ) {
-                title?.let {
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.h1,
-                        modifier = Modifier
-                            .padding(bottom = 10.dp)
-                    )
-                } ?: Image(
-                    painter = painterResource(id = R.drawable.ic_saegil_logo),
-                    contentDescription = "앱 로고",
-                    modifier = Modifier
-                        .padding(bottom = 8.dp)
-                        .size(42.dp)
-                )
-
-                subTitle?.let {
-                    Text(
-                        text = subTitle,
-                        style = MaterialTheme.typography.h3,
-                        modifier = Modifier
-                            .padding(
-                                vertical = 8.dp,
-                                horizontal = 12.dp
-                            )
-                            .align(Alignment.Start)
-                    )
-                }
-
-                description?.let {
-                    Text(
-                        text = description,
-                        style = MaterialTheme.typography.body1,
-                        modifier = Modifier
-                            .padding(
-                                top = 8.dp,
-                                bottom = 20.dp,
-                            )
-                            .padding(
-                                horizontal = 12.dp
-                            )
-                            .align(Alignment.Start)
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                Spacer(modifier = Modifier.height(12.dp))
+                Column(
+                    modifier = Modifier.padding(
+                        vertical = 24.dp,
+                        horizontal = 12.dp
+                    ),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    negativeButtonText?.let {
+                    title?.let {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.h1,
+                            modifier = Modifier
+                                .padding(bottom = 10.dp)
+                        )
+                    } ?: Image(
+                        painter = painterResource(id = R.drawable.ic_saegil_logo),
+                        contentDescription = "앱 로고",
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .size(42.dp)
+                    )
+
+                    subTitle?.let {
+                        Text(
+                            text = subTitle,
+                            style = MaterialTheme.typography.h3,
+                            modifier = Modifier
+                                .padding(
+                                    vertical = 8.dp,
+                                    horizontal = 12.dp
+                                )
+                                .align(Alignment.Start)
+                        )
+                    }
+
+                    description?.let {
+                        Text(
+                            text = description,
+                            style = MaterialTheme.typography.body1,
+                            modifier = Modifier
+                                .padding(
+                                    top = 8.dp,
+                                    bottom = 20.dp,
+                                )
+                                .padding(
+                                    horizontal = 12.dp
+                                )
+                                .align(Alignment.Start)
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        negativeButtonText?.let {
+                            Button(
+                                onClick = onNegativeButtonClicked,
+                                shape = RoundedCornerShape(6.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceDim,
+                                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                ),
+                                modifier = Modifier
+                                    .height(45.dp)
+                                    .weight(1f),
+                            ) {
+                                Text(
+                                    text = negativeButtonText,
+                                    style = MaterialTheme.typography.h2,
+                                )
+                            }
+                        }
+
                         Button(
-                            onClick = onNegativeButtonClicked,
+                            onClick = onPositiveButtonClicked,
                             shape = RoundedCornerShape(6.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceDim,
-                                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
                             ),
                             modifier = Modifier
                                 .height(45.dp)
-                                .weight(1f),
+                                .then(
+                                    negativeButtonText?.let {
+                                        Modifier.weight(1f)
+                                    } ?: Modifier.fillMaxWidth()
+                                )
                         ) {
                             Text(
-                                text = negativeButtonText,
+                                text = positiveButtonText,
                                 style = MaterialTheme.typography.h2,
                             )
                         }
                     }
 
-                    Button(
-                        onClick = onPositiveButtonClicked,
-                        shape = RoundedCornerShape(6.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
-                        ),
-                        modifier = Modifier
-                            .height(45.dp)
-                            .then(
-                                negativeButtonText?.let {
-                                    Modifier.weight(1f)
-                                } ?: Modifier.fillMaxWidth()
-                            )
-                    ) {
-                        Text(
-                            text = positiveButtonText,
-                            style = MaterialTheme.typography.h2,
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(6.dp))
                 }
-
-                Spacer(modifier = Modifier.height(6.dp))
             }
         }
     }
-}
+//}
 
 @Preview(apiLevel = 33, device = Devices.NEXUS_5)
 @Composable

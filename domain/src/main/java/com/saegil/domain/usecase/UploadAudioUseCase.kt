@@ -9,4 +9,8 @@ class UploadAudioUseCase @Inject constructor(
     private val assistantRepository: AssistantRepository
 ) {
     suspend operator fun invoke(file: File): UploadAudio = assistantRepository.uploadAudio(file)
-} 
+
+    suspend operator fun invoke(file: File, threadId: String?): UploadAudio {
+        return assistantRepository.uploadAudio(file, threadId)
+    }
+}

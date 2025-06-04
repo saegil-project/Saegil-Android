@@ -6,4 +6,7 @@ import java.io.File
 interface AssistantService {
 
     suspend fun getAssistant(file: File): UploadAudioDto
+
+    suspend fun getAssistant(file: File, threadId: String?): UploadAudioDto
+
 }
