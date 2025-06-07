@@ -25,6 +25,12 @@ class MapViewModel @Inject constructor(
     private val _longitude = MutableStateFlow(0.0)
     private val _radius = MutableStateFlow(500) //500, 1000, 5000 라서 500m를 디폴트로 함
 
+    val selectedTab = MutableStateFlow<Long>(0)
+
+    fun setTabFilter(idx: Int) {
+        selectedTab.value = idx.toLong()
+    }
+
     fun updateLocation(lat: Double, lng: Double) {
         Timber.d("Updating location in ViewModel: lat=$lat, lng=$lng")
         _latitude.value = lat

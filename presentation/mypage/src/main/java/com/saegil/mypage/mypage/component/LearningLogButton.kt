@@ -48,7 +48,7 @@ fun LearningLogButton(
                 contentDescription = "pencil"
             )
             Text(
-                text = "학습 대화 내역 다시보기",
+                text = "AI 연습 대화 내역 다시보기",
                 style = MaterialTheme.typography.h2,
                 modifier = Modifier.padding(start = 5.dp),
                 fontSize = 15.sp

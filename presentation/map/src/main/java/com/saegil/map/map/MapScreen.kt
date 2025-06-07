@@ -1,8 +1,11 @@
 package com.saegil.map.map
 
 import android.Manifest
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +34,7 @@ import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.saegil.designsystem.component.SaegilTitleText
+import com.saegil.designsystem.component.SaegilTabButton
 import com.saegil.domain.model.Organization
 import com.saegil.map.map.MapConstants.EARTH_RADIUS_KM
 import com.saegil.map.map.MapConstants.THRESHOLD
@@ -54,6 +58,7 @@ fun MapScreen(
     var selectedOrganization by remember { mutableStateOf<Organization?>(null) }
     var lastLocation by remember { mutableStateOf<LatLng?>(null) }
     var lastZoomLevel by remember { mutableStateOf<Double?>(null) }
+    val selectedIndex by viewModel.selectedTab.collectAsStateWithLifecycle()
 
 
 
@@ -89,6 +94,8 @@ fun MapScreen(
         onOrganizationSelected = { organization -> selectedOrganization = organization },
         onDismissBottomSheet = { selectedOrganization = null },
         onLocationUpdate = viewModel::updateLocation,
+        onTabSelect = viewModel::setTabFilter,
+        selectedIndex = selectedIndex.toInt(),
         modifier = modifier
     )
 }
@@ -102,6 +109,8 @@ internal fun MapScreen(
     onOrganizationSelected: (Organization) -> Unit,
     onDismissBottomSheet: () -> Unit,
     onLocationUpdate: (Double, Double) -> Unit,
+    onTabSelect: (Int) -> Unit,
+    selectedIndex: Int,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -155,9 +164,23 @@ internal fun MapScreen(
     ) {
         Column {
             SaegilTitleText(
-                "지도",
+                "근처 복지시설/일자리 찾기",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                val filter = listOf("복지시설", "채용 정보")
+                filter.forEachIndexed { index, text ->
+                    SaegilTabButton(
+                        text = text,
+                        isSelected = selectedIndex == index,
+                        onClick = { onTabSelect(index) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
 
             NaverMap(
                 modifier = Modifier.fillMaxSize(),
