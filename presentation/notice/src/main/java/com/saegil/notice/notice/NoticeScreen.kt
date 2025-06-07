@@ -83,7 +83,7 @@ internal fun NoticeScreen(
                 .padding(horizontal = 25.dp)
         ) {
             SaegilTitleText(
-                "공지사항",
+                "공지사항 모아보기",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 

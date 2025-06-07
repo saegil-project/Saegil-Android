@@ -35,7 +35,7 @@ fun SaegilTitleText(
             .then(
                 onBackClick?.let { Modifier.padding(WindowInsets.systemBars.asPaddingValues()) } ?: Modifier
             )
-            .size(80.dp),
+            .size(60.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(

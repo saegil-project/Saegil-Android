@@ -18,11 +18,12 @@ import com.saegil.designsystem.R
 fun SelectedMarker(
     position: LatLng,
     captionText: String,
-    onClick: () -> Boolean
+    onClick: () -> Boolean,
+    isOrganization: Boolean = true
 ) {
     Marker(
         state = MarkerState(position = position),
-        icon = OverlayImage.fromResource(R.drawable.ic_map_pin_selected),
+        icon = if(isOrganization) OverlayImage.fromResource(R.drawable.ic_map_pin_selected) else OverlayImage.fromResource(R.drawable.marker_recruitment_selected),
         width = 60.dp,
         height = 66.dp,
         captionText = captionText,
@@ -37,11 +38,12 @@ fun SelectedMarker(
 fun UnselectedMarker(
     position: LatLng,
     captionText: String,
-    onClick: () -> Boolean
+    onClick: () -> Boolean,
+    isOrganization: Boolean = true
 ) {
     Marker(
         state = MarkerState(position = position),
-        icon = OverlayImage.fromResource(R.drawable.ic_map_pin),
+        icon = if(isOrganization) OverlayImage.fromResource(R.drawable.ic_map_pin) else OverlayImage.fromResource(R.drawable.marker_recruitment_unselected),
         width = 30.dp,
         height = 30.dp,
         captionText = captionText,
