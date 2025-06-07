@@ -22,6 +22,7 @@ import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.h2
 import com.saegil.domain.model.Organization
+import com.saegil.domain.model.Recruitment
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +48,62 @@ fun OrganizationBottomSheet(
         OrganizationContent(
             organization = organization,
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RecruitmentBottomSheet(
+    recruitment: Recruitment,
+    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit = {}
+) {
+    val sheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        modifier = modifier
+            .padding(bottom = 80.dp)
+            .navigationBarsPadding(),
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        tonalElevation = 0.dp,
+        scrimColor = MaterialTheme.colorScheme.background.copy(alpha = 0f),
+        dragHandle = null
+    ) {
+        RecruitmentContent(
+            recruitment = recruitment,
+        )
+    }
+}
+
+@Composable
+private fun RecruitmentContent(
+    recruitment: Recruitment,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 30.dp, horizontal = 36.dp),
+    ) {
+        Text(
+            text = recruitment.name,
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.h2
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+        InfoText(modifier = Modifier, "근무지명", recruitment.name)
+        Spacer(modifier = Modifier.height(8.dp))
+        InfoText(modifier = Modifier, "근무시간", recruitment.workTime)
+        Spacer(modifier = Modifier.height(8.dp))
+        InfoText(modifier = Modifier, "임금", recruitment.pay)
+        Spacer(modifier = Modifier.height(8.dp))
+        InfoText(modifier = Modifier, "지원 기간", recruitment.recruitmentPeriod)
+        Spacer(modifier = Modifier.height(8.dp))
+        InfoText(modifier = Modifier, "웹 링크", recruitment.webLink)
     }
 }
 
@@ -123,6 +180,24 @@ fun OrganizationBottomSheetPreview() {
                         longitude = 126.9780,
                         telephoneNumber = "02-2690-8762~4",
                         distance = 300.0,
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                RecruitmentContent(
+                    Recruitment(
+                        id = 1,
+                        name = "연동지역아동센터 생활복지사 구인",
+                        workPlaceName = "연동지역아동센터",
+                        workTime = "(오전) 9시 00분 ~ (오후) 6시 00분 (주 5일 근무)",
+                        pay = "월 200만원",
+                        recruitmentPeriod = "2025-04-29 ~ 2025-05-14",
+                        webLink = "http://ceu.ssis.go.kr/",
+                        address = "서울특별시 양천구 신월로11길 16 (신월동, 한빛종합사회복지관)",
+                        latitude = 37.5190344,
+                        longitude = 126.8402373,
+                        distanceMeters = 312.5
                     )
                 )
             }
