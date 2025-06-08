@@ -47,7 +47,7 @@ internal fun LearningListScreen(
     ) {
         Column {
             SaegilTitleText(
-                "시뮬레이션 학습",
+                "AI 대화 학습",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 

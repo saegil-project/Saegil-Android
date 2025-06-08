@@ -28,4 +28,6 @@ object HttpRoutes {
 
     const val USER = "$BASE_URL/api/v1/users/me"
 
+    const val RECRUITMENT = "$BASE_URL/api/v1/recruitments/nearby"
+
 }
