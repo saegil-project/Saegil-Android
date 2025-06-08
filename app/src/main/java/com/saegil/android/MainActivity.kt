@@ -43,8 +43,12 @@ fun MainScreen() {
         Screen.Splash.route,
         Screen.Onboarding.route,
         Screen.LogList.route,
-        Screen.Log.route
-    ) || currentRoute?.startsWith("${Screen.Learning.route}/") == true
+        Screen.Log.route,
+    ) || listOf(
+        Screen.Learning.route,
+        Screen.Log.route,
+        Screen.LogList.route,
+    ).any { prefix -> currentRoute?.startsWith("$prefix/") == true }
 
     Scaffold(
         topBar = {
