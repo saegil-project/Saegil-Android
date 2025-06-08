@@ -75,6 +75,10 @@ fun LearningScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.setScenarioId(scenarioId)
+    }
+
     LaunchedEffect(state) {
         when (state) {
             is LearningUiState.Uploading -> {

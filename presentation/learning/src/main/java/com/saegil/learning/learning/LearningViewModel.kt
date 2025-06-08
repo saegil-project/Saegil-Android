@@ -41,6 +41,11 @@ class LearningViewModel @Inject constructor(
     private var mediaRecorder: MediaRecorder? = null
     private var mediaPlayer: MediaPlayer? = null
     private var audioFile: File? = null
+    private var scenarioId: Long = -1L
+
+    fun setScenarioId(id: Long) {
+        scenarioId = id
+    }
 
     private fun checkAndRequestPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
@@ -95,11 +100,7 @@ class LearningViewModel @Inject constructor(
                 val threadId = getThreadId()
 
                 val result = runCatching {
-                    if (threadId.isNullOrEmpty()) {
-                        uploadAudioUseCase(file)
-                    } else {
-                        uploadAudioUseCase(file, threadId)
-                    }
+                    uploadAudioUseCase(file, threadId, scenarioId.toInt())
                 }
 
                 result.onSuccess { dto ->

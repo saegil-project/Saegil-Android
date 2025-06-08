@@ -238,7 +238,8 @@ internal fun MapScreen(
                                     onClick = {
                                         onRecruitmentSelected(recruitment)
                                         true
-                                    }
+                                    },
+                                    isOrganization = false
                                 )
                             } else {
                                 SelectedMarker(
@@ -247,7 +248,8 @@ internal fun MapScreen(
                                     onClick = {
                                         onRecruitmentSelected(recruitment)
                                         true
-                                    }
+                                    },
+                                    isOrganization = false
                                 )
                             }
                         }
