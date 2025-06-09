@@ -103,8 +103,8 @@ class LearningViewModel @Inject constructor(
                 }
 
                 result.onSuccess { dto ->
-                    _uiState.value = LearningUiState.Success(dto)
                     downloadAudio(dto.response)
+                    _uiState.value = LearningUiState.Success(dto)
 
                     if (threadId.isNullOrEmpty()) {
                         saveThreadId(dto.threadId)
