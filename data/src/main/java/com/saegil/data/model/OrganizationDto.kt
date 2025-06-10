@@ -11,7 +11,6 @@ data class OrganizationDto(
     val businessName: Business,
     val latitude: Double,
     val longitude: Double,
-    val operatingHours: String,
     val telephoneNumber: String,
     val address: String,
     val distance: Double,
@@ -23,7 +22,6 @@ data class OrganizationDto(
             businessName = businessName,
             latitude = latitude,
             longitude = longitude,
-            operatingHours = operatingHours,
             telephoneNumber = telephoneNumber,
             address = address,
             distance = distance

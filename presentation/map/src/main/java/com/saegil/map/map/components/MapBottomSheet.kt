@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.saegil.core.common.Business
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.h2
@@ -123,8 +124,6 @@ private fun OrganizationContent(
             style = MaterialTheme.typography.h2
         )
         Spacer(modifier = Modifier.height(8.dp))
-        InfoText(modifier = Modifier, "운영시간", organization.operatingHours) //todo 운영 시간, 전화번호 없음 이슈
-        Spacer(modifier = Modifier.height(8.dp))
         InfoText(modifier = Modifier, "전화번호", organization.telephoneNumber)
         Spacer(modifier = Modifier.height(8.dp))
         InfoText(modifier = Modifier, "주소", organization.address)
@@ -159,7 +158,7 @@ fun OrganizationBottomSheetPreview() {
                     Organization(
                         id = 1,
                         name = "Organization 1",
-                        operatingHours = "Mon-Fri: 9am-5pm",
+                        businessName = Business.CHILDREN_WELFARE,
                         address = "서울시 상도로 369",
                         latitude = 37.5665,
                         longitude = 126.9780,
@@ -174,7 +173,7 @@ fun OrganizationBottomSheetPreview() {
                     Organization(
                         id = 1,
                         name = "한빛종합사회복지관",
-                        operatingHours = "09:00 ~ 17:00",
+                        businessName = Business.CHILDREN_WELFARE,
                         address = "서울특별시 양천구 신월로11길 16 (신월동, 한빛종합사회복지관)",
                         latitude = 37.5665,
                         longitude = 126.9780,
