@@ -56,6 +56,6 @@ fun MainScreen() {
         },
         bottomBar = { if (!noBars) BottomNavigationBar(navController) },
     ) { paddingValues ->
-        NavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
+        NavGraph(navController = navController, modifier = if(!noBars) Modifier.padding(paddingValues) else Modifier)
     }
 }
