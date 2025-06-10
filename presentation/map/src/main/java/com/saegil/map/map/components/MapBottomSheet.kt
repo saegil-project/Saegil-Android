@@ -123,7 +123,7 @@ private fun OrganizationContent(
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.h2
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         InfoText(modifier = Modifier, "전화번호", organization.telephoneNumber)
         Spacer(modifier = Modifier.height(8.dp))
         InfoText(modifier = Modifier, "주소", organization.address)
