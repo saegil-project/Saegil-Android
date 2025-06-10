@@ -8,7 +8,9 @@ object HttpRoutes {
 
     const val NOTICES = "$BASE_URL/api/v1/notices?"
 
-    const val ORGANIZATION = "$BASE_URL/api/v1/organizations/nearby" //근처 기관 조회
+    const val FACILITY = "$BASE_URL/api/v1/facilities/nearby" //근처 시설 조회
+
+    const val RECRUITMENT = "$BASE_URL/api/v1/recruitments/nearby"
 
     const val OAUTH_LOGIN = "$BASE_URL/api/v1/oauth2/login/KAKAO"
 
@@ -28,6 +30,5 @@ object HttpRoutes {
 
     const val USER = "$BASE_URL/api/v1/users/me"
 
-    const val RECRUITMENT = "$BASE_URL/api/v1/recruitments/nearby"
 
 }
