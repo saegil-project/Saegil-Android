@@ -18,10 +18,6 @@ class SimulationLogServiceImpl @Inject constructor(
     }
 
     override suspend fun getMessages(simulationId: Long): SimulationLogDetailDto {
-        val urlBuilder = URLBuilder(SIMULATION_LOG).apply {
-            parameters.append("simulationId", simulationId.toString())
-            parameters.append("messages", "messages")
-        }
-        return client.get(urlBuilder.build()).body()
+        return client.get("$SIMULATION_LOG/$simulationId/messages").body()
     }
 }

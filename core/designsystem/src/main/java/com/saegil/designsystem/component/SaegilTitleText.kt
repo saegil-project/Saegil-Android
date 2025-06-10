@@ -2,12 +2,9 @@ package com.saegil.designsystem.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -32,9 +29,6 @@ fun SaegilTitleText(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
-            .then(
-                onBackClick?.let { Modifier.padding(WindowInsets.systemBars.asPaddingValues()) } ?: Modifier
-            )
             .size(60.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -42,7 +36,7 @@ fun SaegilTitleText(
             text = title,
             style = MaterialTheme.typography.h1,
             color = MaterialTheme.colorScheme.primary,
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.Center)
         )
         onBackClick?.let {

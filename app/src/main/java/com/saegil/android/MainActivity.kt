@@ -43,8 +43,12 @@ fun MainScreen() {
         Screen.Splash.route,
         Screen.Onboarding.route,
         Screen.LogList.route,
-        Screen.Log.route
-    ) || currentRoute?.startsWith("${Screen.Learning.route}/") == true
+        Screen.Log.route,
+    ) || listOf(
+        Screen.Learning.route,
+        Screen.Log.route,
+        Screen.LogList.route,
+    ).any { prefix -> currentRoute?.startsWith("$prefix/") == true }
 
     Scaffold(
         topBar = {
@@ -52,6 +56,6 @@ fun MainScreen() {
         },
         bottomBar = { if (!noBars) BottomNavigationBar(navController) },
     ) { paddingValues ->
-        NavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
+        NavGraph(navController = navController, modifier = if(!noBars) Modifier.padding(paddingValues) else Modifier)
     }
 }

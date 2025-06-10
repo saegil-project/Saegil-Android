@@ -2,16 +2,21 @@ package com.saegil.log.log
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,24 +51,27 @@ internal fun LogScreen(
     modifier: Modifier = Modifier,
     navigateToLogList: () -> Unit = {},
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(WindowInsets.systemBars.asPaddingValues()),
+    ) {
         SaegilTitleText(
             title = when (logState) {
                 LogUiState.Loading -> "로딩중"
                 is LogUiState.Success -> logState.detail.scenarioName
             },
             onBackClick = navigateToLogList,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.primaryContainer)
-        ) {
-            when (logState) {
-                LogUiState.Loading -> LoadingState()
-                is LogUiState.Success -> MessageLogList(simulationLogDetail = logState.detail)
-            }
+        when (logState) {
+            LogUiState.Loading -> LoadingState()
+
+            is LogUiState.Success -> MessageLogList(
+                simulationLogDetail = logState.detail,
+                modifier = modifier.fillMaxSize()
+            )
         }
     }
 }
@@ -76,8 +84,9 @@ fun MessageLogList(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 32.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .background(color = MaterialTheme.colorScheme.primaryContainer),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(horizontal = 4.dp),
     ) {
         items(simulationLogDetail.messages) {
             MessageBubble(
@@ -102,37 +111,40 @@ private fun LoadingState(
 @Composable
 fun LogScreenPreview() {
     SaegilAndroidTheme {
-        LogScreen(
-            logState = LogUiState.Success(
-                detail = SimulationLogDetail(
-                    scenarioName = "11",
-                    messages = listOf(
-                        SimulationMessage(
-                            id = 1,
-                            isFromUser = true,
-                            contents = "반갑습니다.",
-                            createdAt = "111111"
-                        ),
-                        SimulationMessage(
-                            id = 1,
-                            isFromUser = false,
-                            contents = "반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
-                            createdAt = "111111"
-                        ),
-                        SimulationMessage(
-                            id = 1,
-                            isFromUser = true,
-                            contents = "반갑습니다.반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
-                            createdAt = "111111"
-                        ), SimulationMessage(
-                            id = 1,
-                            isFromUser = false,
-                            contents = "반갑습니다.반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
-                            createdAt = "111111"
+        Scaffold { innerPadding ->
+            LogScreen(
+                modifier = Modifier.padding(innerPadding),
+                logState = LogUiState.Success(
+                    detail = SimulationLogDetail(
+                        scenarioName = "11",
+                        messages = listOf(
+                            SimulationMessage(
+                                id = 1,
+                                isFromUser = true,
+                                contents = "반갑습니다.",
+                                createdAt = "111111"
+                            ),
+                            SimulationMessage(
+                                id = 1,
+                                isFromUser = false,
+                                contents = "반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
+                                createdAt = "111111"
+                            ),
+                            SimulationMessage(
+                                id = 1,
+                                isFromUser = true,
+                                contents = "반갑습니다.반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
+                                createdAt = "111111"
+                            ), SimulationMessage(
+                                id = 1,
+                                isFromUser = false,
+                                contents = "반갑습니다.반갑습니다. 반갑습니다. 반갑습니다. 반갑습니다. ",
+                                createdAt = "111111"
+                            )
                         )
                     )
                 )
             )
-        )
+        }
     }
 }

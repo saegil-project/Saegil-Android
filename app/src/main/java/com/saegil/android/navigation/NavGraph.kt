@@ -95,6 +95,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             arguments = listOf(navArgument("simulationId") { type = NavType.LongType })
         ) {
             LogScreen(
+                modifier = modifier,
                 navigateToLogList = { navController.popBackStack() }
             )
         }
