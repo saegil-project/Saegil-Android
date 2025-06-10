@@ -1,5 +1,8 @@
 package com.saegil.map.map.components
 
+import android.content.Intent
+import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -124,7 +128,7 @@ private fun OrganizationContent(
             style = MaterialTheme.typography.h2
         )
         Spacer(modifier = Modifier.height(12.dp))
-        InfoText(modifier = Modifier, "전화번호", organization.telephoneNumber)
+        PhoneText("전화번호", organization.telephoneNumber)
         Spacer(modifier = Modifier.height(8.dp))
         InfoText(modifier = Modifier, "주소", organization.address)
     }
@@ -144,6 +148,32 @@ fun InfoText(
         Text(
             text = content,
             style = MaterialTheme.typography.body2
+        )
+    }
+}
+
+@Composable
+fun PhoneText(
+    title: String,
+    phoneNumber: String,
+) {
+    val context = LocalContext.current
+    Row(
+        modifier = Modifier.clickable {
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:$phoneNumber")
+            }
+            context.startActivity(intent)
+        }
+    ) {
+        Text(
+            text = "$title | ",
+            style = MaterialTheme.typography.body2.copy(fontWeight = Bold)
+        )
+        Text(
+            text = phoneNumber,
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
