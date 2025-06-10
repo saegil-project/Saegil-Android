@@ -22,7 +22,7 @@ class MapServiceImpl @Inject constructor(
         longitude: Double?,
         radius: Int?,
     ): List<OrganizationDto>? {
-        val urlBuilder = URLBuilder(HttpRoutes.ORGANIZATION).apply {
+        val urlBuilder = URLBuilder(HttpRoutes.FACILITY).apply {
             latitude?.let { parameters.append("latitude", it.toString()) }
             longitude?.let { parameters.append("longitude", it.toString()) }
             radius?.let { parameters.append("radius", it.toString()) }

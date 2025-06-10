@@ -10,8 +10,8 @@ import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.overlay.OverlayImage
+import com.saegil.core.common.Business
 import com.saegil.designsystem.R
-
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
@@ -19,11 +19,20 @@ fun SelectedMarker(
     position: LatLng,
     captionText: String,
     onClick: () -> Boolean,
-    isOrganization: Boolean = true
+    business: Business? = Business.OTHERS
 ) {
+    val iconRes = when (business) {
+        Business.CHILDREN_WELFARE -> R.drawable.ic_children_welfare_selected
+        Business.ELDERLY_WELFARE -> R.drawable.ic_elderly_welfare_selected
+        Business.DISABILITY_WELFARE -> R.drawable.ic_disability_welfare_selected
+        Business.WOMEN_FAMILY_WELFARE -> R.drawable.ic_women_family_welfare_selected
+        Business.MEDICAL_WELFARE_EQUIPMENT -> R.drawable.ic_medical_welfare_equipment_selected
+        Business.OTHERS, null -> R.drawable.ic_map_pin_selected
+    }
+
     Marker(
         state = MarkerState(position = position),
-        icon = if(isOrganization) OverlayImage.fromResource(R.drawable.ic_map_pin_selected) else OverlayImage.fromResource(R.drawable.marker_recruitment_selected),
+        icon = OverlayImage.fromResource(iconRes),
         width = 60.dp,
         height = 66.dp,
         captionText = captionText,
@@ -39,11 +48,20 @@ fun UnselectedMarker(
     position: LatLng,
     captionText: String,
     onClick: () -> Boolean,
-    isOrganization: Boolean = true
+    business: Business? = Business.OTHERS
 ) {
+    val iconRes = when (business) {
+        Business.CHILDREN_WELFARE -> R.drawable.ic_children_welfare
+        Business.ELDERLY_WELFARE -> R.drawable.ic_elderly_welfare
+        Business.DISABILITY_WELFARE -> R.drawable.ic_disability_welfare
+        Business.WOMEN_FAMILY_WELFARE -> R.drawable.ic_women_family_welfare
+        Business.MEDICAL_WELFARE_EQUIPMENT -> R.drawable.ic_medical_welfare_equipment
+        Business.OTHERS, null -> R.drawable.ic_map_pin
+    }
+
     Marker(
         state = MarkerState(position = position),
-        icon = if(isOrganization) OverlayImage.fromResource(R.drawable.ic_map_pin) else OverlayImage.fromResource(R.drawable.marker_recruitment_unselected),
+        icon = OverlayImage.fromResource(iconRes),
         width = 30.dp,
         height = 30.dp,
         captionText = captionText,
@@ -53,19 +71,20 @@ fun UnselectedMarker(
     )
 }
 
-
 @Preview
 @Composable
 fun MarkerPreview() {
     SelectedMarker(
         position = LatLng(37.5665, 126.9780),
         captionText = "우리집",
-        onClick = { true }
+        onClick = { true },
+        business = Business.ELDERLY_WELFARE
     )
 
     UnselectedMarker(
         position = LatLng(37.5665, 126.9780),
         captionText = "우리집",
-        onClick = { true }
+        onClick = { true },
+        business = Business.ELDERLY_WELFARE
     )
 }

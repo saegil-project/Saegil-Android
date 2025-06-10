@@ -210,7 +210,8 @@ internal fun MapScreen(
                                     onClick = {
                                         onOrganizationSelected(organization)
                                         true
-                                    }
+                                    },
+                                    business = organization.businessName
                                 )
                             } else {
                                 SelectedMarker(
@@ -223,7 +224,8 @@ internal fun MapScreen(
                                         Timber.d("Selected marker: ${organization.name} ${organization.address}")
                                         onOrganizationSelected(organization)
                                         true
-                                    }
+                                    },
+                                    business = organization.businessName
                                 )
                             }
                         }
