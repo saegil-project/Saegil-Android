@@ -5,7 +5,7 @@ import com.saegil.core.common.Markers
 data class Organization(
     val id: Long,
     val name: String,
-    val markersName: Markers,
+    val businessName: Markers,
     val latitude: Double,
     val longitude: Double,
     val telephoneNumber: String,

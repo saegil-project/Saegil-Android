@@ -221,7 +221,7 @@ fun OrganizationBottomSheetPreview() {
                     Organization(
                         id = 1,
                         name = "Organization 1",
-                        markersName = Markers.CHILDREN_WELFARE,
+                        businessName = Markers.CHILDREN_WELFARE,
                         address = "서울시 상도로 369",
                         latitude = 37.5665,
                         longitude = 126.9780,
@@ -236,7 +236,7 @@ fun OrganizationBottomSheetPreview() {
                     Organization(
                         id = 1,
                         name = "한빛종합사회복지관",
-                        markersName = Markers.CHILDREN_WELFARE,
+                        businessName = Markers.CHILDREN_WELFARE,
                         address = "서울특별시 양천구 신월로11길 16 (신월동, 한빛종합사회복지관)",
                         latitude = 37.5665,
                         longitude = 126.9780,

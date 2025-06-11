@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class OrganizationDto(
     val id: Long,
     val name: String,
-    val markersName: Markers,
+    val businessName: Markers,
     val latitude: Double,
     val longitude: Double,
     val telephoneNumber: String,
@@ -19,7 +19,7 @@ data class OrganizationDto(
         return Organization(
             id = id,
             name = name,
-            markersName = markersName,
+            businessName = businessName,
             latitude = latitude,
             longitude = longitude,
             telephoneNumber = telephoneNumber,

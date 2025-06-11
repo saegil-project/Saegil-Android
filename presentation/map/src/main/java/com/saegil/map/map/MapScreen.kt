@@ -212,7 +212,7 @@ internal fun MapScreen(
                                         onOrganizationSelected(organization)
                                         true
                                     },
-                                    markers = organization.markersName
+                                    markers = organization.businessName
                                 )
                             } else {
                                 SelectedMarker(
@@ -226,7 +226,7 @@ internal fun MapScreen(
                                         onOrganizationSelected(organization)
                                         true
                                     },
-                                    markers = organization.markersName
+                                    markers = organization.businessName
                                 )
                             }
                         }
