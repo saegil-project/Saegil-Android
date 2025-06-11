@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.saegil.core.common.Business
+import com.saegil.core.common.Markers
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.h2
@@ -221,7 +221,7 @@ fun OrganizationBottomSheetPreview() {
                     Organization(
                         id = 1,
                         name = "Organization 1",
-                        businessName = Business.CHILDREN_WELFARE,
+                        markersName = Markers.CHILDREN_WELFARE,
                         address = "서울시 상도로 369",
                         latitude = 37.5665,
                         longitude = 126.9780,
@@ -236,7 +236,7 @@ fun OrganizationBottomSheetPreview() {
                     Organization(
                         id = 1,
                         name = "한빛종합사회복지관",
-                        businessName = Business.CHILDREN_WELFARE,
+                        markersName = Markers.CHILDREN_WELFARE,
                         address = "서울특별시 양천구 신월로11길 16 (신월동, 한빛종합사회복지관)",
                         latitude = 37.5665,
                         longitude = 126.9780,

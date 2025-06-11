@@ -1,14 +1,14 @@
 package com.saegil.data.model
 
 import com.saegil.domain.model.Organization
-import com.saegil.core.common.Business
+import com.saegil.core.common.Markers
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class OrganizationDto(
     val id: Long,
     val name: String,
-    val businessName: Business,
+    val markersName: Markers,
     val latitude: Double,
     val longitude: Double,
     val telephoneNumber: String,
@@ -19,7 +19,7 @@ data class OrganizationDto(
         return Organization(
             id = id,
             name = name,
-            businessName = businessName,
+            markersName = markersName,
             latitude = latitude,
             longitude = longitude,
             telephoneNumber = telephoneNumber,
