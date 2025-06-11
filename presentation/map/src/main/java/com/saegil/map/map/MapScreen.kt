@@ -33,6 +33,7 @@ import com.naver.maps.map.compose.LocationTrackingMode
 import com.naver.maps.map.compose.MapProperties
 import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
+import com.saegil.core.common.Markers
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.component.SaegilTabButton
 import com.saegil.domain.model.Organization
@@ -211,7 +212,7 @@ internal fun MapScreen(
                                         onOrganizationSelected(organization)
                                         true
                                     },
-                                    business = organization.businessName
+                                    markers = organization.businessName
                                 )
                             } else {
                                 SelectedMarker(
@@ -225,7 +226,7 @@ internal fun MapScreen(
                                         onOrganizationSelected(organization)
                                         true
                                     },
-                                    business = organization.businessName
+                                    markers = organization.businessName
                                 )
                             }
                         }
@@ -237,6 +238,7 @@ internal fun MapScreen(
                                 UnselectedMarker(
                                     position = LatLng(recruitment.latitude, recruitment.longitude),
                                     captionText = recruitment.name,
+                                    markers = Markers.RECRUITMENT,
                                     onClick = {
                                         onRecruitmentSelected(recruitment)
                                         true
@@ -247,6 +249,7 @@ internal fun MapScreen(
                                 SelectedMarker(
                                     position = LatLng(recruitment.latitude, recruitment.longitude),
                                     captionText = recruitment.name,
+                                    markers = Markers.RECRUITMENT,
                                     onClick = {
                                         onRecruitmentSelected(recruitment)
                                         true

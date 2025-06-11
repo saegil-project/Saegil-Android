@@ -1,0 +1,11 @@
+package com.saegil.core.common
+
+enum class Markers {
+    CHILDREN_WELFARE,
+    ELDERLY_WELFARE,
+    DISABILITY_WELFARE,
+    WOMEN_FAMILY_WELFARE,
+    MEDICAL_WELFARE_EQUIPMENT,
+    OTHERS,
+    RECRUITMENT
+}

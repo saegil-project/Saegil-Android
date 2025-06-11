@@ -10,7 +10,7 @@ import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.MarkerState
 import com.naver.maps.map.overlay.OverlayImage
-import com.saegil.core.common.Business
+import com.saegil.core.common.Markers
 import com.saegil.designsystem.R
 
 @OptIn(ExperimentalNaverMapApi::class)
@@ -19,15 +19,16 @@ fun SelectedMarker(
     position: LatLng,
     captionText: String,
     onClick: () -> Boolean,
-    business: Business? = Business.OTHERS
+    markers: Markers? = Markers.OTHERS
 ) {
-    val iconRes = when (business) {
-        Business.CHILDREN_WELFARE -> R.drawable.ic_children_welfare_selected
-        Business.ELDERLY_WELFARE -> R.drawable.ic_elderly_welfare_selected
-        Business.DISABILITY_WELFARE -> R.drawable.ic_disability_welfare_selected
-        Business.WOMEN_FAMILY_WELFARE -> R.drawable.ic_women_family_welfare_selected
-        Business.MEDICAL_WELFARE_EQUIPMENT -> R.drawable.ic_medical_welfare_equipment_selected
-        Business.OTHERS, null -> R.drawable.ic_map_pin_selected
+    val iconRes = when (markers) {
+        Markers.CHILDREN_WELFARE -> R.drawable.ic_children_welfare_selected
+        Markers.ELDERLY_WELFARE -> R.drawable.ic_elderly_welfare_selected
+        Markers.DISABILITY_WELFARE -> R.drawable.ic_disability_welfare_selected
+        Markers.WOMEN_FAMILY_WELFARE -> R.drawable.ic_women_family_welfare_selected
+        Markers.MEDICAL_WELFARE_EQUIPMENT -> R.drawable.ic_medical_welfare_equipment_selected
+        Markers.OTHERS, null -> R.drawable.ic_map_pin_selected
+        Markers.RECRUITMENT -> R.drawable.marker_recruitment_selected
     }
 
     Marker(
@@ -48,15 +49,16 @@ fun UnselectedMarker(
     position: LatLng,
     captionText: String,
     onClick: () -> Boolean,
-    business: Business? = Business.OTHERS
+    markers: Markers? = Markers.OTHERS
 ) {
-    val iconRes = when (business) {
-        Business.CHILDREN_WELFARE -> R.drawable.ic_children_welfare
-        Business.ELDERLY_WELFARE -> R.drawable.ic_elderly_welfare
-        Business.DISABILITY_WELFARE -> R.drawable.ic_disability_welfare
-        Business.WOMEN_FAMILY_WELFARE -> R.drawable.ic_women_family_welfare
-        Business.MEDICAL_WELFARE_EQUIPMENT -> R.drawable.ic_medical_welfare_equipment
-        Business.OTHERS, null -> R.drawable.ic_map_pin
+    val iconRes = when (markers) {
+        Markers.CHILDREN_WELFARE -> R.drawable.ic_children_welfare
+        Markers.ELDERLY_WELFARE -> R.drawable.ic_elderly_welfare
+        Markers.DISABILITY_WELFARE -> R.drawable.ic_disability_welfare
+        Markers.WOMEN_FAMILY_WELFARE -> R.drawable.ic_women_family_welfare
+        Markers.MEDICAL_WELFARE_EQUIPMENT -> R.drawable.ic_medical_welfare_equipment
+        Markers.OTHERS, null -> R.drawable.ic_map_pin
+        Markers.RECRUITMENT -> R.drawable.marker_recruitment_unselected
     }
 
     Marker(
@@ -78,13 +80,13 @@ fun MarkerPreview() {
         position = LatLng(37.5665, 126.9780),
         captionText = "우리집",
         onClick = { true },
-        business = Business.ELDERLY_WELFARE
+        markers = Markers.ELDERLY_WELFARE
     )
 
     UnselectedMarker(
         position = LatLng(37.5665, 126.9780),
         captionText = "우리집",
         onClick = { true },
-        business = Business.ELDERLY_WELFARE
+        markers = Markers.ELDERLY_WELFARE
     )
 }
