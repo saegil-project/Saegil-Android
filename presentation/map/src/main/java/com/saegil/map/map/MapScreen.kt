@@ -243,7 +243,6 @@ internal fun MapScreen(
                                         onRecruitmentSelected(recruitment)
                                         true
                                     },
-                                    isOrganization = false
                                 )
                             } else {
                                 SelectedMarker(
@@ -254,7 +253,6 @@ internal fun MapScreen(
                                         onRecruitmentSelected(recruitment)
                                         true
                                     },
-                                    isOrganization = false
                                 )
                             }
                         }
@@ -283,7 +281,7 @@ internal fun MapScreen(
     }
 }
 
-private fun calculateDistance(location1: LatLng, location2: LatLng): Double {
+fun calculateDistance(location1: LatLng, location2: LatLng): Double {
     val lat1 = Math.toRadians(location1.latitude)
     val lat2 = Math.toRadians(location2.latitude)
     val dLat = Math.toRadians(location2.latitude - location1.latitude)
