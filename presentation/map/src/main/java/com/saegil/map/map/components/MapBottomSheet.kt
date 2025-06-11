@@ -1,5 +1,9 @@
 package com.saegil.map.map.components
 
+import android.content.Intent
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -104,7 +109,7 @@ private fun RecruitmentContent(
         Spacer(modifier = Modifier.height(8.dp))
         InfoText(modifier = Modifier, "지원 기간", recruitment.recruitmentPeriod)
         Spacer(modifier = Modifier.height(8.dp))
-        InfoText(modifier = Modifier, "웹 링크", recruitment.webLink)
+        WebLinkText(modifier = Modifier, title = "웹 링크", url = recruitment.webLink)
     }
 }
 
@@ -124,7 +129,7 @@ private fun OrganizationContent(
             style = MaterialTheme.typography.h2
         )
         Spacer(modifier = Modifier.height(12.dp))
-        InfoText(modifier = Modifier, "전화번호", organization.telephoneNumber)
+        PhoneText(modifier = Modifier, title = "전화번호", phoneNumber = organization.telephoneNumber)
         Spacer(modifier = Modifier.height(8.dp))
         InfoText(modifier = Modifier, "주소", organization.address)
     }
@@ -147,6 +152,64 @@ fun InfoText(
         )
     }
 }
+
+@Composable
+fun PhoneText(
+    title: String,
+    modifier: Modifier = Modifier,
+    phoneNumber: String? = "",
+) {
+    val context = LocalContext.current
+    Row(modifier = modifier) {
+        Text(
+            text = "$title | ",
+            style = MaterialTheme.typography.body2.copy(fontWeight = Bold)
+        )
+        if (phoneNumber != null) {
+            Text(
+                modifier = Modifier.clickable {
+                    val intent = Intent(Intent.ACTION_DIAL).apply {
+                        data = Uri.parse("tel:$phoneNumber")
+                    }
+                    context.startActivity(intent)
+                },
+                text = phoneNumber,
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+@Composable
+fun WebLinkText(
+    title: String,
+    modifier: Modifier = Modifier,
+    url: String? = "",
+) {
+    val context = LocalContext.current
+
+    Row(
+        modifier = modifier
+    ) {
+        Text(
+            text = "$title | ",
+            style = MaterialTheme.typography.body2.copy(fontWeight = Bold)
+        )
+        if (url != null) {
+            Text(
+                modifier = modifier.clickable {
+                    val customTabsIntent = CustomTabsIntent.Builder().build()
+                    customTabsIntent.launchUrl(context, Uri.parse(url))
+                },
+                text = url,
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
 
 @Preview
 @Composable
