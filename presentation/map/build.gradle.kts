@@ -73,6 +73,9 @@ dependencies {
 
     implementation(libs.timber)
 
+    // Testing
+    testImplementation(libs.kotlinx.coroutines.test)
+
     implementation(project(":core:common"))
     implementation(project(":core:designsystem"))
     implementation(project(":domain"))
