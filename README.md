@@ -4,7 +4,7 @@
 
 
 ## ↔️ 모듈 구조
-![image](https://github.com/user-attachments/assets/bdbb00d1-2d1f-4a75-9be3-565e1cd57e30)
+![project-dependency-graph](https://github.com/user-attachments/assets/df03d197-9642-4ee2-9150-e24ec2171970)
 
 
 ## 📌 라이브러리 정리
