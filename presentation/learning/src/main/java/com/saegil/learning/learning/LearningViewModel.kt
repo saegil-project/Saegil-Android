@@ -2,6 +2,7 @@ package com.saegil.learning.learning
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Environment
@@ -152,7 +153,12 @@ class LearningViewModel @Inject constructor(
 
     private fun playAudio(file: File) {
         mediaPlayer?.release()
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .build()
         mediaPlayer = MediaPlayer().apply {
+            setAudioAttributes(audioAttributes)
             setDataSource(file.absolutePath)
             prepare()
             start()
