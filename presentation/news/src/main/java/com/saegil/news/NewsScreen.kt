@@ -1,9 +1,11 @@
 package com.saegil.news
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,11 +13,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -39,7 +45,9 @@ import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.h2
 import com.saegil.designsystem.theme.h3
+import com.saegil.domain.model.NewsItem
 import com.saegil.news.component.CategoryConstants
+import com.saegil.news.component.NewsItem
 
 @Composable
 fun NewsScreen(
@@ -53,6 +61,7 @@ fun NewsScreen(
         newsUiState = newsState,
         modifier = modifier,
         onNextButtonClick = viewModel::savePreferredTopics,
+        onTopicSelectClick = viewModel::clearPreferredTopics,
     )
 }
 
@@ -61,12 +70,12 @@ internal fun NewsScreen(
     newsUiState: NewsUiState,
     modifier: Modifier = Modifier,
     onNextButtonClick: (List<String>) -> Unit = {},
+    onTopicSelectClick: () -> Unit = {},
 ) {
     Surface {
         Column(
             modifier = modifier
-                .fillMaxSize()
-                .padding(horizontal = 25.dp)
+                .fillMaxSize(),
         ) {
             SaegilTitleText(
                 "뉴스",
@@ -79,7 +88,8 @@ internal fun NewsScreen(
                 )
 
                 is NewsUiState.Success -> TopicsState(
-                    topics = newsUiState.preferredTopics,
+                    newsItems = newsUiState.newsItems,
+                    onTopicSelectClick = onTopicSelectClick
                 )
             }
         }
@@ -125,7 +135,7 @@ private fun NoTopicsState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 35.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(24.dp))
@@ -154,7 +164,7 @@ private fun NoTopicsState(
         Spacer(modifier = Modifier.height(24.dp))
 
         FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             allTopics.forEachIndexed { index, topic ->
@@ -191,11 +201,12 @@ private fun NoTopicsState(
             onClick = { onNextButtonClick(selectedTopics) },
             shape = RoundedCornerShape(6.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = if(selectedTopics.isNotEmpty()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.scrim,
+                containerColor = if (selectedTopics.isNotEmpty()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.scrim,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
             ),
             modifier = Modifier
                 .height(45.dp)
+                .padding(horizontal = 15.dp)
                 .fillMaxWidth()
         ) {
             Text(
@@ -210,17 +221,104 @@ private fun NoTopicsState(
 
 @Composable
 private fun TopicsState(
-    topics: List<String>,
+    newsItems: List<NewsItem>,
     modifier: Modifier = Modifier,
+    onTopicSelectClick: () -> Unit = {},
 ) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .clickable(onClick = onTopicSelectClick),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_pin),
+                contentDescription = "뉴스 주제 선택",
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(MaterialTheme.typography.h2.fontSize.value.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "뉴스 주제 선택",
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.h3,
+            )
+        }
 
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+        ) {
+            items(newsItems) { item ->
+                NewsItem(
+                    title = item.title,
+                    topic = item.topic,
+                    date = item.date,
+                    imageUrl = item.imageUrl,
+                    onClick = { }
+                )
+            }
+        }
+    }
 }
 
 
 @Composable
 @Preview(apiLevel = 33)
-fun NewsScreenPreview() {
+fun NewsScreenNoTopicPreview() {
     SaegilAndroidTheme {
         NewsScreen(NewsUiState.NoTopics)
+    }
+}
+
+
+@Composable
+@Preview(apiLevel = 33)
+fun NewsScreenTopicPreview() {
+    SaegilAndroidTheme {
+        NewsScreen(
+            NewsUiState.Success(
+                listOf(
+                    NewsItem(
+                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
+                        topic = "날씨",
+                        date = "2025.06.30",
+                        imageUrl = ""
+                    ),
+                    NewsItem(
+                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
+                        topic = "날씨",
+                        date = "2025.06.30",
+                        imageUrl = ""
+                    ),
+                    NewsItem(
+                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
+                        topic = "날씨",
+                        date = "2025.06.30",
+                        imageUrl = ""
+                    ),
+                    NewsItem(
+                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
+                        topic = "날씨",
+                        date = "2025.06.30",
+                        imageUrl = ""
+                    ),
+                    NewsItem(
+                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
+                        topic = "날씨",
+                        date = "2025.06.30",
+                        imageUrl = ""
+                    ),
+                )
+            )
+        )
     }
 }

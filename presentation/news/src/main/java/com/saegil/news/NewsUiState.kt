@@ -1,5 +1,7 @@
 package com.saegil.news
 
+import com.saegil.domain.model.NewsItem
+
 sealed interface NewsUiState {
 
     data object Loading : NewsUiState
@@ -7,7 +9,7 @@ sealed interface NewsUiState {
     data object NoTopics : NewsUiState
 
     data class Success (
-        val preferredTopics : List<String>,
+        val newsItems : List<NewsItem>,
     ) : NewsUiState
 
 }
