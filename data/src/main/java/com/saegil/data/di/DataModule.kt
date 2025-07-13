@@ -20,6 +20,7 @@ import com.saegil.data.repository.ScenarioRepositoryImpl
 import com.saegil.data.repository.SimulationLogRepositoryImpl
 import com.saegil.data.repository.TextToSpeechRepositoryImpl
 import com.saegil.data.repository.UserInfoRepositoryImpl
+import com.saegil.data.repository.UserTopicRepositoryImpl
 import com.saegil.domain.repository.AssistantRepository
 import com.saegil.domain.repository.FeedRepository
 import com.saegil.domain.repository.MapRepository
@@ -28,6 +29,7 @@ import com.saegil.domain.repository.ScenarioRepository
 import com.saegil.domain.repository.SimulationLogRepository
 import com.saegil.domain.repository.TextToSpeechRepository
 import com.saegil.domain.repository.UserInfoRepository
+import com.saegil.domain.repository.UserTopicRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -100,5 +102,9 @@ object DataModule {
     fun provideUserInfoRepository(userInfoService: UserInfoService): UserInfoRepository {
         return UserInfoRepositoryImpl(userInfoService)
     }
+
+    @Provides
+    @Singleton
+    fun provideUserPreferenceRepository(impl: UserTopicRepositoryImpl): UserTopicRepository = impl
 
 }
