@@ -1,4 +1,4 @@
-package com.saegil.news
+package com.saegil.news.news
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

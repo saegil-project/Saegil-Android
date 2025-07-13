@@ -1,4 +1,4 @@
-package com.saegil.news
+package com.saegil.news.news
 
 import com.saegil.domain.model.NewsItem
 

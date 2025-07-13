@@ -18,7 +18,7 @@ import com.saegil.notice.notice.NoticeScreen
 import com.saegil.onboarding.OnboardingScreen
 import com.saegil.splash.SplashScreen
 import androidx.core.net.toUri
-import com.saegil.news.NewsScreen
+import com.saegil.news.news.NewsScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
