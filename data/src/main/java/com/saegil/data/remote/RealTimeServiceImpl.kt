@@ -183,54 +183,44 @@ class RealTimeServiceImpl(
     private var isAudioPlaying = false
     private val audioQueue: ArrayDeque<ByteArray> = ArrayDeque()
 
-    private fun playAudio(audio: ByteArray) {
-        // 재생 중이면 큐에 추가만
-        if (isAudioPlaying) {
-            audioQueue.addLast(audio)
-            println("📥 Queued audio chunk. Queue size: ${audioQueue.size}")
-            return
+    private fun initializeAudioTrackIfNeeded() {
+        if (audioTrack == null) {
+            audioTrack = AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                SAMPLE_RATE,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT,
+                BUFFER_SIZE,
+                AudioTrack.MODE_STREAM,
+                AudioManager.AUDIO_SESSION_ID_GENERATE
+            ).apply {
+                play()
+                println("🔄 AudioTrack initialized")
+            }
         }
-
-        // 다음 오디오 재생 시작
-        audioTrack?.release()
-
-        val track = AudioTrack(
-            AudioManager.STREAM_MUSIC,
-            SAMPLE_RATE,
-            AudioFormat.CHANNEL_OUT_MONO,
-            AudioFormat.ENCODING_PCM_16BIT,
-            audio.size,
-            AudioTrack.MODE_STATIC,
-            AudioManager.AUDIO_SESSION_ID_GENERATE
-        )
-
-        track.setNotificationMarkerPosition(audio.size / 2)
-        track.setPlaybackPositionUpdateListener(object : AudioTrack.OnPlaybackPositionUpdateListener {
-            override fun onMarkerReached(track: AudioTrack?) {
-                isAudioPlaying = false
-                println("✅ Finished audio chunk")
-
-                // 다음 오디오가 있다면 재생
-                if (audioQueue.isNotEmpty()) {
-                    val nextAudio = audioQueue.removeFirst()
-                    playAudio(nextAudio)
-                }
-            }
-
-            override fun onPeriodicNotification(track: AudioTrack?) {
-                // Not used
-            }
-        })
-
-        audioTrack = track
-        isAudioPlaying = true
-
-        track.write(audio, 0, audio.size)
-        track.play()
-
-        println("🔊 Playing audio chunk. Queue size: ${audioQueue.size}")
     }
 
+    private fun playAudio(audio: ByteArray) {
+        audioQueue.addLast(audio)
+        println("📥 Queued audio chunk. Queue size: ${audioQueue.size}")
+
+        if (!isAudioPlaying) {
+            isAudioPlaying = true
+            CoroutineScope(Dispatchers.IO).launch {
+                initializeAudioTrackIfNeeded()
+
+                while (audioQueue.isNotEmpty()) {
+                    val chunk = audioQueue.removeFirst()
+                    audioTrack?.write(chunk, 0, chunk.size)
+                }
+
+                // wait for buffer to play
+                audioTrack?.flush()
+                isAudioPlaying = false
+                println("✅ Finished playing all queued audio.")
+            }
+        }
+    }
 
     companion object{
         private const val SAMPLE_RATE = 16000 // 16kHz
