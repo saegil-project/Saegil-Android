@@ -141,7 +141,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         composable(Screen.Onboarding.route) {
             OnboardingScreen(
                 navigateToMain = {
-                    navController.navigate(Screen.Learning.route) {
+                    navController.navigate(Screen.AiConversation.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
                 }
