@@ -19,6 +19,7 @@ import com.saegil.onboarding.OnboardingScreen
 import com.saegil.splash.SplashScreen
 import androidx.core.net.toUri
 import com.saegil.news.news.NewsScreen
+import com.saegil.news.newsquiz.NewsQuizScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier) {
@@ -61,7 +62,18 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
         }
         composable(Screen.News.route) {
             NewsScreen(
-                modifier = modifier
+                modifier = modifier,
+                navigateToQuiz = { id ->
+                    navController.navigate("${Screen.Quiz.route}/$id")
+                }
+            )
+        }
+        composable(
+            route = "${Screen.Quiz.route}/{quizId}",
+            arguments = listOf(navArgument("quizId") { type = NavType.LongType })
+        ) {
+            NewsQuizScreen(
+                modifier = modifier,
             )
         }
         composable(Screen.MyPage.route) {

@@ -5,17 +5,19 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NewsItemDto(
+    val id: Long,
     val title: String,
-    val topic: String,
+    val category: String,
+    val thumbnailUrl: String,
     val date: String,
-    val imageUrl: String,
 ) {
 
     fun toDomain() = NewsItem(
+        id = id,
         title = title,
-        topic = topic,
-        date = date,
-        imageUrl = imageUrl,
+        category = category,
+        thumbnailUrl = thumbnailUrl,
+        date = date
     )
 
 }

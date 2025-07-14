@@ -9,8 +9,8 @@ class NewsRepositoryImpl @Inject constructor(
     private val newsService: NewsService
 ) : NewsRepository {
 
-//    override fun getNewsByTopics(topics: List<String>): List<NewsItem> {
-//
-//    }
+    override suspend fun getNewsByTopics(): List<NewsItem> {
+        return newsService.getNewsByTopics().map { it.toDomain() }
+    }
 
 }

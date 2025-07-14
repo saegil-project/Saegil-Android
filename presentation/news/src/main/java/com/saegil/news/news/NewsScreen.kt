@@ -33,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,18 +40,18 @@ import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.component.SaegilTitleText
 import com.saegil.designsystem.R
 import com.saegil.designsystem.component.SourceChip
-import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.h2
 import com.saegil.designsystem.theme.h3
+import com.saegil.domain.model.Interest
 import com.saegil.domain.model.NewsItem
-import com.saegil.news.component.CategoryConstants
 import com.saegil.news.component.NewsItem
 
 @Composable
 fun NewsScreen(
     modifier: Modifier = Modifier,
-    viewModel: NewsViewModel = hiltViewModel()
+    viewModel: NewsViewModel = hiltViewModel(),
+    navigateToQuiz: (Long) -> Unit = {},
 ) {
 
     val newsState by viewModel.newsUiState.collectAsStateWithLifecycle()
@@ -62,6 +61,7 @@ fun NewsScreen(
         modifier = modifier,
         onNextButtonClick = viewModel::savePreferredTopics,
         onTopicSelectClick = viewModel::clearPreferredTopics,
+        navigateToQuiz = navigateToQuiz
     )
 }
 
@@ -69,8 +69,9 @@ fun NewsScreen(
 internal fun NewsScreen(
     newsUiState: NewsUiState,
     modifier: Modifier = Modifier,
-    onNextButtonClick: (List<String>) -> Unit = {},
+    onNextButtonClick: (List<Interest>) -> Unit = {},
     onTopicSelectClick: () -> Unit = {},
+    navigateToQuiz: (Long) -> Unit = {},
 ) {
     Surface {
         Column(
@@ -83,13 +84,15 @@ internal fun NewsScreen(
             )
             when (newsUiState) {
                 NewsUiState.Loading -> LoadingState()
-                NewsUiState.NoTopics -> NoTopicsState(
+                is NewsUiState.NoTopics -> NoTopicsState(
+                    interests = newsUiState.categories,
                     onNextButtonClick = onNextButtonClick
                 )
 
                 is NewsUiState.Success -> TopicsState(
                     newsItems = newsUiState.newsItems,
-                    onTopicSelectClick = onTopicSelectClick
+                    onTopicSelectClick = onTopicSelectClick,
+                    navigateToQuiz = navigateToQuiz
                 )
             }
         }
@@ -108,15 +111,15 @@ private fun LoadingState(
 
 @Composable
 private fun NoTopicsState(
+    interests: List<Interest>,
     modifier: Modifier = Modifier,
-    onNextButtonClick: (List<String>) -> Unit = {},
+    onNextButtonClick: (List<Interest>) -> Unit = {},
 ) {
 
-    val allTopics = CategoryConstants.preferredTopics
-    var selectedTopics by remember { mutableStateOf<List<String>>(emptyList()) }
-    val isSelectAll = selectedTopics.size == allTopics.size
+    var selectedTopics by remember { mutableStateOf<List<Interest>>(emptyList()) }
+    val isSelectAll = selectedTopics.size == interests.size
 
-    fun onTopicToggle(topic: String) {
+    fun onTopicToggle(topic: Interest) {
         selectedTopics = if (topic in selectedTopics) {
             selectedTopics - topic
         } else {
@@ -126,7 +129,7 @@ private fun NoTopicsState(
 
     fun onSelectAllToggle(selectAll: Boolean) {
         selectedTopics = if (selectAll) {
-            allTopics
+            interests
         } else {
             emptyList()
         }
@@ -167,14 +170,14 @@ private fun NoTopicsState(
             horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            allTopics.forEachIndexed { index, topic ->
-                val isSelected = topic in selectedTopics
+            interests.forEachIndexed { index, category ->
+                val isSelected = category in selectedTopics
                 SourceChip(
-                    title = topic,
+                    title = category.name,
                     index = index,
                     selected = isSelected,
                     onFilterChipClick = {
-                        onTopicToggle(topic)
+                        onTopicToggle(category)
                     }
                 )
             }
@@ -224,6 +227,7 @@ private fun TopicsState(
     newsItems: List<NewsItem>,
     modifier: Modifier = Modifier,
     onTopicSelectClick: () -> Unit = {},
+    navigateToQuiz: (Long) -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -260,65 +264,12 @@ private fun TopicsState(
             items(newsItems) { item ->
                 NewsItem(
                     title = item.title,
-                    topic = item.topic,
+                    topic = item.category,
                     date = item.date,
-                    imageUrl = item.imageUrl,
-                    onClick = { }
+                    imageUrl = item.thumbnailUrl,
+                    onClick = { navigateToQuiz(item.id) }
                 )
             }
         }
-    }
-}
-
-
-@Composable
-@Preview(apiLevel = 33)
-fun NewsScreenNoTopicPreview() {
-    SaegilAndroidTheme {
-        NewsScreen(NewsUiState.NoTopics)
-    }
-}
-
-
-@Composable
-@Preview(apiLevel = 33)
-fun NewsScreenTopicPreview() {
-    SaegilAndroidTheme {
-        NewsScreen(
-            NewsUiState.Success(
-                listOf(
-                    NewsItem(
-                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
-                        topic = "날씨",
-                        date = "2025.06.30",
-                        imageUrl = ""
-                    ),
-                    NewsItem(
-                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
-                        topic = "날씨",
-                        date = "2025.06.30",
-                        imageUrl = ""
-                    ),
-                    NewsItem(
-                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
-                        topic = "날씨",
-                        date = "2025.06.30",
-                        imageUrl = ""
-                    ),
-                    NewsItem(
-                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
-                        topic = "날씨",
-                        date = "2025.06.30",
-                        imageUrl = ""
-                    ),
-                    NewsItem(
-                        title = "서울 올해 첫 폭염주의보… 밤에도 무더위 계속",
-                        topic = "날씨",
-                        date = "2025.06.30",
-                        imageUrl = ""
-                    ),
-                )
-            )
-        )
     }
 }

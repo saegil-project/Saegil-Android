@@ -13,6 +13,7 @@ sealed class Screen(val route: String, @DrawableRes val icon: Int?, val label: S
     data object Onboarding : Screen("onboarding", null, "온보딩")
     data object LogList : Screen("loglist", null, "로그리스트")
     data object Log : Screen("log", null, "로그")
+    data object Quiz : Screen("quiz", null, "퀴즈")
 
     companion object {
         val items = listOf(Learning, Announcement, News, MyPage)

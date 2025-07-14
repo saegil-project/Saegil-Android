@@ -32,6 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
@@ -57,9 +61,8 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
-    //Exoplayer
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.ui)
+    //Youtube
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.2")
 
     implementation(project(":core:designsystem"))
     implementation(project(":domain"))
