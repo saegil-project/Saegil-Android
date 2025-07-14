@@ -24,8 +24,6 @@ android {
         versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders["OPEN_AI_API_KEY"] = properties.getProperty("openai_api_key")
-        buildConfigField("String", "OPEN_AI_API_KEY", "\"${properties["openai_api_key"]}\"")
         manifestPlaceholders["NAVER_CLIENT_ID"] = properties.getProperty("naver_client_id")
         manifestPlaceholders["NATIVE_APP_KEY"] = properties.getProperty("kakao_native_app_key")
         buildConfigField("String", "NATIVE_APP_KEY", "\"${properties["kakao_native_app_key"]}\"")

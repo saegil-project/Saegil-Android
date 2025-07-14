@@ -22,6 +22,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "BASE_URL", "\"${properties.getProperty("base_url")}\"")
+        buildConfigField("String", "OPEN_AI_API_KEY", "\"${properties.getProperty("openai_api_key")}\"")
     }
 
     buildTypes {

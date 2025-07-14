@@ -8,6 +8,8 @@ import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.HttpRoutes.ASSISTANT
 import com.saegil.data.remote.HttpRoutes.GET_REALTIME_TOKEN
+import com.saegil.data.remote.HttpRoutes.NEWS
+import com.saegil.data.remote.HttpRoutes.NEWS_INTERESTS
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
 import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
@@ -84,10 +86,9 @@ object NetworkModule {
                         SIMULATION_LOG,
                         TTS,
                         USER,
-                        ASSISTANT,                        GET_REALTIME_TOKEN
-                                GET_REALTIME_TOKEN,
-
-                                NEWS_INTERESTS,
+                        ASSISTANT,
+                        GET_REALTIME_TOKEN,
+                        NEWS_INTERESTS,
                         NEWS
                     ).any { it in path }
                 }
