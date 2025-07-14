@@ -179,20 +179,56 @@ class RealTimeServiceImpl(
         println("🎙️ Audio recording stopped and committed")
     }
 
+    private var audioTrack: AudioTrack? = null
+    private var isAudioPlaying = false
+    private val audioQueue: ArrayDeque<ByteArray> = ArrayDeque()
+
     private fun playAudio(audio: ByteArray) {
-        val audioTrack = AudioTrack(
+        // 재생 중이면 큐에 추가만
+        if (isAudioPlaying) {
+            audioQueue.addLast(audio)
+            println("📥 Queued audio chunk. Queue size: ${audioQueue.size}")
+            return
+        }
+
+        // 다음 오디오 재생 시작
+        audioTrack?.release()
+
+        val track = AudioTrack(
             AudioManager.STREAM_MUSIC,
             SAMPLE_RATE,
             AudioFormat.CHANNEL_OUT_MONO,
             AudioFormat.ENCODING_PCM_16BIT,
             audio.size,
-            AudioTrack.MODE_STATIC
+            AudioTrack.MODE_STATIC,
+            AudioManager.AUDIO_SESSION_ID_GENERATE
         )
 
-        audioTrack.write(audio, 0, audio.size)
-        audioTrack.play()
+        track.setNotificationMarkerPosition(audio.size / 2)
+        track.setPlaybackPositionUpdateListener(object : AudioTrack.OnPlaybackPositionUpdateListener {
+            override fun onMarkerReached(track: AudioTrack?) {
+                isAudioPlaying = false
+                println("✅ Finished audio chunk")
 
-        println("🔊 Audio playback started")
+                // 다음 오디오가 있다면 재생
+                if (audioQueue.isNotEmpty()) {
+                    val nextAudio = audioQueue.removeFirst()
+                    playAudio(nextAudio)
+                }
+            }
+
+            override fun onPeriodicNotification(track: AudioTrack?) {
+                // Not used
+            }
+        })
+
+        audioTrack = track
+        isAudioPlaying = true
+
+        track.write(audio, 0, audio.size)
+        track.play()
+
+        println("🔊 Playing audio chunk. Queue size: ${audioQueue.size}")
     }
 
 
