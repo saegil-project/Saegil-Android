@@ -1,5 +1,6 @@
 package com.saegil.android.navigation
 
+import android.util.Log
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,6 +19,10 @@ import com.saegil.notice.notice.NoticeScreen
 import com.saegil.onboarding.OnboardingScreen
 import com.saegil.splash.SplashScreen
 import androidx.core.net.toUri
+import com.saegil.ai_conversation.SaegilCharacter
+import com.saegil.ai_conversation.aiconversation.AiConversationScreen
+import com.saegil.ai_conversation.aiconversationlist.AiConversationListScreen
+import com.saegil.learning.learning.components.CharacterEmotion
 import com.saegil.news.news.NewsScreen
 import com.saegil.news.newsquiz.NewsQuizScreen
 
@@ -27,6 +32,26 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
     val context = LocalContext.current
 
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
+
+        composable(Screen.AiConversation.route) {
+            AiConversationListScreen(
+                modifier = modifier,
+                onCharacterClick = { character ->
+                    navController.navigate("${Screen.AiConversation.route}/$character")
+                    Log.d("character", character)
+                }
+            )
+        }
+        composable(
+            route = "${Screen.AiConversation.route}/{characterString}",
+            arguments = listOf(navArgument("characterString") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val characterString = backStackEntry.arguments?.getString("characterString")
+            val character = runCatching { SaegilCharacter.valueOf(characterString ?: "") }.getOrNull()
+
+            AiConversationScreen(character = character)
+        }
+
         composable(Screen.Learning.route) {
             LearningListScreen(
                 modifier = modifier,

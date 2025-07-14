@@ -51,7 +51,15 @@ import com.saegil.designsystem.theme.h2
 import com.saegil.designsystem.theme.h3
 import com.saegil.learning.learning.components.CharacterEmotion
 import kotlinx.coroutines.delay
-
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.websocket.*
+import io.ktor.client.request.header
+import io.ktor.http.HttpMethod
+import io.ktor.websocket.*
+import kotlinx.coroutines.*
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 @Composable
 fun LearningScreen(
     modifier: Modifier = Modifier,
@@ -283,6 +291,59 @@ fun RecordButton(
         ),
         contentDescription = if (isRecording) "녹음 중지" else "녹음 시작"
     )
+}
+
+
+
+@Serializable
+data class StartMessage(
+    val type: String = "start",
+    val model: String = "gpt-4o",
+    val messages: List<Message>
+)
+
+@Serializable
+data class Message(
+    val role: String,
+    val content: String
+)
+
+fun startOpenAIWebSocket(apiKey: String) {
+    val client = HttpClient(CIO) {
+        install(WebSockets)
+    }
+
+    CoroutineScope(Dispatchers.IO).launch {
+        client.webSocket(
+            method = HttpMethod.Get,
+            host = "api.openai.com",
+            path = "/v1/realtime",
+            request = {
+                header("Authorization", "Bearer $apiKey")
+                header("Content-Type", "application/json")
+            }
+        ) {
+            println("✅ WebSocket 연결 성공")
+
+            // JSON 메시지 생성
+            val message = StartMessage(
+                messages = listOf(
+                    Message("user", "Hello, how are you?")
+                )
+            )
+            val json = Json.encodeToString(message)
+            send(Frame.Text(json))
+
+            // 수신 루프
+            for (frame in incoming) {
+                when (frame) {
+                    is Frame.Text -> println("📥 수신: ${frame.readText()}")
+                    is Frame.Close -> println("❌ 연결 종료됨")
+                    else -> {}
+                }
+            }
+        }
+    }
 }
 
 

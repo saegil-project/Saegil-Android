@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.saegil.learn"
+    namespace = "com.saegil.ai_conversation"
     compileSdk = 35
 
     defaultConfig {
@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.androidx.foundation.layout.android)
+    implementation(project(":core:common"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -69,14 +70,5 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":domain"))
 
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-
-
-        implementation("io.ktor:ktor-client-core:2.3.7")
-        implementation("io.ktor:ktor-client-cio:2.3.7") // CIO 엔진
-        implementation("io.ktor:ktor-client-websockets:2.3.7")
-        implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
-
-
 }
