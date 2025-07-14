@@ -30,7 +30,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.saegil.designsystem.component.SaegilLoadingWheel
 import com.saegil.designsystem.component.SaegilTitleText
-import com.saegil.designsystem.component.SourceChip
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.caption
@@ -49,16 +48,13 @@ fun NoticeScreen(
 
     val feedState by viewModel.feedUiState.collectAsStateWithLifecycle()
     val feedResource = (feedState as? Success)?.feeds?.collectAsLazyPagingItems()
-    val selectedIndex by viewModel.organization.collectAsStateWithLifecycle()
     val searchQuery by viewModel.query.collectAsStateWithLifecycle()
 
     NoticeScreen(
         feedState = feedState,
         feedResource = feedResource,
-        onChipSelect = viewModel::setSourceFilter,
         searchQuery = searchQuery,
         onSearchTriggered = viewModel::onSearchTriggered,
-        selectedIndex = selectedIndex?.toInt(),
         navigateToWebView = navigateToWebView,
         modifier = modifier
     )
@@ -69,10 +65,8 @@ fun NoticeScreen(
 internal fun NoticeScreen(
     feedState: NoticeUiState,
     feedResource: LazyPagingItems<Notice>?,
-    onChipSelect: (Int?) -> Unit,
     searchQuery: String,
     onSearchTriggered: (String) -> Unit,
-    selectedIndex: Int?,
     navigateToWebView: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -83,7 +77,7 @@ internal fun NoticeScreen(
                 .padding(horizontal = 25.dp)
         ) {
             SaegilTitleText(
-                "공지사항 모아보기",
+                "공지사항",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
@@ -92,13 +86,7 @@ internal fun NoticeScreen(
                 onSearchTriggered = onSearchTriggered,
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
-            )
-            SourceFilterChips(
-                onChipSelect = onChipSelect,
-                selectedIndex = selectedIndex,
-                modifier = Modifier
-                    .padding(horizontal = 10.dp)
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 5.dp)
             )
             when (feedState) {
                 Loading -> LoadingState()
@@ -107,31 +95,6 @@ internal fun NoticeScreen(
                     navigateToWebView = navigateToWebView
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun SourceFilterChips(
-    onChipSelect: (Int?) -> Unit,
-    selectedIndex: Int?,
-    modifier: Modifier = Modifier
-) {
-    val sources = listOf("남북하나재단", "통일부")
-    Row(
-        modifier = modifier.padding(
-            bottom = 12.dp
-        )
-    ) {
-        sources.forEachIndexed { idx, source ->
-            val isSelected = selectedIndex == idx + 1
-            SourceChip(
-                title = source,
-                index = if (isSelected) null else idx + 1,
-                selected = isSelected,
-                onFilterChipClick = onChipSelect,
-                modifier = Modifier.padding(end = 8.dp)
-            )
         }
     }
 }
