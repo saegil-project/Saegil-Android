@@ -66,7 +66,7 @@ fun LearningScreen(
     navigateToLearningList: () -> Unit = {},
     scenarioId: Long,
     scenarioName: String = "",
-    viewModel: LearningViewModel = hiltViewModel()
+    viewModel: LearningViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current

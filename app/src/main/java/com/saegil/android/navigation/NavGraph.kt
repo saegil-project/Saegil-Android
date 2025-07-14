@@ -49,7 +49,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
             val characterString = backStackEntry.arguments?.getString("characterString")
             val character = runCatching { SaegilCharacter.valueOf(characterString ?: "") }.getOrNull()
 
-            AiConversationScreen(character = character)
+            AiConversationScreen(character = character,
+                    navigateToAiConversationList = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.Learning.route) {

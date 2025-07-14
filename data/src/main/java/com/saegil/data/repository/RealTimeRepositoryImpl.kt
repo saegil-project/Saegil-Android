@@ -10,4 +10,16 @@ class RealTimeRepositoryImpl (
     override suspend fun connect(secret: String) {
         service.connectToRealtimeSession(secret)
     }
+
+    override suspend fun sendPcm(pcm: ByteArray) {
+        service.sendPcm(pcm)
+    }
+
+    override suspend fun commitAudio() {
+        service.commitAudio()
+    }
+
+    override suspend fun disconnect() {
+        service.disconnect()
+    }
 }

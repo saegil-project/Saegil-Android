@@ -9,4 +9,13 @@ class StartRealtimeChatUseCase @Inject constructor(
     suspend operator fun invoke(clientSecret: String) {
         repository.connect(clientSecret)
     }
+
+
+    suspend fun sendPcm(pcm: ByteArray) {
+        repository.sendPcm(pcm)
+    }
+
+    suspend fun commitAudio() {
+        repository.commitAudio()
+    }
 }

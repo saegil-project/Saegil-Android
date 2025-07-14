@@ -1,6 +1,10 @@
 package com.saegil.ai_conversation.aiconversation
 
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,9 +20,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.ai_conversation.R
@@ -32,6 +39,7 @@ fun AiConversationScreen(
     character: SaegilCharacter?,
     modifier: Modifier = Modifier,
     viewModel: AiConversationViewModel = hiltViewModel(),
+    navigateToAiConversationList: () -> Unit = {},
 ) {
 
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -40,7 +48,9 @@ fun AiConversationScreen(
         state = state,
         modifier = modifier,
 //        onRequestToken = viewModel::onRequestToken,
-        startRealtimeChat = viewModel::startChatSession
+//        startRealtimeChat = viewModel::startChatSession,
+        onStopButtonClick = viewModel::stopChatSession,
+        navigateToAiConversationList = navigateToAiConversationList,
     )
 
 }
@@ -49,6 +59,8 @@ fun AiConversationScreen(
 internal fun InternalAiConversationScreen(
     state: AiConversationState,
     modifier: Modifier,
+    onStopButtonClick: () -> Unit = {},
+    navigateToAiConversationList: () -> Unit = {},
 //    onRequestToken:
     startRealtimeChat: (String) -> Unit = {},
 ) {
@@ -60,7 +72,18 @@ internal fun InternalAiConversationScreen(
 
 //    val token: String = onRequestToken().toString()
 //    startRealtimeChat(token.toString())
+    val context = LocalContext.current
 
+    if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+        != PackageManager.PERMISSION_GRANTED
+    ) {
+
+        ActivityCompat.requestPermissions(
+            context as Activity, // 여기가 중요!
+            arrayOf(Manifest.permission.RECORD_AUDIO),
+            1001
+        )
+    }
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -91,7 +114,12 @@ internal fun InternalAiConversationScreen(
 
             Image(
                 painterResource(R.drawable.img_btn_end_call),
-                modifier = Modifier.size(96.dp),
+                modifier = Modifier
+                    .size(96.dp)
+                    .clickable {
+                        onStopButtonClick()
+                        navigateToAiConversationList()
+                    },
                 contentDescription = "전화 종료"
             )
         }
