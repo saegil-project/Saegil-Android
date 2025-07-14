@@ -4,14 +4,18 @@ import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,6 +24,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,8 +37,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.saegil.ai_conversation.R
 import com.saegil.ai_conversation.SaegilCharacter
 import com.saegil.designsystem.theme.SaegilAndroidTheme
+import com.saegil.designsystem.theme.body2
 import com.saegil.designsystem.theme.h1
-import kotlin.reflect.KSuspendFunction0
+import com.saegil.designsystem.theme.h3
 
 @Composable
 fun AiConversationScreen(
@@ -47,8 +54,6 @@ fun AiConversationScreen(
     InternalAiConversationScreen(
         state = state,
         modifier = modifier,
-//        onRequestToken = viewModel::onRequestToken,
-//        startRealtimeChat = viewModel::startChatSession,
         onStopButtonClick = viewModel::stopChatSession,
         navigateToAiConversationList = navigateToAiConversationList,
     )
@@ -61,17 +66,8 @@ internal fun InternalAiConversationScreen(
     modifier: Modifier,
     onStopButtonClick: () -> Unit = {},
     navigateToAiConversationList: () -> Unit = {},
-//    onRequestToken:
-    startRealtimeChat: (String) -> Unit = {},
 ) {
 
-//    LaunchedEffect(Unit) {
-//        val token = viewModel.onRequestToken()
-//        Log.d("UI", token)
-//    }
-
-//    val token: String = onRequestToken().toString()
-//    startRealtimeChat(token.toString())
     val context = LocalContext.current
 
     if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
@@ -85,18 +81,41 @@ internal fun InternalAiConversationScreen(
         )
     }
     Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    )
-    {
+        modifier = modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFFE7F2FF), // 시작 색상 (연한 하늘색)
+                        Color(0xFFFFFFFF)  // 끝 색상 (흰색)
+                    )
+                )
+            ),
+        color = Color.Transparent
+    ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("전화 거는 중...")
-            Spacer(modifier = Modifier.height(10.dp))
-            Text("동갑내기 친구와 \"반말로\" 편안하게 대화해보세요!")
-            Spacer(modifier = Modifier.height(10.dp))
+            Text("전화 거는 중...",
+                style = MaterialTheme.typography.h3,
+                color = MaterialTheme.colorScheme.onBackground)
+            Spacer(modifier = Modifier.height(18.dp))
+            Box(
+                Modifier.border(
+                    1.dp,
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(4.dp) // ← 코너를 4dp만큼 둥글게
+                )
+            ) {
+                Text(
+                    "동갑내기 친구와 \"반말로\" 편안하게 대화해보세요!",
+                    modifier = Modifier.padding(10.dp),
+                    style = MaterialTheme.typography.body2
+                )
+
+            }
+            Spacer(modifier = Modifier.height(60.dp))
 
             Image(
                 painterResource(R.drawable.img_saerom),
@@ -108,7 +127,7 @@ internal fun InternalAiConversationScreen(
                 "새롬",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.h1,
-                modifier = Modifier.padding(top = 10.dp)
+                modifier = Modifier.padding(top = 18.dp)
             )
             Spacer(modifier = Modifier.height(120.dp))
 
