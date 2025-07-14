@@ -294,59 +294,6 @@ fun RecordButton(
 }
 
 
-
-@Serializable
-data class StartMessage(
-    val type: String = "start",
-    val model: String = "gpt-4o",
-    val messages: List<Message>
-)
-
-@Serializable
-data class Message(
-    val role: String,
-    val content: String
-)
-
-fun startOpenAIWebSocket(apiKey: String) {
-    val client = HttpClient(CIO) {
-        install(WebSockets)
-    }
-
-    CoroutineScope(Dispatchers.IO).launch {
-        client.webSocket(
-            method = HttpMethod.Get,
-            host = "api.openai.com",
-            path = "/v1/realtime",
-            request = {
-                header("Authorization", "Bearer $apiKey")
-                header("Content-Type", "application/json")
-            }
-        ) {
-            println("✅ WebSocket 연결 성공")
-
-            // JSON 메시지 생성
-            val message = StartMessage(
-                messages = listOf(
-                    Message("user", "Hello, how are you?")
-                )
-            )
-            val json = Json.encodeToString(message)
-            send(Frame.Text(json))
-
-            // 수신 루프
-            for (frame in incoming) {
-                when (frame) {
-                    is Frame.Text -> println("📥 수신: ${frame.readText()}")
-                    is Frame.Close -> println("❌ 연결 종료됨")
-                    else -> {}
-                }
-            }
-        }
-    }
-}
-
-
 @Composable
 @Preview(name = "Learning", apiLevel = 33)
 private fun LearningScreenPreview() {

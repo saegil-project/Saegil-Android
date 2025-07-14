@@ -12,10 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,6 +25,7 @@ import com.saegil.ai_conversation.R
 import com.saegil.ai_conversation.SaegilCharacter
 import com.saegil.designsystem.theme.SaegilAndroidTheme
 import com.saegil.designsystem.theme.h1
+import kotlin.reflect.KSuspendFunction0
 
 @Composable
 fun AiConversationScreen(
@@ -37,7 +38,9 @@ fun AiConversationScreen(
 
     InternalAiConversationScreen(
         state = state,
-        modifier = modifier
+        modifier = modifier,
+//        onRequestToken = viewModel::onRequestToken,
+        startRealtimeChat = viewModel::startChatSession
     )
 
 }
@@ -45,8 +48,19 @@ fun AiConversationScreen(
 @Composable
 internal fun InternalAiConversationScreen(
     state: AiConversationState,
-    modifier: Modifier
+    modifier: Modifier,
+//    onRequestToken:
+    startRealtimeChat: (String) -> Unit = {},
 ) {
+
+//    LaunchedEffect(Unit) {
+//        val token = viewModel.onRequestToken()
+//        Log.d("UI", token)
+//    }
+
+//    val token: String = onRequestToken().toString()
+//    startRealtimeChat(token.toString())
+
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background

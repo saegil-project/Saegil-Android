@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AiConversationListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getRealtimeTokenUseCase: GetRealTimeTokenUsecase
 
 ) : ViewModel() {
 
@@ -25,13 +24,6 @@ class AiConversationListViewModel @Inject constructor(
     val stateFlow: StateFlow<AiConversationListState> = _stateFlow.asStateFlow()
 
 
-    fun onRequestToken() {
-        Log.d("AiConversationListViewModel", "onRequestToken called")
-        viewModelScope.launch {
-            val result = getRealtimeTokenUseCase()
-            Log.d("result", "${result}")
-        }
-    }
 
 }
 

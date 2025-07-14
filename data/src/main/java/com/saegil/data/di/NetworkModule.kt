@@ -7,8 +7,6 @@ import com.saegil.data.remote.AssistantServiceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.HttpRoutes.ASSISTANT
-import com.saegil.data.remote.HttpRoutes.NEWS
-import com.saegil.data.remote.HttpRoutes.NEWS_INTERESTS
 import com.saegil.data.remote.HttpRoutes.GET_REALTIME_TOKEN
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
@@ -24,6 +22,8 @@ import com.saegil.data.remote.NewsService
 import com.saegil.data.remote.NewsServiceImpl
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.OAuthServiceImpl
+import com.saegil.data.remote.RealTimeService
+import com.saegil.data.remote.RealTimeServiceImpl
 import com.saegil.data.remote.QuizService
 import com.saegil.data.remote.QuizServiceImpl
 import com.saegil.data.remote.ScenarioService
@@ -40,6 +40,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -61,7 +62,7 @@ object NetworkModule {
     fun provideHttpClient(
         tokenDataSource: TokenDataSource
     ): HttpClient {
-        return HttpClient(Android) {
+        return HttpClient(CIO) {
             install(Logging) {
                 level = LogLevel.ALL
                 logger = Logger.SIMPLE
@@ -83,12 +84,15 @@ object NetworkModule {
                         SIMULATION_LOG,
                         TTS,
                         USER,
-                        ASSISTANT,
-                        NEWS_INTERESTS,
+                        ASSISTANT,                        GET_REALTIME_TOKEN
+                                GET_REALTIME_TOKEN,
+
+                                NEWS_INTERESTS,
                         NEWS
                     ).any { it in path }
                 }
             }
+            install(io.ktor.client.plugins.websocket.WebSockets)
         }
     }
 
@@ -157,6 +161,12 @@ object NetworkModule {
     @Singleton
     fun provideQuizService(client: HttpClient): QuizService {
         return QuizServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRealTimeService(client: HttpClient): RealTimeService {
+        return RealTimeServiceImpl(client)
     }
 
 }

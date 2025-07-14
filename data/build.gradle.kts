@@ -105,4 +105,10 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     implementation(project(":domain"))//클린아키텍처 도메인 의존
+
+    implementation("io.ktor:ktor-client-websockets:2.3.5")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+
+
 }

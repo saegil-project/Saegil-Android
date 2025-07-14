@@ -36,9 +36,7 @@ fun AiConversationListScreen(
         modifier = modifier,
         onCharacterClick = { character ->
             onCharacterClick(character)
-            viewModel.onRequestToken()
         },
-        getToken = viewModel::onRequestToken
     )
 }
 
@@ -47,7 +45,6 @@ internal fun InternalAiConversationListScreen(
     aiConversationListState: AiConversationListState,
     modifier: Modifier = Modifier,
     onCharacterClick: (String) -> Unit = { character -> },
-    getToken: () -> Unit = {},
 //    onScenarioClick: (Long, String) -> Unit = { id, name -> },
 ) {
     Surface(
@@ -67,14 +64,12 @@ internal fun InternalAiConversationListScreen(
                 onClick = {
                     Log.d("screen character", SaegilCharacter.SAEROM.name)
                     onCharacterClick(SaegilCharacter.SAEROM.name)
-                    getToken()
                 })
 
             Spacer(modifier = Modifier.height(10.dp))
 
             CharacterCard(modifier = Modifier.clickable {
                 onCharacterClick(SaegilCharacter.GILDONG.name)
-                getToken()
             }, SaegilCharacter.GILDONG)
 
 

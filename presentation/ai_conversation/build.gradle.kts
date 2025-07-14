@@ -71,4 +71,6 @@ dependencies {
     implementation(project(":domain"))
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("io.ktor:ktor-client-websockets:2.3.5")
+
 }
