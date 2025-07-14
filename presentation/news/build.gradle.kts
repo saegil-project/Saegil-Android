@@ -1,12 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.devtools.ksp)
-    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.saegil.domain"
+    namespace = "com.saegil.news"
     compileSdk = 35
 
     defaultConfig {
@@ -32,6 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
@@ -39,16 +43,27 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(project(":core:common"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling.preview)
 
-    //Hilt
+    //hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
 
-    //Paging
-    implementation(libs.androidx.paging.runtime.ktx)
-    implementation(libs.androidx.paging.compose)
+    //Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    //Youtube
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.2")
+
+    implementation(project(":core:designsystem"))
+    implementation(project(":domain"))
 }

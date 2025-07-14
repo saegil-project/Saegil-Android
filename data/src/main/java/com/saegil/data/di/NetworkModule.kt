@@ -7,16 +7,24 @@ import com.saegil.data.remote.AssistantServiceImpl
 import com.saegil.data.remote.FeedService
 import com.saegil.data.remote.FeedServiceImpl
 import com.saegil.data.remote.HttpRoutes.ASSISTANT
+import com.saegil.data.remote.HttpRoutes.NEWS
+import com.saegil.data.remote.HttpRoutes.NEWS_INTERESTS
 import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
 import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import com.saegil.data.remote.HttpRoutes.SIMULATION_LOG
 import com.saegil.data.remote.HttpRoutes.TTS
 import com.saegil.data.remote.HttpRoutes.USER
+import com.saegil.data.remote.InterestService
+import com.saegil.data.remote.InterestServiceImpl
 import com.saegil.data.remote.MapService
 import com.saegil.data.remote.MapServiceImpl
+import com.saegil.data.remote.NewsService
+import com.saegil.data.remote.NewsServiceImpl
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.OAuthServiceImpl
+import com.saegil.data.remote.QuizService
+import com.saegil.data.remote.QuizServiceImpl
 import com.saegil.data.remote.ScenarioService
 import com.saegil.data.remote.ScenarioServiceImpl
 import com.saegil.data.remote.SimulationLogService
@@ -75,6 +83,8 @@ object NetworkModule {
                         TTS,
                         USER,
                         ASSISTANT,
+                        NEWS_INTERESTS,
+                        NEWS
                     ).any { it in path }
                 }
             }
@@ -128,6 +138,24 @@ object NetworkModule {
     @Singleton
     fun provideUserInfoService(client: HttpClient): UserInfoService {
         return UserInfoServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideInterestService(client: HttpClient): InterestService {
+        return InterestServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsService(client: HttpClient): NewsService {
+        return NewsServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuizService(client: HttpClient): QuizService {
+        return QuizServiceImpl(client)
     }
 
 }

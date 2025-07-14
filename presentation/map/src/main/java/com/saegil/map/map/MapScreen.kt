@@ -243,7 +243,6 @@ internal fun MapScreen(
                                         onRecruitmentSelected(recruitment)
                                         true
                                     },
-                                    isOrganization = false
                                 )
                             } else {
                                 SelectedMarker(
@@ -254,7 +253,6 @@ internal fun MapScreen(
                                         onRecruitmentSelected(recruitment)
                                         true
                                     },
-                                    isOrganization = false
                                 )
                             }
                         }
