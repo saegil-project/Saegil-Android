@@ -42,8 +42,7 @@ class RealTimeServiceImpl(
                 path = "/v1/realtime/sessions/$secret",
                 request = {
                     url("wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17&modalities=audio")
-//                    header(HttpHeaders.Authorization, "Bearer ${BuildConfig.OPEN_AI_API_KEY}")
-                    header(HttpHeaders.Authorization, "Bearer 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")
+                    header(HttpHeaders.Authorization, "Bearer ${BuildConfig.}")
                     header("OpenAI-Beta", "realtime=v1")
                 }
             ) {
