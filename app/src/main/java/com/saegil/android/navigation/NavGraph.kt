@@ -155,7 +155,7 @@ fun NavGraph(navController: NavHostController, modifier: Modifier) {
                     }
                 },
                 navigateToMain = {
-                    navController.navigate(Screen.Learning.route) {
+                    navController.navigate(Screen.AiConversation.route) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
                 },

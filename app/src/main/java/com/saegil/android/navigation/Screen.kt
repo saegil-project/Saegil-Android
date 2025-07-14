@@ -18,6 +18,6 @@ sealed class Screen(val route: String, @DrawableRes val icon: Int?, val label: S
     data object Quiz : Screen("quiz", null, "퀴즈")
 
     companion object {
-        val items = listOf(AiConversation,Learning, Announcement, News, MyPage)
+        val items = listOf(AiConversation, Announcement, News, MyPage)
     }
 }
