@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -29,70 +32,38 @@ fun AiConversationListScreen(
     onCharacterClick: (String) -> Unit = { character -> },
     viewModel: AiConversationListViewModel = hiltViewModel(),
 ) {
-    val learningListState by viewModel.stateFlow.collectAsStateWithLifecycle()
 
-    InternalAiConversationListScreen(
-        aiConversationListState = learningListState,
-        modifier = modifier,
-        onCharacterClick = { character ->
-            onCharacterClick(character)
-        },
-    )
-}
-
-@Composable
-internal fun InternalAiConversationListScreen(
-    aiConversationListState: AiConversationListState,
-    modifier: Modifier = Modifier,
-    onCharacterClick: (String) -> Unit = { character -> },
-//    onScenarioClick: (Long, String) -> Unit = { id, name -> },
-) {
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column {
+        Column(
+            Modifier
+                .padding()
+                .verticalScroll(rememberScrollState())
+        ) {
             SaegilTitleText(
                 "AI 전화 회화",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(30.dp))
+
             CharacterCard(
                 modifier = Modifier,
-                SaegilCharacter.SAEROM,
+                character = SaegilCharacter.SAEROM,
                 onClick = {
-                    Log.d("screen character", SaegilCharacter.SAEROM.name)
                     onCharacterClick(SaegilCharacter.SAEROM.name)
                 })
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(30.dp))
 
-            CharacterCard(modifier = Modifier.clickable {
-                onCharacterClick(SaegilCharacter.GILDONG.name)
-            }, SaegilCharacter.GILDONG)
-
-
-//            when (aiConversationListState) {
-//                is LearningListUiState.Loading -> {
-//                    // TODO: Show loading state
-//                }
-//                is LearningListUiState.Success -> {
-//                    LazyColumn(
-//                        modifier = Modifier.fillMaxSize(),
-//                        contentPadding = PaddingValues(36.dp),
-//                        verticalArrangement = Arrangement.spacedBy(12.dp)
-//                    ) {
-//                        items(learningListState.organizationList) { item ->
-//                            ScenarioItem(
-//                                name = item.name,
-//                                iconImageUrl = item.iconImageUrl,
-//                                onClick = { onScenarioClick(item.id, item.name) }
-//                            )
-//                        }
-//                    }
-//                }
-//            }
+            CharacterCard(modifier = Modifier,
+                character = SaegilCharacter.GILDONG,
+                onClick = {
+                    onCharacterClick(SaegilCharacter.GILDONG.name)
+                }
+            )
         }
     }
 }
@@ -102,9 +73,7 @@ internal fun InternalAiConversationListScreen(
 private fun LearningScreenPreview() {
     SaegilAndroidTheme {
         Surface {
-            InternalAiConversationListScreen(
-                aiConversationListState = AiConversationListState()
-            )
+            AiConversationListScreen()
         }
     }
 }
