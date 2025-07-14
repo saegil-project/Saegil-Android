@@ -67,21 +67,21 @@ class MapApiCallTest {
         var optimizedCallCount = 0
         var lastLocation: Location? = null
 
-        // Test non-optimized version (calls API for every location change)
+        // 최적화 안한 버
         locations.forEach { location ->
             nonOptimizedCallCount++
         }
 
-        // Test optimized version (calls API only when distance threshold is exceeded)
+        // 최적전 한 버전
         locations.forEach { location ->
-            if (lastLocation == null) {
-                optimizedCallCount++
-            } else {
-                val distance = calculateDistance(lastLocation!!.toLatLng(), location.toLatLng())
-                if (distance > MapConstants.THRESHOLD) {
-                    optimizedCallCount++
-                }
+            val distance = lastLocation?.let {
+                calculateDistance(it.toLatLng(), location.toLatLng())
             }
+
+            if (distance == null || distance > MapConstants.THRESHOLD) {
+                optimizedCallCount++
+            }
+
             lastLocation = location
         }
 
