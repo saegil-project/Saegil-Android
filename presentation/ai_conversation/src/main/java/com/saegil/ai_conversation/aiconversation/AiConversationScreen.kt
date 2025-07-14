@@ -52,6 +52,7 @@ fun AiConversationScreen(
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     InternalAiConversationScreen(
+        character = character,
         state = state,
         modifier = modifier,
         onStopButtonClick = viewModel::stopChatSession,
@@ -62,6 +63,7 @@ fun AiConversationScreen(
 
 @Composable
 internal fun InternalAiConversationScreen(
+    character: SaegilCharacter? = SaegilCharacter.SAEROM,
     state: AiConversationState,
     modifier: Modifier,
     onStopButtonClick: () -> Unit = {},
@@ -97,9 +99,11 @@ internal fun InternalAiConversationScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("전화 거는 중...",
+            Text(
+                "전화 거는 중...",
                 style = MaterialTheme.typography.h3,
-                color = MaterialTheme.colorScheme.onBackground)
+                color = MaterialTheme.colorScheme.onBackground
+            )
             Spacer(modifier = Modifier.height(18.dp))
             Box(
                 Modifier.border(
@@ -108,8 +112,9 @@ internal fun InternalAiConversationScreen(
                     shape = RoundedCornerShape(4.dp) // ← 코너를 4dp만큼 둥글게
                 )
             ) {
+
                 Text(
-                    "동갑내기 친구와 \"반말로\" 편안하게 대화해보세요!",
+                    character?.comment ?: "",
                     modifier = Modifier.padding(10.dp),
                     style = MaterialTheme.typography.body2
                 )
@@ -118,17 +123,19 @@ internal fun InternalAiConversationScreen(
             Spacer(modifier = Modifier.height(60.dp))
 
             Image(
-                painterResource(R.drawable.img_saerom),
+                painterResource(character!!.img),
                 modifier = Modifier.size(200.dp),
                 contentDescription = "새롬"
             )
 
+
             Text(
-                "새롬",
+                character.nickname,
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.h1,
                 modifier = Modifier.padding(top = 18.dp)
             )
+
             Spacer(modifier = Modifier.height(120.dp))
 
             Image(
@@ -152,6 +159,7 @@ internal fun InternalAiConversationScreen(
 private fun AiConversationScreenPreview() {
     SaegilAndroidTheme {
         InternalAiConversationScreen(
+            character = SaegilCharacter.GILDONG,
             state = AiConversationState(),
             modifier = Modifier
         )
