@@ -61,6 +61,7 @@ uiAndroidVersion = "1.5.0"
 foundationAndroidVersion = "1.8.0"
 runtimeAndroidVersion = "1.8.0"
 uiToolingPreviewAndroidVersion = "1.8.0"
+kotlinx-coroutines = "1.7.3"
 
 [libraries]
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastoreVersion" }
@@ -128,6 +129,7 @@ androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", vers
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroidVersion" }
 runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroidVersion" }
 ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroidVersion" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 youtube-player-helper = { module = "com.google.android.youtube:player-helper", version.ref = "playerHelper" }
 
 [plugins]
