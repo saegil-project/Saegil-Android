@@ -3,6 +3,7 @@ package com.saegil.news.news
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,7 +18,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -103,10 +106,15 @@ internal fun NewsScreen(
 private fun LoadingState(
     modifier: Modifier = Modifier,
 ) {
-    SaegilLoadingWheel(
+    Box(
         modifier = modifier
-            .wrapContentSize()
-    )
+            .fillMaxSize(), // 화면 전체를 채움
+        contentAlignment = Alignment.Center // 가운데 정렬
+    ) {
+        SaegilLoadingWheel(
+            modifier = Modifier.wrapContentSize()
+        )
+    }
 }
 
 @Composable
@@ -138,7 +146,8 @@ private fun NoTopicsState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 35.dp),
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(24.dp))

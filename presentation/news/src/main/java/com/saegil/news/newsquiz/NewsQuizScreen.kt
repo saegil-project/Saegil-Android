@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -84,10 +86,15 @@ internal fun NewsQuizScreen(
 private fun LoadingState(
     modifier: Modifier = Modifier,
 ) {
-    SaegilLoadingWheel(
+    Box(
         modifier = modifier
-            .wrapContentSize()
-    )
+            .fillMaxSize(), // 화면 전체를 채움
+        contentAlignment = Alignment.Center // 가운데 정렬
+    ) {
+        SaegilLoadingWheel(
+            modifier = Modifier.wrapContentSize()
+        )
+    }
 }
 
 @Composable
@@ -100,7 +107,8 @@ internal fun QuizContent(
 
     Column(
         modifier = modifier
-            .fillMaxSize(),
+            .verticalScroll(rememberScrollState())
+        .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Column(
