@@ -6,8 +6,11 @@ import com.saegil.data.local.TokenDataSource
 import com.saegil.data.local.TokenDataSourceImpl
 import com.saegil.data.remote.AssistantService
 import com.saegil.data.remote.FeedService
+import com.saegil.data.remote.InterestService
 import com.saegil.data.remote.MapService
+import com.saegil.data.remote.NewsService
 import com.saegil.data.remote.OAuthService
+import com.saegil.data.remote.QuizService
 import com.saegil.data.remote.ScenarioService
 import com.saegil.data.remote.SimulationLogService
 import com.saegil.data.remote.TextToSpeechService
@@ -15,19 +18,25 @@ import com.saegil.data.remote.UserInfoService
 import com.saegil.data.repository.AssistantRepositoryImpl
 import com.saegil.data.repository.FeedRepositoryImpl
 import com.saegil.data.repository.MapRepositoryImpl
+import com.saegil.data.repository.NewsRepositoryImpl
 import com.saegil.data.repository.OAuthRepositoryImpl
+import com.saegil.data.repository.QuizRepositoryImpl
 import com.saegil.data.repository.ScenarioRepositoryImpl
 import com.saegil.data.repository.SimulationLogRepositoryImpl
 import com.saegil.data.repository.TextToSpeechRepositoryImpl
 import com.saegil.data.repository.UserInfoRepositoryImpl
+import com.saegil.data.repository.UserTopicRepositoryImpl
 import com.saegil.domain.repository.AssistantRepository
 import com.saegil.domain.repository.FeedRepository
 import com.saegil.domain.repository.MapRepository
+import com.saegil.domain.repository.NewsRepository
 import com.saegil.domain.repository.OAuthRepository
+import com.saegil.domain.repository.QuizRepository
 import com.saegil.domain.repository.ScenarioRepository
 import com.saegil.domain.repository.SimulationLogRepository
 import com.saegil.domain.repository.TextToSpeechRepository
 import com.saegil.domain.repository.UserInfoRepository
+import com.saegil.domain.repository.UserTopicRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -100,5 +109,24 @@ object DataModule {
     fun provideUserInfoRepository(userInfoService: UserInfoService): UserInfoRepository {
         return UserInfoRepositoryImpl(userInfoService)
     }
+
+    @Provides
+    @Singleton
+    fun provideUserPreferenceRepository(interestService: InterestService): UserTopicRepository {
+        return UserTopicRepositoryImpl(interestService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuizRepository(quizService: QuizService): QuizRepository {
+        return QuizRepositoryImpl(quizService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsRepository(newsService: NewsService): NewsRepository{
+        return NewsRepositoryImpl(newsService)
+    }
+
 
 }

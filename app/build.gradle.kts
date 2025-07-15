@@ -92,7 +92,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":core:designsystem"))
 
-    implementation(project(":presentation:map"))
+    implementation(project(":presentation:news"))
     implementation(project(":presentation:notice"))
     implementation(project(":presentation:learning"))
     implementation(project(":presentation:mypage"))

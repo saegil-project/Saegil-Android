@@ -30,5 +30,10 @@ object HttpRoutes {
 
     const val USER = "$BASE_URL/api/v1/users/me"
 
+    const val NEWS = "$BASE_URL/api/v1/news"
+
+    const val NEWS_INTERESTS = "$BASE_URL/api/v1/news/interests"
+
+    const val NEWS_CATEGORIES = "$BASE_URL/api/v1/news/categories"
 
 }
