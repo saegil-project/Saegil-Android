@@ -45,10 +45,11 @@ fun MainScreen() {
         Screen.LogList.route,
         Screen.Log.route,
     ) || listOf(
-        Screen.Learning.route,
+//        Screen.Learning.route,
         Screen.Log.route,
         Screen.LogList.route,
-    ).any { prefix -> currentRoute?.startsWith("$prefix/") == true }
+        Screen.AiConversation.route,
+        ).any { prefix -> currentRoute?.startsWith("$prefix/") == true }
 
     Scaffold(
         topBar = {

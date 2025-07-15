@@ -4,6 +4,8 @@ import androidx.annotation.DrawableRes
 import com.saegil.android.R
 
 sealed class Screen(val route: String, @DrawableRes val icon: Int?, val label: String) {
+    object AiConversation : Screen("ai_conversation", R.drawable.ic_pencil, "AI 전화 회화")
+
     object Learning : Screen("learning", R.drawable.ic_pencil, "학습")
     object Announcement : Screen("announcement", R.drawable.ic_announcement, "공지사항")
     object Map : Screen("map", R.drawable.ic_location, "지도")
@@ -16,6 +18,6 @@ sealed class Screen(val route: String, @DrawableRes val icon: Int?, val label: S
     data object Quiz : Screen("quiz", null, "퀴즈")
 
     companion object {
-        val items = listOf(Learning, Announcement, News, MyPage)
+        val items = listOf(AiConversation, Announcement, News, MyPage)
     }
 }

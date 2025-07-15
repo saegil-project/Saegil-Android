@@ -15,4 +15,6 @@ interface AssistantRepository {
     suspend fun saveThreadId(threadId: String)
     fun getThreadId(): Flow<String?>
     suspend fun clearThreadId()
+
+    suspend fun getRealTimeApiToken(): String?
 }

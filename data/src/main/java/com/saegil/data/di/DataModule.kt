@@ -11,6 +11,7 @@ import com.saegil.data.remote.MapService
 import com.saegil.data.remote.NewsService
 import com.saegil.data.remote.OAuthService
 import com.saegil.data.remote.QuizService
+import com.saegil.data.remote.RealTimeService
 import com.saegil.data.remote.ScenarioService
 import com.saegil.data.remote.SimulationLogService
 import com.saegil.data.remote.TextToSpeechService
@@ -21,6 +22,7 @@ import com.saegil.data.repository.MapRepositoryImpl
 import com.saegil.data.repository.NewsRepositoryImpl
 import com.saegil.data.repository.OAuthRepositoryImpl
 import com.saegil.data.repository.QuizRepositoryImpl
+import com.saegil.data.repository.RealTimeRepositoryImpl
 import com.saegil.data.repository.ScenarioRepositoryImpl
 import com.saegil.data.repository.SimulationLogRepositoryImpl
 import com.saegil.data.repository.TextToSpeechRepositoryImpl
@@ -32,6 +34,7 @@ import com.saegil.domain.repository.MapRepository
 import com.saegil.domain.repository.NewsRepository
 import com.saegil.domain.repository.OAuthRepository
 import com.saegil.domain.repository.QuizRepository
+import com.saegil.domain.repository.RealTimeRepository
 import com.saegil.domain.repository.ScenarioRepository
 import com.saegil.domain.repository.SimulationLogRepository
 import com.saegil.domain.repository.TextToSpeechRepository
@@ -108,6 +111,12 @@ object DataModule {
     @Singleton
     fun provideUserInfoRepository(userInfoService: UserInfoService): UserInfoRepository {
         return UserInfoRepositoryImpl(userInfoService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRealTimeRepository(realTimeService: RealTimeService): RealTimeRepository {
+        return RealTimeRepositoryImpl(realTimeService)
     }
 
     @Provides

@@ -51,14 +51,22 @@ import com.saegil.designsystem.theme.h2
 import com.saegil.designsystem.theme.h3
 import com.saegil.learning.learning.components.CharacterEmotion
 import kotlinx.coroutines.delay
-
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.websocket.*
+import io.ktor.client.request.header
+import io.ktor.http.HttpMethod
+import io.ktor.websocket.*
+import kotlinx.coroutines.*
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
 @Composable
 fun LearningScreen(
     modifier: Modifier = Modifier,
     navigateToLearningList: () -> Unit = {},
     scenarioId: Long,
     scenarioName: String = "",
-    viewModel: LearningViewModel = hiltViewModel()
+    viewModel: LearningViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current

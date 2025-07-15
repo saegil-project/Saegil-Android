@@ -71,4 +71,12 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+
+
+        implementation("io.ktor:ktor-client-core:2.3.7")
+        implementation("io.ktor:ktor-client-cio:2.3.7") // CIO 엔진
+        implementation("io.ktor:ktor-client-websockets:2.3.7")
+        implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
+
+
 }

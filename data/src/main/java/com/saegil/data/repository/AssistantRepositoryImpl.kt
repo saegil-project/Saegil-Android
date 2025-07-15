@@ -30,4 +30,8 @@ class AssistantRepositoryImpl(
     override suspend fun clearThreadId() {
         threadPreferencesManager.clearThreadId()
     }
+
+    override suspend fun getRealTimeApiToken() : String?{
+        return assistantService.getRealtimeToken()
+    }
 }

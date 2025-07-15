@@ -92,6 +92,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":core:designsystem"))
 
+    implementation(project(":presentation:ai_conversation"))
     implementation(project(":presentation:news"))
     implementation(project(":presentation:notice"))
     implementation(project(":presentation:learning"))
