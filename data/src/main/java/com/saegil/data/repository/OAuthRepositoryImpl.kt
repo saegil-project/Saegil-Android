@@ -14,7 +14,8 @@ class OAuthRepositoryImpl @Inject constructor(
 
     override suspend fun loginWithKakao(accessToken: String): Boolean {
         return try {
-            val response = oAuthService.loginWithKakao(accessToken)
+            val deviceToken = tokenDataSource.getDeviceToken()
+            val response = oAuthService.loginWithKakao(accessToken, deviceToken)
             tokenDataSource.saveToken(response)
             true
         } catch (e: Exception) {

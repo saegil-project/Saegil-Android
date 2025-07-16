@@ -13,6 +13,7 @@ import com.saegil.data.remote.HttpRoutes.OAUTH_LOGOUT
 import com.saegil.data.remote.HttpRoutes.OAUTH_VALIDATE_TOKEN
 import com.saegil.data.remote.HttpRoutes.OAUTH_WITHDRAWAL
 import com.saegil.data.remote.HttpRoutes.SIMULATION_LOG
+import com.saegil.data.remote.HttpRoutes.TEST
 import com.saegil.data.remote.HttpRoutes.TTS
 import com.saegil.data.remote.HttpRoutes.USER
 import com.saegil.data.remote.InterestService
@@ -84,7 +85,8 @@ object NetworkModule {
                         USER,
                         ASSISTANT,
                         NEWS_INTERESTS,
-                        NEWS
+                        NEWS,
+                        TEST
                     ).any { it in path }
                 }
             }

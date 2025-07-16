@@ -36,4 +36,6 @@ object HttpRoutes {
 
     const val NEWS_CATEGORIES = "$BASE_URL/api/v1/news/categories"
 
+    const val TEST = "$BASE_URL/api/v1/notifications/test"
+
 }

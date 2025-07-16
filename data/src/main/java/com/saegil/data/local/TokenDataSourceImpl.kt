@@ -35,4 +35,11 @@ class TokenDataSourceImpl @Inject constructor(
             TokenProto.getDefaultInstance()
         }
     }
+
+    override suspend fun getDeviceToken(): String {
+        val deviceToken = context
+            .getSharedPreferences("fcm", Context.MODE_PRIVATE)
+            .getString("deviceToken", null)
+        return deviceToken ?: ""
+    }
 }

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.google.services)
 }
 
 val properties = Properties()
@@ -35,7 +36,7 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix = ".debug"
+            //applicationIdSuffix = ".debug"
             resValue("string", "app_name", "디버그 새길")
         }
         release {
@@ -86,6 +87,10 @@ dependencies {
 
     // Timber for logging
     implementation(libs.timber)
+
+    //FCM
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
 
     //모듈 의존
     implementation(project(":domain"))
